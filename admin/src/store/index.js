@@ -1,16 +1,8 @@
 
-import { createPinia, defineStore } from "pinia";
+import { createPinia } from "pinia";
+import piniaPluginPersistedstate from 'pinia-plugin-persistedstate';
 
-export const userInfoStore = defineStore('userInfo', {
-  state: () => ({
-    userName: '',
-    password: ''
-  }),
-  actions: {
-
-  }
-})
 
 const pinia = createPinia();
-
+pinia.use(piniaPluginPersistedstate);
 export default pinia;
