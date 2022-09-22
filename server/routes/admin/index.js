@@ -40,7 +40,7 @@ module.exports = (app) => {
   //资源中间件
   const resourceMiddleware = require('../../middleware/resource')
 
-  //资源路由, 匹配这个路径/admin/api/rest/:resource
+  //资源路由, 匹配这个路径/admin/api/rest/
   app.use(
     '/admin/api/rest/:resource',
     authMiddleware(),
