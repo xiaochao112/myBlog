@@ -2,8 +2,8 @@
   <el-card>
     <h2 class="title">{{ title.login }}页面</h2>
     <el-form ref="ruleFormRef" :model="ruleForm" status-icon :rules="rules" class="demo-ruleForm">
-      <el-form-item prop="userName">
-        <el-input :prefix-icon="User" v-model="ruleForm.userName" placeholder="姓名" type="text" clearable />
+      <el-form-item prop="username">
+        <el-input :prefix-icon="User" v-model="ruleForm.username" placeholder="姓名" type="text" clearable />
       </el-form-item>
       <el-form-item prop="password">
         <el-input :prefix-icon="Lock" v-model="ruleForm.password" placeholder="密码" type="password" show-password />
@@ -21,6 +21,8 @@
 import { reactive, ref } from 'vue';
 // el图标
 import { User, Lock } from '@element-plus/icons-vue';
+import { getLoginApi, getInfoApi } from '../../api/user';
+import { localSet } from '../../utils';
 
 const title = reactive({
   login: '登录',
@@ -28,21 +30,26 @@ const title = reactive({
 });
 const ruleFormRef = ref();
 const ruleForm = reactive({
-  userName: '',
-  checkPass: '',
+  username: 'admin',
+  password: '123456',
 })
 
 const rules = reactive({
-  userName: [{ required: true, message: '名字不能为空', trigger: 'blur' }],
+  username: [{ required: true, message: '名字不能为空', trigger: 'blur' }],
   password: [{ required: true, message: '请输入密码', trigger: 'blur' },
   { min: 4, max: 10, message: '长度不能小于4，不能大于10', trigger: 'blur' },],
 })
 
 const submitForm = (formEl) => {
   if (!formEl) return
-  formEl.validate((valid) => {
+  formEl.validate(async (valid) => {
     if (valid) {
-      console.log('submit!')
+      const result = await getLoginApi(ruleForm);
+      console.log(result);
+      if (result.code == 200) {
+        localSet("X-token", result.token);
+        await getInfoApi()
+      }
     } else {
       console.log('error submit!')
       return false;
