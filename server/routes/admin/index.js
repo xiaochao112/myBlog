@@ -10,7 +10,7 @@ module.exports = (app) => {
   app.use(function (req, res, next) {
     console.log(req.url);
     if (req.url !== '/admin/api/user/login') {
-      let token = req.headers['x-token'];
+      let token = req.headers['token'];
       let jwt = new JwtUtil(token);
       let result = jwt.verifyToken();
       // 如果验证通过就next，否则就返回登陆信息不正确

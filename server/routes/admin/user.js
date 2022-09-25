@@ -8,38 +8,45 @@ const router = express.Router({
 
 // 登录接口
 router.post('/login', async (req, res) => {
-  const { username, password } = req.body
-  const user = await AdminUser.findOne({
+  const { username, password } = req.body;
+  let userArr = {}
+  userArr = await AdminUser.findOne({
     username,
   }).select('+password')
   // assert(user, 422, '用户名错误')
   // 没有账号自动注册
-  if (!user) {
-    const user = await AdminUser.create({
+  if (!userArr) {
+    userArr = await AdminUser.create({
       username: req.body.username,
       password: req.body.password,
     })
-    res.send({ code: 200, user })
   }
-  const isValid = require('bcryptjs').compareSync(password, user.password)
+  const isValid = require('bcryptjs').compareSync(password, userArr.password)
   if (!isValid) {
     return res.status(422).send({
       message: "密码错误"
     })
   }
+  AdminUser.update({ _id: userArr._id }, { endLoginTime: Math.floor(Date.now() / 1000) }, (err, raw) => {
+    console.log(raw)
+  })
+
   // token加密userId
-  let jwt = new JwtUtil(user._id);
+  let jwt = new JwtUtil(userArr._id);
   // 继承原型上的生成token方法
   let token = jwt.generateToken();
   res.send({
     code: 200,
-    token
+    data: {
+      token
+    },
+    msg: '成功'
   })
 })
 
 // 获取用户信息
-router.post('/info', async (req, res) => {
-  const token = req.headers['x-token'];
+router.get('/info', async (req, res) => {
+  const token = req.headers['token'];
   // token解码
   let jwt = new JwtUtil(token);
   let _id = jwt.verifyToken();

@@ -2,17 +2,20 @@ import axios from 'axios'
 import { ElMessage } from 'element-plus'
 import router from '@/router/index'
 import { localGet } from '@/utils/index'
-
+import qs from 'qs';
 
 const http = axios.create({
   // baseURL: process.env.VUE_APP_API_URL || '/admin/api',
-  baseURL: 'http://localhost:3000/admin/api'
+  baseURL: 'http://localhost:3000/admin/api',
+  headers: {
+    'Content-type': 'application/json; charset=utf-8',
+  }
 })
 http.interceptors.request.use(
   function (config) {
     // Do something before request is sent
-    if (localGet('X-token')) {
-      config.headers['X-token'] = localGet('X-token');
+    if (localGet('token')) {
+      config.headers['token'] = localGet('token');
     }
     return config
   },
@@ -32,8 +35,8 @@ http.interceptors.response.use(
 
   },
   (err) => {
-    if (err.response.data.message) {
-      ElMessage.error(err.response.data.message);
+    if (err.response.data.msg) {
+      ElMessage.error(err.response.data.msg);
 
       if (err.response.status === 401) {
         router.push('/login');

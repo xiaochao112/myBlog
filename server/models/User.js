@@ -11,8 +11,12 @@ const schema = new mongoose.Schema({
   },
   avatarImg: {
     type: String
-  }
+  },
+  createdAt: Number,
+  updatedAt: Number
 }, {
-  timestamps: true
+  timestamps: {
+    currentTime: () => Math.floor(Date.now() / 1000)
+  }
 })
 module.exports = mongoose.model('User', schema)

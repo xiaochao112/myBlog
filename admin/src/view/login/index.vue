@@ -23,6 +23,7 @@ import { reactive, ref } from 'vue';
 import { User, Lock } from '@element-plus/icons-vue';
 import { getLoginApi, getInfoApi } from '../../api/user';
 import { localSet } from '../../utils';
+import router from '@/router';
 
 const title = reactive({
   login: '登录',
@@ -47,8 +48,9 @@ const submitForm = (formEl) => {
       const result = await getLoginApi(ruleForm);
       console.log(result);
       if (result.code == 200) {
-        localSet("X-token", result.token);
+        localSet("token", result.data.token);
         await getInfoApi()
+        router.push('/home');
       }
     } else {
       console.log('error submit!')

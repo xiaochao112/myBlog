@@ -5,5 +5,5 @@ export const getLoginApi = (data) => {
 }
 
 export const getInfoApi = () => {
-  return http.post('/user/info');
+  return http.get('/user/info');
 }
