@@ -26,7 +26,7 @@ module.exports = (app) => {
 
   // 注册路由
   app.use('/admin/api/user', require('./user'));
-
+  app.use('/admin/api/upload', require('./upload'));
 
   /* //用于阿里云oss图片上传
 const multer = require('multer')
@@ -51,19 +51,4 @@ app.post(
   }
 )*/
 
-  //本地图片上传
-  // const multer = require('multer')
-  // const upload = multer({
-  //   dest: __dirname + '/../../uploads',
-  // })
-  // app.post(
-  //   '/admin/api/upload',
-  //   authMiddleware(),
-  //   upload.single('file'),
-  //   async (req, res) => {
-  //     const file = req.file
-  //     file.url = `http://localhost:3000/uploads/${file.filename}`
-  //     res.send(file)
-  //   }
-  // )
 }

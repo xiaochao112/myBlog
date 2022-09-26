@@ -54,4 +54,23 @@ router.get('/info', async (req, res) => {
   res.send({ code: 200, user });
 })
 
+// 修改密码
+router.post('/updatePassword', (req, res) => {
+  const { _id, password } = req.body;
+  const newPwd = bcrypt.hashSync(password, 10);
+  AdminUser.findByIdAndUpdate({ _id }, { password: newPwd }, {},
+    (err, data) => {
+      if (err) {
+        console.log('更新失败');
+        res.status(402).send({ msg: err })
+      }
+      if (data) {
+        console.log('更新成功');
+        res.send({
+          msg: '成功'
+        })
+      }
+    })
+})
+
 module.exports = router;

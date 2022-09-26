@@ -20,7 +20,9 @@ const app = express()
 // cors解决跨域
 app.use(cors())
 app.use(express.json())
-// app.use('/uploads', express.static(__dirname + '/uploads'))
+
+// 图片上传地址开启静态资源访问
+app.use('/uploads', express.static(__dirname + '/uploads'))
 // app.use('/', express.static(__dirname + '/web'))
 // app.use('/admin', express.static(__dirname + '/admin'))
 
