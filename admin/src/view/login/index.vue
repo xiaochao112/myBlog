@@ -18,12 +18,15 @@
 </template>
 
 <script setup>
-import { reactive, ref } from 'vue';
+import { reactive, ref, computed } from 'vue';
 // el图标
 import { User, Lock } from '@element-plus/icons-vue';
 import { getLoginApi, getInfoApi } from '../../api/user';
 import { localSet } from '../../utils';
 import router from '@/router';
+import { routerStore } from '../../store/routerStore/index.js';
+
+const state = routerStore();
 
 const title = reactive({
   login: '登录',
@@ -41,6 +44,11 @@ const rules = reactive({
   { min: 4, max: 10, message: '长度不能小于4，不能大于10', trigger: 'blur' },],
 })
 
+// 过滤掉meta没有nav属性
+const routeNav = computed(() => {
+  return router.options.routes.filter((item) => item.meta['nav'] !== false)
+})
+
 const submitForm = (formEl) => {
   if (!formEl) return
   formEl.validate(async (valid) => {
@@ -49,8 +57,16 @@ const submitForm = (formEl) => {
       console.log(result);
       if (result.code == 200) {
         localSet("token", result.data.token);
-        await getInfoApi()
-        router.push('/home');
+        try {
+          await getInfoApi();
+          // 存储路由导航
+          state.setRoutes(routeNav.value);
+          router.push('/home/index');
+          // 当前路由导航
+          state.setCurrentRoute('/home/index')
+        } catch (error) {
+          console.log(error);
+        }
       }
     } else {
       console.log('error submit!')
