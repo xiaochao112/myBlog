@@ -11,28 +11,55 @@
       <template #dropdown>
         <el-dropdown-menu>
           <el-dropdown-item command="outLogin">退出登录</el-dropdown-item>
-          <el-dropdown-item command="b">修改密码</el-dropdown-item>
+          <el-dropdown-item command="updatePsw">修改密码</el-dropdown-item>
+          <el-dropdown-item command="upload">上传头像</el-dropdown-item>
           <el-dropdown-item command="c">github</el-dropdown-item>
-          <el-dropdown-item command="d" disabled>Action 4</el-dropdown-item>
-          <el-dropdown-item command="e" divided>Action 5</el-dropdown-item>
         </el-dropdown-menu>
       </template>
     </el-dropdown>
   </header>
 
+  <!-- 修改密码 -->
+  <el-dialog v-model="dialogFormVisible" title="Shipping address">
+    <el-form :model="form">
+      <el-form-item prop="password">
+        <el-input :prefix-icon="Lock" v-model="form.password" placeholder="密码" type="password" show-password />
+      </el-form-item>
+    </el-form>
+    <template #footer>
+      <span class="dialog-footer">
+        <el-button @click="dialogFormVisible = false">取消</el-button>
+        <el-button type="primary" @click="dialogFormVisible = false">确认</el-button>
+      </span>
+    </template>
+  </el-dialog>
+
+
 </template>
 
 <script setup>
+import { Lock } from '@element-plus/icons-vue';
 import { ElMessage } from 'element-plus'
 import { ArrowDown } from '@element-plus/icons-vue'
 import { localRemove } from '../../utils';
+import { ref, reactive } from 'vue';
+
+const dialogFormVisible = ref(false)
+
+const form = reactive({
+  password: '',
+})
 
 const handleCommand = (command) => {
   ElMessage(`click on item ${command}`)
   if (command = 'outLogin') {
-    localRemove('token');
+    // localRemove('token');
+  }
+  if (command = 'updatePsw') {
+    dialogFormVisible.value = true;
   }
 }
+
 </script>
 
 <style lang="scss" scoped>

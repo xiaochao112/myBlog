@@ -7,3 +7,11 @@ export const getLoginApi = (data) => {
 export const getInfoApi = () => {
   return http.get('/user/info');
 }
+
+export const updatedPsd = (data) => {
+  return http.post('/user/updatePassword', data);
+}
+
+export const uploadImg = (img) => {
+  return http.post('/upload/picture', data);
+}

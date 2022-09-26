@@ -54,11 +54,11 @@ const submitForm = (formEl) => {
   formEl.validate(async (valid) => {
     if (valid) {
       const result = await getLoginApi(ruleForm);
-      console.log(result);
       if (result.code == 200) {
         localSet("token", result.data.token);
         try {
-          await getInfoApi();
+          const { user } = await getInfoApi();
+          console.log(user);
           // 存储路由导航
           state.setRoutes(routeNav.value);
           router.push('/home/index');
