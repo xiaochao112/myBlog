@@ -1,6 +1,7 @@
 const express = require('express');
 const AdminUser = require('../../models/AdminUser');
 // const assert = require('http-assert');
+const bcrypt = require('bcryptjs')
 const JwtUtil = require('../../jwt');
 const router = express.Router({
   mergeParams: true,
@@ -21,10 +22,10 @@ router.post('/login', async (req, res) => {
       password: req.body.password,
     })
   }
-  const isValid = require('bcryptjs').compareSync(password, userArr.password)
+  const isValid = bcrypt.compareSync(password, userArr.password)
   if (!isValid) {
     return res.status(422).send({
-      message: "密码错误"
+      msg: "密码错误, 请重新登录"
     })
   }
   AdminUser.update({ _id: userArr._id }, { endLoginTime: Math.floor(Date.now() / 1000) }, (err, raw) => {
@@ -40,7 +41,7 @@ router.post('/login', async (req, res) => {
     data: {
       token
     },
-    msg: '成功'
+    msg: '登录成功'
   })
 })
 
@@ -57,8 +58,8 @@ router.get('/info', async (req, res) => {
 // 修改密码
 router.post('/updatePassword', (req, res) => {
   const { _id, password } = req.body;
-  const newPwd = bcrypt.hashSync(password, 10);
-  AdminUser.findByIdAndUpdate({ _id }, { password: newPwd }, {},
+  // const newPwd = bcrypt.hashSync(password, 10);
+  AdminUser.findByIdAndUpdate({ _id }, { password }, {},
     (err, data) => {
       if (err) {
         console.log('更新失败');
@@ -67,7 +68,7 @@ router.post('/updatePassword', (req, res) => {
       if (data) {
         console.log('更新成功');
         res.send({
-          msg: '成功'
+          msg: '修改成功'
         })
       }
     })

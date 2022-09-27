@@ -30,6 +30,7 @@ class Jwt {
     return token;
   }
 
+
   // 校验token
   verifyToken() {
     let token = this.data;

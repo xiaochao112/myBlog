@@ -49,9 +49,9 @@ function goHome() {
 
 // 返回上一页
 function onBack() {
-  router.go(-1);
   if (router.currentRoute.value.path == '/login') return
-  state.setCurrentRoute(router.currentRoute.value.path);
+  // router.go(-1);
+  // state.setCurrentRoute(router.currentRoute.value.path);
 }
 
 </script>

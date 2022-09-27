@@ -4,8 +4,8 @@
       <Header></Header>
     </el-header>
     <el-container class="content">
-      <el-aside width="200px" class="nav">
-        <NavMenu></NavMenu>
+      <el-aside :width="`${Width}px`" class="nav">
+        <NavMenu @getWidth="getWidth"></NavMenu>
       </el-aside>
       <el-container class="content-main">
         <el-main>
@@ -24,6 +24,14 @@ import Header from './components/Header.vue';
 import NavMenu from './components/NavMenu.vue';
 import Main from './components/Main.vue';
 import Footer from './components/Footer.vue';
+import { ref } from 'vue';
+
+const Width = ref(236);
+
+const getWidth = (width) => {
+  // console.log(width);
+  Width.value = width
+}
 
 </script> 
 
@@ -37,11 +45,6 @@ import Footer from './components/Footer.vue';
 
     .content-main {
       // background: rgb(168, 168, 168);
-    }
-
-    .nav {
-      background: rgb(168, 168, 168);
-
     }
   }
 }

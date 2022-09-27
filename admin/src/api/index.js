@@ -3,6 +3,8 @@ import { ElMessage } from 'element-plus'
 import router from '@/router/index'
 import { localGet } from '@/utils/index'
 import qs from 'qs';
+import NProgress from 'nprogress';
+import 'nprogress/nprogress.css';
 
 const http = axios.create({
   // baseURL: process.env.VUE_APP_API_URL || '/admin/api',
@@ -14,6 +16,7 @@ const http = axios.create({
 http.interceptors.request.use(
   function (config) {
     // Do something before request is sent
+    NProgress.start()
     if (localGet('token')) {
       config.headers['token'] = localGet('token');
     }
@@ -31,10 +34,11 @@ http.interceptors.response.use(
       ElMessage.error('服务端异常！')
       return Promise.reject(res)
     }
+    NProgress.done()
     return res.data
-
   },
   (err) => {
+    console.log(err);
     if (err.response.data.msg) {
       ElMessage.error(err.response.data.msg);
 
@@ -42,7 +46,7 @@ http.interceptors.response.use(
         router.push('/login');
       }
     }
-
+    NProgress.done()
     return Promise.reject(err);
   }
 )

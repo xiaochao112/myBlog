@@ -21,7 +21,7 @@
 import { reactive, ref, computed } from 'vue';
 // el图标
 import { User, Lock } from '@element-plus/icons-vue';
-import { getLoginApi, getInfoApi } from '../../api/user';
+import { getLoginApi } from '../../api/user';
 import { localSet } from '../../utils';
 import router from '@/router';
 import { routerStore } from '../../store/routerStore/index.js';
@@ -57,8 +57,6 @@ const submitForm = (formEl) => {
       if (result.code == 200) {
         localSet("token", result.data.token);
         try {
-          const { user } = await getInfoApi();
-          console.log(user);
           // 存储路由导航
           state.setRoutes(routeNav.value);
           router.push('/home/index');
