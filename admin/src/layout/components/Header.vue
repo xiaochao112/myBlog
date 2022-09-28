@@ -19,20 +19,6 @@
     </el-dropdown>
   </header>
 
-  <!-- 修改密码 -->
-  <!-- <el-dialog v-model="dialogFormVisible" title="Shipping address">
-    <el-form :model="form">
-      <el-form-item prop="password">
-        <el-input :prefix-icon="Lock" v-model="form.password" placeholder="密码" type="password" show-password />
-      </el-form-item>
-    </el-form>
-    <template #footer>
-      <span class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">取消</el-button>
-        <el-button type="primary" @click="dialogFormVisible = false">确认</el-button>
-      </span>
-    </template>
-  </el-dialog> -->
   <UserDrawer ref="userDrawerRef"></UserDrawer>
 </template>
 
@@ -44,15 +30,13 @@ import { ref, reactive } from 'vue';
 import { getInfoApi } from '../../api/user';
 
 const userDrawerRef = ref();
-const form = reactive({
-  password: '',
-})
 
+// 退出登录
 const outLogin = async () => {
   localRemove('token');
   await getInfoApi()
 }
-
+// 打开用户信息
 const userInfo = () => {
   userDrawerRef.value.drawer = true;
 }

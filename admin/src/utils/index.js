@@ -17,9 +17,11 @@ export function localRemove(key) {
 }
 
 export function getData(n) {
-  let now = new Date(n),
-    y = now.getFullYear(),
-    m = now.getMonth() + 1,
-    d = now.getDate();
-  return y + "-" + (m < 10 ? "0" + m : m) + "-" + (d < 10 ? "0" + d : d) + " " + now.toTimeString().substr(0, 8);
+  let date = new Date(n * 1000);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+  let Y = date.getFullYear() + '-';
+  let M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
+  let D = date.getDate() + '-';
+  let h = date.getHours(":");
+  let m = date.getMinutes() + ':';
+  return Y + M + D + h + m;
 }

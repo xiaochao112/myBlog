@@ -7,7 +7,7 @@
       <el-aside :width="`${Width}px`" class="nav">
         <NavMenu @getWidth="getWidth"></NavMenu>
       </el-aside>
-      <el-container class="content-main">
+      <el-container ref="containerRef" class="content-main">
         <el-main>
           <Main></Main>
         </el-main>
@@ -24,13 +24,15 @@ import Header from './components/Header.vue';
 import NavMenu from './components/NavMenu.vue';
 import Main from './components/Main.vue';
 import Footer from './components/Footer.vue';
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
+import layoutHooks from '../hooks/layoutHooks';
 
-const Width = ref(236);
+// 使用hooks
+const { Width, setNavWidth } = layoutHooks();
 
+const containerRef = ref();
 const getWidth = (width) => {
-  // console.log(width);
-  Width.value = width
+  setNavWidth(width)
 }
 
 </script> 
@@ -41,12 +43,7 @@ const getWidth = (width) => {
   height: 100vh;
   overflow-x: hidden;
 
-  .content {
-
-    .content-main {
-      // background: rgb(168, 168, 168);
-    }
-  }
+  .content {}
 }
 </style>
 

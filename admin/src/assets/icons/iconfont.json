@@ -1,0 +1,72 @@
+{
+  "id": "3677266",
+  "name": "boke",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "356196",
+      "name": "用户",
+      "font_class": "yonghu",
+      "unicode": "e658",
+      "unicode_decimal": 58968
+    },
+    {
+      "icon_id": "673799",
+      "name": "首页",
+      "font_class": "shouye",
+      "unicode": "e6cb",
+      "unicode_decimal": 59083
+    },
+    {
+      "icon_id": "3590935",
+      "name": "管理员",
+      "font_class": "guanliyuan",
+      "unicode": "e62a",
+      "unicode_decimal": 58922
+    },
+    {
+      "icon_id": "3775359",
+      "name": "摘要",
+      "font_class": "guanjianci",
+      "unicode": "e603",
+      "unicode_decimal": 58883
+    },
+    {
+      "icon_id": "5809208",
+      "name": "缩小",
+      "font_class": "suoxiao",
+      "unicode": "e696",
+      "unicode_decimal": 59030
+    },
+    {
+      "icon_id": "6834862",
+      "name": "文件-资料卡",
+      "font_class": "wj-zlk",
+      "unicode": "e771",
+      "unicode_decimal": 59249
+    },
+    {
+      "icon_id": "9273208",
+      "name": "放大",
+      "font_class": "fangda",
+      "unicode": "e666",
+      "unicode_decimal": 58982
+    },
+    {
+      "icon_id": "16080009",
+      "name": "用户管理",
+      "font_class": "yonghuguanli",
+      "unicode": "e688",
+      "unicode_decimal": 59016
+    },
+    {
+      "icon_id": "22385681",
+      "name": "词典库",
+      "font_class": "cidianku",
+      "unicode": "ee21",
+      "unicode_decimal": 60961
+    }
+  ]
+}

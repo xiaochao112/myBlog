@@ -1,14 +1,20 @@
 <template>
-  <el-drawer v-model="drawer" title="" size="20%" @close="close">
+  <el-drawer v-model="drawer" title="" size="20%">
     <el-descriptions title="用户信息" :column="2">
       <el-descriptions-item label="用户名">
-        <el-tag size="small">admin</el-tag>
+        <el-tag size="small">{{ user.username }}</el-tag>
       </el-descriptions-item>
       <el-descriptions-item label="手机号">
         <el-tag size="small">18100000000</el-tag>
       </el-descriptions-item>
       <el-descriptions-item label="权限">
-        <el-tag size="small">admin</el-tag>
+        <el-tag size="small">{{ user.roles[0] }}</el-tag>
+      </el-descriptions-item>
+      <el-descriptions-item label="注册时间">
+        <el-tag size="small">{{ getData(user.creationTime) }}</el-tag>
+      </el-descriptions-item>
+      <el-descriptions-item label="最后登录时间">
+        <el-tag size="small">{{ getData(user.endLoginTime) }}</el-tag>
       </el-descriptions-item>
     </el-descriptions>
     <p>头像上传</p>
@@ -32,14 +38,17 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive, computed } from 'vue';
+import { ref, reactive, computed, onMounted } from 'vue';
 import { ElMessage } from 'element-plus'
 import { Plus } from '@element-plus/icons-vue'
 import { localGet } from '../../utils';
 import { updatedPsd } from '@/api/user'
 // import { mavonEditor } from 'mavon-editor'
 // import 'mavon-editor/dist/css/index.css'
+import { userInfoStore } from '@/store/userStore';
+import { getData } from '../../utils';
 
+const store = userInfoStore();
 
 const drawer = ref(false)
 
@@ -55,6 +64,9 @@ const rules = reactive({
     { min: 4, max: 10, message: '长度为4~10', trigger: 'blur' },
   ],
 })
+
+// 用户信息
+const user = computed(() => store.user)
 
 // 头像上传
 const handleAvatarSuccess = (
@@ -76,23 +88,27 @@ const beforeAvatarUpload = (rawFile) => {
   return true
 }
 
-// 关闭抽屉触发
-const close = () => {
-}
-
-const resetForm = (ruleFormRef) => { }
-
 const submitForm = async () => {
   const _id = localGet('userInfoStore').user._id;
   const { password } = ruleFormRef;
-  const { msg } = await updatedPsd({ _id, password });
-  ElMessage({
-    message: msg,
-    type: 'success',
-  })
-  ruleFormRef.password = ''
+  try {
+    const { msg } = await updatedPsd({ _id, password });
+    ElMessage({
+      message: msg,
+      type: 'success',
+    })
+    ruleFormRef.password = ''
+  } catch (error) {
+    ElMessage({
+      message: error,
+      type: 'error',
+    })
+    console.log(error);
+
+  }
 }
 
+// 暴露给父组件使用
 defineExpose({
   drawer
 })

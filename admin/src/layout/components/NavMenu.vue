@@ -1,54 +1,41 @@
 <template>
   <el-menu :default-active="currentRouter" active-text-color="#ffd04b" background-color="#545c64" text-color="#fff"
     class="el-menu-vertical-demo lFloat" :collapse="isCollapse" @open="handleOpen" @close="handleClose"
-    @select="handleRouter" route>
+    @select="handleRouter" router>
     <template v-for="item in state.routes" :key="item.path">
       <el-sub-menu v-if="item.children.length > 1" :index="item.path">
         <template #title>
-          <el-icon>
-            <icon-menu />
-          </el-icon>
+          <svg class="icon" aria-hidden="true">
+            <use :xlink:href="`#${item.meta['icon']}`"></use>
+          </svg>
           <span>{{ item.meta['title'] }}</span>
         </template>
         <el-menu-item v-for="child in item.children" :key="child.path" :index="child.path">
-          <el-icon>
-            <icon-menu />
-          </el-icon>
+          <svg class="icon" aria-hidden="true">
+            <use :xlink:href="`#${child.meta['icon']}`"></use>
+          </svg>
           {{ child.meta['title'] }}
         </el-menu-item>
       </el-sub-menu>
       <el-menu-item v-else :index="item.children[0].path">
-        <el-icon>
-          <icon-menu />
-        </el-icon>
+        <svg class="icon" aria-hidden="true">
+          <use :xlink:href="`#${item.children[0].meta['icon']}`"></use>
+        </svg>
         <template #title>{{ item.children[0].meta['title'] }}</template>
       </el-menu-item>
     </template>
-
   </el-menu>
-  <!-- <el-radio-group v-model="isCollapse" style="margin-bottom: 20px" class="lFloat">
-    <el-radio-button :label="false">expand</el-radio-button>
-    <el-radio-button :label="true">collapse</el-radio-button>
-  </el-radio-group> -->
   <transition>
-    <el-icon size="36px" class="icon" @click="setCollapse">
-      <CirclePlusFilled v-show="isCollapse"></CirclePlusFilled>
-      <icon-menu v-show="!isCollapse"></icon-menu>
-    </el-icon>
+    <!-- xxx参照下图的格式 -->
+    <svg class="icon-big" aria-hidden="true" @click="setCollapse">
+      <use :xlink:href="`#${icon}`"></use>
+    </svg>
   </transition>
 
 </template>
 
 <script  setup>
-import { computed, onMounted, ref, watch } from 'vue';
-import router from '../../router';
-import {
-  Document,
-  Menu as IconMenu,
-  Location,
-  Setting,
-  CirclePlusFilled
-} from '@element-plus/icons-vue'
+import { computed, onMounted, ref } from 'vue';
 import { routerStore } from '../../store/routerStore';
 
 const isCollapse = ref(false);
@@ -63,6 +50,10 @@ const handleOpen = (key, keyPath) => {
 const handleClose = (key, keyPath) => {
   // console.log(key, keyPath)
 }
+// 放大或缩小导航栏
+const icon = computed(() => {
+  return isCollapse.value ? 'icon-fangda' : 'icon-suoxiao';
+})
 
 // 切换导航栏状态
 const setCollapse = () => {
@@ -75,10 +66,7 @@ const setCollapse = () => {
 }
 
 // 获取当前选中的导航菜单
-const handleRouter = (index) => {
-  console.log(index);
-  state.setCurrentRoute(index)
-}
+const handleRouter = (index) => { }
 onMounted(() => {
 })
 
@@ -103,7 +91,7 @@ onMounted(() => {
 
 .v-enter-active,
 .v-leave-active {
-  transition: opacity 0.5s ease;
+  transition: opacity 1s ease;
 }
 
 .v-enter-from,

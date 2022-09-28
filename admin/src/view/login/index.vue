@@ -21,12 +21,10 @@
 import { reactive, ref, computed } from 'vue';
 // el图标
 import { User, Lock } from '@element-plus/icons-vue';
-import { getLoginApi } from '../../api/user';
-import { localSet } from '../../utils';
-import router from '@/router';
-import { routerStore } from '../../store/routerStore/index.js';
+import { userInfoStore } from '../../store/userStore';
+import router from '../../router';
 
-const state = routerStore();
+const store = userInfoStore();
 
 const title = reactive({
   login: '登录',
@@ -53,19 +51,8 @@ const submitForm = (formEl) => {
   if (!formEl) return
   formEl.validate(async (valid) => {
     if (valid) {
-      const result = await getLoginApi(ruleForm);
-      if (result.code == 200) {
-        localSet("token", result.data.token);
-        try {
-          // 存储路由导航
-          state.setRoutes(routeNav.value);
-          router.push('/home/index');
-          // 当前路由导航
-          state.setCurrentRoute('/home/index')
-        } catch (error) {
-          console.log(error);
-        }
-      }
+      await store.setLongin(ruleForm);
+      router.push('/home/index');
     } else {
       console.log('error submit!')
       return false;

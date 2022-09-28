@@ -27,6 +27,7 @@ module.exports = (app) => {
   // 注册路由
   app.use('/admin/api/user', require('./user'));
   app.use('/admin/api/upload', require('./upload'));
+  app.use('/admin/api/myInformation', require('./myInformation'));
 
   /* //用于阿里云oss图片上传
 const multer = require('multer')

@@ -50,8 +50,7 @@ function goHome() {
 // 返回上一页
 function onBack() {
   if (router.currentRoute.value.path == '/login') return
-  // router.go(-1);
-  // state.setCurrentRoute(router.currentRoute.value.path);
+  router.go(-1);
 }
 
 </script>

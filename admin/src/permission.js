@@ -5,13 +5,16 @@ import 'nprogress/nprogress.css';
 import { localGet } from './utils';
 import pinia from './store';
 import { userInfoStore } from './store/userStore';
+import { routerStore } from './store/routerStore/index.js';
 
 const store = userInfoStore(pinia);
+const state = routerStore(pinia);
 
 const whiteList = ['/login'] // 白名单
 // const userState = userInfoStore();
 
 router.beforeEach((to, from, next) => {
+  console.log(to.path);
   NProgress.start()
 
   const token = localGet('token')
@@ -22,8 +25,18 @@ router.beforeEach((to, from, next) => {
       next({ path: '/home' });
       NProgress.done()
     } else {
-      // 派发pinia，获取用户信息
-      store.setUser()
+
+      try {
+        // 派发pinia，获取用户信息
+        store.setUser()
+        const routes = router.options.routes.filter((item) => item.meta['nav'] !== false)
+        // 存储路由导航
+        state.setRoutes(routes);
+        // 当前要去的路由导航
+        state.setCurrentRoute(to.path);
+      } catch (error) {
+        console.log(error);
+      }
     }
     next()
     NProgress.done()
