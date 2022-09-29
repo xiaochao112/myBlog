@@ -4,6 +4,15 @@ const schema = new mongoose.Schema({
   title: {
     type: String
   },
+  english: {
+    type: String
+  },
+  word: {
+    type: String
+  },
+  desc: {
+    type: String
+  },
   createdAt: Number,
   updatedAt: Number
 }, {

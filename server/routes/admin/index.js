@@ -11,6 +11,9 @@ module.exports = (app) => {
     console.log(req.url);
     if (req.url !== '/admin/api/user/login') {
       let token = req.headers['token'];
+      if (!token) {
+        // res.status(401).send({ msg: 'token不能为空' });
+      }
       let jwt = new JwtUtil(token);
       let result = jwt.verifyToken();
       // 如果验证通过就next，否则就返回登陆信息不正确
@@ -28,6 +31,9 @@ module.exports = (app) => {
   app.use('/admin/api/user', require('./user'));
   app.use('/admin/api/upload', require('./upload'));
   app.use('/admin/api/myInformation', require('./myInformation'));
+  app.use('/admin/api/webVocabulary', require('./webVocabulary'));
+  app.use('/admin/api/excel', require('./excel'));
+
 
   /* //用于阿里云oss图片上传
 const multer = require('multer')

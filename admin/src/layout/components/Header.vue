@@ -2,7 +2,7 @@
   <header class="header">
     <el-dropdown>
       <span class="el-dropdown-link">
-        <el-avatar :size="40" class="mr-3" src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png" />
+        <el-avatar :size="40" class="mr-3" :src="state.user.avatar" />
         <h3 class="title">admin
           <el-icon class="el-icon--right">
             <arrow-down />
@@ -24,19 +24,20 @@
 
 <script setup>
 import { ElMessage } from 'element-plus'
-import { ArrowDown } from '@element-plus/icons-vue'
 import { localRemove } from '../../utils';
 import { ref, reactive } from 'vue';
 import { getInfoApi } from '../../api/user';
+import { userInfoStore } from '@/store/userStore';
+
+const state = userInfoStore();
 
 const userDrawerRef = ref();
-
 // 退出登录
 const outLogin = async () => {
   localRemove('token');
   await getInfoApi()
 }
-// 打开用户信息
+// 打开用户信息管理
 const userInfo = () => {
   userDrawerRef.value.drawer = true;
 }

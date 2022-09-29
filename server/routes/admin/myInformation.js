@@ -33,8 +33,8 @@ router.post('add', (req, res) => {
 })
 
 // 更新一条数据
-router.post('add', (req, res) => {
-  let { title, img, dosc } = req.data;
+router.post('update', (req, res) => {
+  let { title, img, dosc, _id } = req.data;
   MyInformation.findByIdAndUpdate({ _id }, { title, img, dosc }, {}, (err, docs) => {
     if (!err) {
       console.log(docs);
@@ -48,6 +48,7 @@ router.post('add', (req, res) => {
 
 // 删除一条数据
 router.post('del', (req, res) => {
+  let { _id } = req.data;
   MyInformation.findByIdAndRemove({ _id }, (err) => {
     if (!err) {
       res.send({

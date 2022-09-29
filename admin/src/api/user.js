@@ -19,3 +19,7 @@ export const updatedPsd = (data) => {
 export const uploadImg = (img) => {
   return http.post('/upload/picture', data);
 }
+
+export const updatedAvatar = (data) => {
+  return http.post('/user/avatar', data);
+}

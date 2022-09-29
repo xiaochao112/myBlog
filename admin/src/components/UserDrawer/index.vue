@@ -19,7 +19,7 @@
     </el-descriptions>
     <p>头像上传</p>
     <el-upload class="avatar-uploader" action="http://localhost:3000/admin/api/upload/picture" :show-file-list="false"
-      :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
+      :headers="getAuthHeaders()" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
       <img v-if="imageUrl" :src="imageUrl" class="avatar" />
       <el-icon v-else class="avatar-uploader-icon">
         <Plus />
@@ -38,15 +38,15 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive, computed, onMounted } from 'vue';
+import { ref, reactive, computed } from 'vue';
 import { ElMessage } from 'element-plus'
 import { Plus } from '@element-plus/icons-vue'
-import { localGet } from '../../utils';
 import { updatedPsd } from '@/api/user'
 // import { mavonEditor } from 'mavon-editor'
 // import 'mavon-editor/dist/css/index.css'
 import { userInfoStore } from '@/store/userStore';
-import { getData } from '../../utils';
+import { getData, localGet } from '../../utils';
+import { updatedAvatar } from '../../api/user';
 
 const store = userInfoStore();
 
@@ -68,16 +68,24 @@ const rules = reactive({
 // 用户信息
 const user = computed(() => store.user)
 
+// 请求头配置
+const getAuthHeaders = () => {
+  return {
+    'token': localGet('token')
+  }
+}
+
 // 头像上传
-const handleAvatarSuccess = (
+const handleAvatarSuccess = async (
   response,
   uploadFile
 ) => {
+  console.log(response);
+  await updatedAvatar({ _id: user.value._id, avatar: response.url });
   imageUrl.value = URL.createObjectURL(uploadFile.raw!)
 }
-const beforeAvatarUpload = (rawFile) => {
-  console.log(rawFile);
 
+const beforeAvatarUpload = (rawFile) => {
   if (rawFile.type !== 'image/jpeg') {
     // ElMessage.error('请上传jpg类型的图片')
     // return false
@@ -88,11 +96,11 @@ const beforeAvatarUpload = (rawFile) => {
   return true
 }
 
+// 更新密码
 const submitForm = async () => {
-  const _id = localGet('userInfoStore').user._id;
   const { password } = ruleFormRef;
   try {
-    const { msg } = await updatedPsd({ _id, password });
+    const { msg } = await updatedPsd({ _id: user.value._id, password });
     ElMessage({
       message: msg,
       type: 'success',

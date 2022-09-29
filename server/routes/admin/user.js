@@ -74,4 +74,22 @@ router.post('/updatePassword', (req, res) => {
     })
 })
 
+// 上传头像
+router.post('/avatar', (req, res) => {
+  const { _id, avatar } = req.body;
+  AdminUser.findByIdAndUpdate({ _id }, { avatar }, {},
+    (err, data) => {
+      if (err) {
+        console.log('上传失败');
+        res.status(402).send({ msg: err })
+      }
+      if (data) {
+        console.log('上传成功');
+        res.send({
+          msg: '上传成功'
+        })
+      }
+    })
+})
+
 module.exports = router;

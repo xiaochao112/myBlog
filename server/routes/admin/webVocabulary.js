@@ -1,5 +1,5 @@
 const express = require('express');
-const MyInformation = require('../../models/MyInformation');
+const WebVocabulary = require('../../models/WebVocabulary');
 // const assert = require('http-assert');
 const router = express.Router({
   mergeParams: true,
@@ -7,9 +7,9 @@ const router = express.Router({
 
 // 获取资料卡信息
 router.get('/info', async (req, res) => {
-  let data = await MyInformation.find((err, docs) => {
+  let data = await WebVocabulary.find((err, docs) => {
     if (!err) {
-      console.log(docs)
+      // console.log(docs)
     }
   });
   res.send({
@@ -19,23 +19,32 @@ router.get('/info', async (req, res) => {
 });
 
 // 增加一条数据
-router.post('add', (req, res) => {
-  let { title, img, dosc } = req.data;
-  MyInformation.create({ title, img, dosc }, (err, docs) => {
-    if (!err) {
-      console.log(docs);
-      res.send({
-        code: 200,
-        msg: '新增成功',
-      })
-    }
-  })
+router.post('/add', async (req, res) => {
+  let { title, english, desc } = req.body;
+  // 设置首字母小写
+  let word = english.slice(0, 1).toLowerCase();
+  const data = await WebVocabulary.find({ english });
+  if (!data) {
+    WebVocabulary.create({ title, english, desc, word }, (err, docs) => {
+      if (!err) {
+        res.send({
+          code: 200,
+          msg: '新增成功',
+        })
+      }
+    })
+  } else {
+    res.send({
+      code: 203,
+      msg: '该数据已存在，请勿重复添加',
+    })
+  }
 })
 
 // 更新一条数据
-router.post('add', (req, res) => {
-  let { title, img, dosc } = req.data;
-  MyInformation.findByIdAndUpdate({ _id }, { title, img, dosc }, {}, (err, docs) => {
+router.post('/update', (req, res) => {
+  let { title, english, word, _id } = req.body;
+  WebVocabulary.findByIdAndUpdate({ _id }, { title, english, word }, {}, (err, docs) => {
     if (!err) {
       console.log(docs);
       res.send({
@@ -47,8 +56,9 @@ router.post('add', (req, res) => {
 })
 
 // 删除一条数据
-router.post('del', (req, res) => {
-  MyInformation.findByIdAndRemove({ _id }, (err) => {
+router.post('/del', (req, res) => {
+  const { _id } = req.body
+  WebVocabulary.findByIdAndRemove({ _id }, (err) => {
     if (!err) {
       res.send({
         code: 200,
