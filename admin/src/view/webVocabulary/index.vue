@@ -3,7 +3,10 @@
     <div class="header_box">
       <el-button type="primary" @click="addForm"> 新增 + </el-button>
       <el-button type="primary" @click="addForm"> 上传 </el-button>
-      <el-button type="primary" @click="addForm"> 导出 </el-button>
+      <el-button>
+        <el-link href="http://localhost:3000/admin/api/excel/download">导出</el-link>
+      </el-button>
+
       <el-input style="margin-left: 20px; width: 150px" v-model="keyWord" placeholder="单词搜索" :suffix-icon="Search" />
     </div>
 
@@ -35,6 +38,7 @@
 <script setup>
 import { onMounted, ref } from 'vue';
 import { getInfoApi } from '../../api/werVocabulary';
+import { download } from '../../api/expors';
 import { Search } from '@element-plus/icons-vue';
 import MyDialog from './component/myDialog.vue';
 import { getData } from '../../utils';
@@ -67,6 +71,9 @@ const handleEdit = (index, row) => {
 }
 const handleDelete = (index, row) => {
   console.log(index, row)
+}
+const exportXmls = () => {
+  // window.open('http://localhost:3000/admin/api/excel/download')
 }
 
 onMounted(() => {
