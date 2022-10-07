@@ -6,31 +6,26 @@ module.exports = (app) => {
   //资源中间件
   const resourceMiddleware = require('../../middleware/resource')
 
-  // //错误处理函数
-  // app.use(function (req, res, next) {
-  //   console.log(req.url);
-  //   if (req.url !== '/admin/api/user/login') {
-  //     if (req.url !== '/admin/api/excel/download') {
-  //       next()
-  //     } else {
-
-  //     }
-  //     let token = req.headers['token'];
-  //     if (!token) {
-  //       // res.status(401).send({ msg: 'token不能为空' });
-  //     }
-  //     let jwt = new JwtUtil(token);
-  //     let result = jwt.verifyToken();
-  //     // 如果验证通过就next，否则就返回登陆信息不正确
-  //     if (result == 'err') {
-  //       res.status(401).send({ msg: '登录已过期,请重新登录' });
-  //     } else {
-  //       next();
-  //     }
-  //   } else {
-  //     next();
-  //   }
-  // })
+  //错误处理函数
+  app.use(function (req, res, next) {
+    console.log(req.url);
+    if (req.url !== '/admin/api/user/login') {
+      let token = req.headers['token'];
+      if (!token) {
+        res.status(401).send({ msg: 'token不能为空' });
+      }
+      let jwt = new JwtUtil(token);
+      let result = jwt.verifyToken();
+      // 如果验证通过就next，否则就返回登陆信息不正确
+      if (result == 'err') {
+        res.status(401).send({ msg: '登录已过期,请重新登录' });
+      } else {
+        next();
+      }
+    } else {
+      next();
+    }
+  })
 
   // 注册路由
   app.use('/admin/api/user', require('./user'));

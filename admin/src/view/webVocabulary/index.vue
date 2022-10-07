@@ -19,7 +19,7 @@
       </el-table-column>
       <el-table-column prop="word" label="首字母" width="120" />
       <el-table-column prop="title" label="中文" width="120" />
-      <el-table-column prop="english" label="单词" width="120" :formatter="formatter" />
+      <el-table-column prop="english" label="单词" width="120" />
       <el-table-column prop="desc" label="备注" />
       <el-table-column align="center" label="菜单" width="180">
         <template #default="scope">
