@@ -2,16 +2,19 @@
   <el-card class="box-card">
     <div class="header_box">
       <el-button type="primary" @click="addForm"> 新增 + </el-button>
-      <el-button type="primary" @click="addForm"> 上传 </el-button>
+      <el-upload ref="addUpload" action :show-file-list="false" :headers="getAuthHeaders()"
+        :before-upload="handleExcelUpload">
+        <el-button type="primary"> 上传 </el-button>
+      </el-upload>
       <el-button>
         <el-link href="http://localhost:3000/admin/api/excel/download">导出</el-link>
       </el-button>
 
-      <el-input style="margin-left: 20px; width: 150px" v-model="keyWord" placeholder="单词搜索" :suffix-icon="Search" />
+      <el-input style=" width: 150px" v-model="keyWord" placeholder="单词搜索" :suffix-icon="Search" />
     </div>
 
-    <el-table :data="tableData" border :default-sort="{ prop: 'date', order: 'descending' }" height="250"
-      style="width: 100%">
+    <el-table :data="tableData" border :default-sort="{ prop: 'date', order: 'descending' }" style="width: 100%"
+      height="500">
       <el-table-column prop="createdAt" label="创建时间" sortable width="180">
         <template #default="scope">
           <p>{{ getData(scope.row['createdAt']) }}</p>
@@ -36,42 +39,45 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue';
-import { getInfoApi } from '../../api/werVocabulary';
+import { onMounted, reactive, ref } from 'vue';
+import { getInfoApi, del } from '../../api/werVocabulary';
+import { ElMessage } from 'element-plus';
+import { localGet } from '../../utils/index'
 import { download } from '../../api/expors';
 import { Search } from '@element-plus/icons-vue';
 import MyDialog from './component/myDialog.vue';
 import { getData } from '../../utils';
 import Pagination from '../../components/Pagination/index.vue';
+import { excelUpload } from '../../api/upload';
+import tableHooks from '../../hooks/tableHooks'
 
 const myDialogRef = ref();
 const title = ref();
-const tableData = ref([]);
 const keyWord = ref('');
-// 获取列表信息
-const getInfo = async () => {
-  const { data } = await getInfoApi();
-  if (data) {
-    tableData.value = data
-  }
-}
-const formatter = (row, column) => {
-  return row.address
-}
+
+// 使用hook封装
+const { handleExcelUpload, getInfo, tableData, handleDelete, addUpload } = tableHooks({ excelUpload, getInfoApi, del })
 
 const addForm = () => {
   title.value = '新增'
   myDialogRef.value.centerDialogVisible = true;
 }
 const handleEdit = (index, row) => {
-  // console.log(index, row)
+  console.log(index, row)
+  const { title, english, } = row
   title.value = '修改'
   myDialogRef.value.centerDialogVisible = true;
+  // myDialogRef.value.numberValidateForm
+}
 
+// 请求头配置
+const getAuthHeaders = () => {
+  return {
+    'token': localGet('token')
+  }
 }
-const handleDelete = (index, row) => {
-  console.log(index, row)
-}
+
+// 导出
 const exportXmls = () => {
   // window.open('http://localhost:3000/admin/api/excel/download')
 }
@@ -88,5 +94,8 @@ onMounted(() => {
 
 .header_box {
   padding: 20px 0 50px 0;
+  width: 400px;
+  display: flex;
+  justify-content: space-around;
 }
 </style>

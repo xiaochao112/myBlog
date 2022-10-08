@@ -1,8 +1,8 @@
 import http from './index';
 
-// 获取资料卡列表
-export const getInfoApi = () => {
-  return http.get('/webVocabulary/info');
+// 获取词汇列表
+export const getInfoApi = (data) => {
+  return http.post('/webVocabulary/page', data);
 }
 
 export const add = (data) => {

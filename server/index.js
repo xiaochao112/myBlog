@@ -1,7 +1,7 @@
 const express = require('express')
 const cors = require('cors')
 const app = express()
-
+const JwtUtil = require('./jwt');
 // 跨域设置
 // app.all('*', function (req, res, next) {
 //   res.header('Access-Control-Allow-Origin', '*');
@@ -14,15 +14,12 @@ const app = express()
 //   }
 //   else next();
 // })
-// app.set('secret', 'i2u34y12oi3u4y8')
-
-
 // cors解决跨域
 app.use(cors())
 app.use(express.json())
 
 // 图片上传地址开启静态资源访问
-app.use('/uploads', express.static(__dirname + '/uploads'))
+app.use('/static', express.static(__dirname + '/static'))
 // app.use('/', express.static(__dirname + '/web'))
 // app.use('/admin', express.static(__dirname + '/admin'))
 
@@ -31,6 +28,28 @@ require('./plugins/db')(app)
 require('./routes/admin/index.js')(app)
 require('./routes/web/index.js')(app)
 
+//错误处理函数
+app.use(function (req, res, next) {
+  console.log(req.url);
+  if (req.url !== '/admin/api/user/login') {
+    if (req.url == '/static/:') { next() }
+    console.log(req.headers);
+    let token = req.headers['token'];
+    if (!token) {
+      res.status(401).send({ msg: 'token不能为空' });
+    }
+    let jwt = new JwtUtil(token);
+    let result = jwt.verifyToken();
+    // 如果验证通过就next，否则就返回登陆信息不正确
+    if (result == 'err') {
+      res.status(401).send({ msg: '登录已过期,请重新登录' });
+    } else {
+      next();
+    }
+  } else {
+    next();
+  }
+})
 app.listen(3000, '0.0.0.0', async (req, res) => {
   console.log('http://localhost:3000')
 })

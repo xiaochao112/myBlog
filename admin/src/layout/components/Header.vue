@@ -2,7 +2,7 @@
   <header class="header">
     <el-dropdown>
       <span class="el-dropdown-link">
-        <el-avatar :size="40" class="mr-3" :src="state.user.avatar" />
+        <el-avatar :size="40" class="mr-3" :src="`http://localhost:3000${state.user.avatar}`" />
         <h3 class="title">admin
           <el-icon class="el-icon--right">
             <arrow-down />
@@ -23,9 +23,8 @@
 </template>
 
 <script setup>
-import { ElMessage } from 'element-plus'
 import { localRemove } from '../../utils';
-import { ref, reactive } from 'vue';
+import { ref } from 'vue';
 import { getInfoApi } from '../../api/user';
 import { userInfoStore } from '@/store/userStore';
 

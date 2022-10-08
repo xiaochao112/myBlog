@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { ElMessage } from 'element-plus'
 import router from '@/router/index'
-import { localGet } from '@/utils/index'
+import { localGet, localRemove } from '@/utils/index'
 import qs from 'qs';
 import NProgress from 'nprogress';
 import 'nprogress/nprogress.css';
@@ -41,11 +41,11 @@ http.interceptors.response.use(
   (err) => {
     console.log(err);
     if (err.response.data.msg) {
-      ElMessage.error(err.response.data.msg);
-
       if (err.response.status === 401) {
+        localRemove('token');
         router.push('/login');
       }
+      ElMessage.error(err.response.data.msg);
     }
     NProgress.done()
     return Promise.reject(err);

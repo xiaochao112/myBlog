@@ -18,8 +18,8 @@
       </el-descriptions-item>
     </el-descriptions>
     <p>头像上传</p>
-    <el-upload class="avatar-uploader" action="http://localhost:3000/admin/api/upload/picture" :show-file-list="false"
-      :headers="getAuthHeaders()" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
+    <el-upload class="avatar-uploader" ref="addUpload" action :show-file-list="false" :headers="getAuthHeaders()"
+      :before-upload="handleUpload">
       <img v-if="imageUrl" :src="imageUrl" class="avatar" />
       <el-icon v-else class="avatar-uploader-icon">
         <Plus />
@@ -47,15 +47,15 @@ import { updatedPsd } from '@/api/user'
 import { userInfoStore } from '@/store/userStore';
 import { getData, localGet } from '../../utils';
 import { updatedAvatar } from '../../api/user';
+import { uploadImg } from '../../api/upload';
 
 const store = userInfoStore();
 
+const addUpload = ref();
 const drawer = ref(false)
-
 const ruleFormRef = reactive({
   password: '',
 })
-
 const imageUrl = ref('')
 
 const rules = reactive({
@@ -76,24 +76,49 @@ const getAuthHeaders = () => {
 }
 
 // 头像上传
-const handleAvatarSuccess = async (
-  response,
-  uploadFile
-) => {
-  console.log(response);
-  await updatedAvatar({ _id: user.value._id, avatar: response.url });
-  imageUrl.value = URL.createObjectURL(uploadFile.raw!)
-}
-
-const beforeAvatarUpload = (rawFile) => {
-  if (rawFile.type !== 'image/jpeg') {
-    // ElMessage.error('请上传jpg类型的图片')
-    // return false
-  } else if (rawFile.size / 1024 / 1024 > 2) {
-    ElMessage.error('上传文件不能大于2M')
-    return false
+const handleUpload = (file) => {
+  if (file) {
+    if (file.size > 500 * 1024) {
+      ElMessage({
+        message: '图片尺寸太大',
+        type: 'error',
+      })
+      addUpload.value.clearFiles();
+    } else {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        const _base64 = reader.result;
+        imageUrl.value = _base64; //将_base64赋值给图片的src，实现图片预览
+      };
+      let formData = new FormData();
+      formData.append("avatar", file);
+      uploadImg(formData)
+        .then((res) => {
+          if (res.code = 200) {
+            updatedAvatar({ _id: user.value._id, avatar: res.imgUrl }).then(res => {
+              ElMessage({
+                message: "上传成功",
+                type: 'success',
+              })
+            });
+          } else {
+            ElMessage({
+              message: "err",
+              type: 'error',
+            })
+          }
+        })
+        .catch((err) => {
+          ElMessage({
+            message: err,
+            type: 'error',
+          })
+        });
+      return false; //阻止图片继续上传，使得form表单提交时统一上传
+    }
   }
-  return true
+  return false;
 }
 
 // 更新密码

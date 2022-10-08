@@ -11,7 +11,7 @@ const router = express.Router({
 // 解析excel文件
 function parseExcel(filename) {
   let temp = new Promise(function (resolve, reject) {
-    const workbook = xlsx.readFile('../../uploads/' + filename) // 读取excel文件
+    const workbook = xlsx.readFile('./static/excel/' + filename) // 读取excel文件
     const sheetNames = workbook.SheetNames //获取表名称数组
 
     // 可以做一个判断验证excel转换的json是否是后端需要的
@@ -22,25 +22,48 @@ function parseExcel(filename) {
       // console.log('-----', data)
       data.map((item, index) => {
         // 这里根据具体业务来进行操作
-        console.log(item);
-        // _this.push({
-        //   key: item['变量'],
-        //   'zh-CN': item['中文'],
-        //   notice: item['解释中文'],
-        // })
+        // console.log(item);
+        _this.push({
+          title: item['中文'],
+          english: item['英文'],
+          word: item['英文'].slice(0, 1).toUpperCase(),
+          desc: item['备注'] || ''
+        })
       })
     }
     resolve(_this)
   })
   return temp
 }
-// storage
+
+// 上传头像storage
+// 磁盘存储引擎 (DiskStorage)
+// 磁盘存储引擎可以让你控制文件的存储。
+var storage = multer.diskStorage({
+  // destination是用来确定上传的文件应该存储在哪个文件夹中
+  destination: function (req, file, cb) {
+    cb(null, './static/img')
+  },
+  // filename 用于确定文件夹中的文件名的确定
+  filename: function (req, file, cb) {
+    const timestamp = Date.now().toString()
+    const randomNum = parseInt(Math.random() * 9999).toString()
+    const suffix = file.originalname.split('.')[
+      file.originalname.split('.').length - 1
+    ]
+    cb(null, `${timestamp}${randomNum}.${suffix}`)
+  },
+})
+
+var upload = multer({ storage: storage }).single('avatar')
+
+// 上传Excel文件storage
 // 磁盘存储引擎 (DiskStorage)
 // 磁盘存储引擎可以让你控制文件的存储。
 var excelstorage = multer.diskStorage({
   // destination是用来确定上传的文件应该存储在哪个文件夹中
   destination: function (req, file, cb) {
-    cb(null, '../../static/excel');
+    cb(null, './static/excel');
   },
   // filename 用于确定文件夹中的文件名的确定
   filename: function (req, file, cb) {
@@ -60,47 +83,56 @@ var excel = multer({ storage: excelstorage }).single('avatar')
  * @apiName 前端词汇批量添加
  * @apiGroup Lang
  *
- * @apiParam {String} avatar excel文件（中文 解释中文 英语 越南语 泰语 印度语）
+ * @apiParam {String} avatar excel文件（）
  */
 router.post('/import', excel, (req, res) => {
-  console.log(req.file.filename);
-  res.send({ code: 200, msg: '添加成功' })
-
-  // parseExcel(req.file.filename)
-  //   .then((data) => {
-  //     // 是否重复
-  //     // const temp = []
-  //     // data.map((item, index) => {
-  //     //   if (Lang.find({ key: item.key })) {
-  //     //     temp.push(item)
-  //     //     data.splice(index, 1)
-  //     //   }
-  //     // })
-  //     // console.log('data', data, 'temp', temp)
-  //     WebVocabulary.insertMany(data)
-  //     // res.send({ code: 200, msg: '添加成功' })
-  //   })
-  // .then(data => {
-  //   res.send({ code: 200, msg: '添加成功' })
-  // })
-  // .catch((err) => {
-  //   res.send({ code: 500, msg: '失败' })
-  // })
+  console.log(req.file);
+  // res.send({ code: 200, msg: '添加成功' })
+  parseExcel(req.file.filename)
+    .then((data) => {
+      // 是否重复
+      // const temp = []
+      // data.map((item, index) => {
+      //   if (WebVocabulary.find({ english: item.english })) {
+      //     temp.push(item)
+      //     data.splice(index, 1)
+      //   }
+      // })
+      // console.log('data', data, 'temp', temp)
+      WebVocabulary.insertMany(data)
+      // res.send({ code: 200, msg: '添加成功' })
+    })
+    .then(data => {
+      res.send({ code: 200, msg: '添加成功' })
+    })
+    .catch((err) => {
+      res.send({ code: 500, msg: '失败' })
+    })
 })
 
-//本地头像上传
-// const multer = require('multer')
-const upload = multer({
-  dest: __dirname + '/../../uploads',
-})
+/**
+ * @api {post} /picture 图片上传
+ * @apiName 图片上传
+ * @apiGroup File
+ *
+ * @apiParam {String} avatar 上传文件
+ */
 router.post(
   '/picture',
-  upload.single('file'),
-  async (req, res) => {
-    const file = req.file
-    file.url = `http://localhost:3000/uploads/${file.filename}`
-    res.send(file)
-
+  upload,
+  (req, res) => {
+    const { size, mimetype, filename, destination } = req.file
+    const fileTypeList = ['jpg', 'jpeg', 'gif', 'png']
+    if (size > 512000) {
+      return res.status(500).send({ msg: '上传文件太大' })
+    } else if (fileTypeList.indexOf(mimetype.split('/')[1]) === -1) {
+      return res.status(500).send({ msg: '文件格式不正确' })
+    }
+    res.send({
+      code: 200,
+      imgUrl: destination.substring(1) + '/' + filename,
+      msg: '上传成功',
+    })
   }
 )
 module.exports = router;

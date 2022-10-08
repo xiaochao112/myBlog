@@ -5,26 +5,41 @@ const router = express.Router({
   mergeParams: true,
 })
 
-// 获取资料卡信息
-router.get('/info', async (req, res) => {
-  let data = await WebVocabulary.find((err, docs) => {
-    if (!err) {
-      // console.log(docs)
+// 获取词汇列表
+router.post('/page', (req, res) => {
+  const pageNo = Number(req.body.pageNo) || 1;
+  const pageSize = Number(req.body.pageSize) || 10;
+  const reg = new RegExp()
+  // 计数
+  WebVocabulary.countDocuments((err, count) => {
+    if (err) {
+      res.send({ code: 500, msg: "列表获取失败" });
+      return
     }
-  });
-  res.send({
-    code: 200,
-    data,
+    WebVocabulary.find().skip(pageSize * (pageNo - 1)).limit(pageSize).sort('-createdAt').then(data => {
+      res.send({
+        code: 200,
+        data,
+        total: count,
+        pageNo: pageNo,
+        pageSize: pageSize,
+        msg: '列表获取成功',
+      })
+    })
+      .catch(() => {
+        res.send({ code: 500, msg: '列表获取失败' })
+      });
   })
 });
 
 // 增加一条数据
 router.post('/add', async (req, res) => {
   let { title, english, desc } = req.body;
-  // 设置首字母小写
-  let word = english.slice(0, 1).toLowerCase();
+  // 设置首字母大写
+  let word = english.slice(0, 1).toUpperCase();
   const data = await WebVocabulary.find({ english });
-  if (!data) {
+  console.log(data);
+  if (!data.title) {
     WebVocabulary.create({ title, english, desc, word }, (err, docs) => {
       if (!err) {
         res.send({

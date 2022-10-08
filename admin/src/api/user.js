@@ -14,12 +14,7 @@ export const getInfoApi = () => {
 export const updatedPsd = (data) => {
   return http.post('/user/updatePassword', data);
 }
-
-// 上传图片
-export const uploadImg = (img) => {
-  return http.post('/upload/picture', data);
-}
-
+// 存储头像地址
 export const updatedAvatar = (data) => {
   return http.post('/user/avatar', data);
 }

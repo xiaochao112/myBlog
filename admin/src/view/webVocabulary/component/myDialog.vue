@@ -42,7 +42,7 @@ const prop = defineProps({
   title: {
     type: String,
     default: '新增'
-  }
+  },
 })
 
 const submitForm = async () => {
@@ -68,7 +68,8 @@ const resetForm = () => {
 }
 
 defineExpose({
-  centerDialogVisible
+  centerDialogVisible,
+  numberValidateForm
 })
 </script>
 <style scoped>
