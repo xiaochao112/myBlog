@@ -25,7 +25,7 @@
 <script lang="ts" setup>
 import { reactive, ref } from 'vue';
 import { ElMessage } from 'element-plus'
-import { add } from '../../../api/werVocabulary';
+import { add, update } from '../../../api/werVocabulary';
 
 const formRef = ref()
 const centerDialogVisible = ref(false);
@@ -33,11 +33,13 @@ const numberValidateForm = reactive({
   english: '',
   title: '',
   desc: '',
+  _id: ''
 })
 const rules = reactive({
   english: [{ required: true, message: '不能为空', trigger: 'blur' }],
 })
-
+// 子组件触发父组件方法
+const emit = defineEmits(['getInfo']);
 const prop = defineProps({
   title: {
     type: String,
@@ -46,12 +48,22 @@ const prop = defineProps({
 })
 
 const submitForm = async () => {
-  const result = await add(numberValidateForm);
+  let result
+  if (prop.title == '新增') {
+    result = await add(numberValidateForm);
+  }
+  else {
+    result = await update(numberValidateForm);
+  }
   if (result.code == 200) {
     ElMessage({
       message: `${prop.title}成功`,
       type: 'success',
     })
+    numberValidateForm.title = '';
+    numberValidateForm.english = '';
+    numberValidateForm.desc = '';
+    numberValidateForm._id = '';
     centerDialogVisible.value = false;
   } else {
     ElMessage({
@@ -59,11 +71,14 @@ const submitForm = async () => {
       type: 'error',
     })
   }
-
+  emit('getInfo');
 }
 
 const resetForm = () => {
-
+  numberValidateForm.title = '';
+  numberValidateForm.english = '';
+  numberValidateForm.desc = '';
+  numberValidateForm._id = '';
   centerDialogVisible.value = false;
 }
 

@@ -2,6 +2,7 @@ const express = require('express')
 const cors = require('cors')
 const app = express()
 const JwtUtil = require('./jwt');
+const log = require('./config/log')
 // 跨域设置
 // app.all('*', function (req, res, next) {
 //   res.header('Access-Control-Allow-Origin', '*');
@@ -17,6 +18,26 @@ const JwtUtil = require('./jwt');
 // cors解决跨域
 app.use(cors())
 app.use(express.json())
+
+// logger
+app.all("*", async (req, res, next) => {
+  //响应开始时间
+  const start = new Date();
+  //响应间隔时间
+  var ms;
+  try {
+    //开始进入到下一个中间件
+    await next();
+    //记录响应日志
+    ms = new Date() - start;
+    log.i(req, ms);
+  } catch (error) {
+    //记录异常日志
+    ms = new Date() - start;
+    log.e(req, error, ms);
+  }
+  console.log(`${req.method} ${req.url} - ${ms}ms-${res.statusCode}`);
+});
 
 // 图片上传地址开启静态资源访问
 app.use('/static', express.static(__dirname + '/static'))

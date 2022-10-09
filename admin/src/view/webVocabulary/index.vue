@@ -35,7 +35,7 @@
     <Pagination></Pagination>
   </el-card>
 
-  <MyDialog ref="myDialogRef" :title="title"></MyDialog>
+  <MyDialog ref="myDialogRef" :title="title" @getInfo="getInfo"></MyDialog>
 </template>
 
 <script setup>
@@ -52,10 +52,10 @@ import { excelUpload } from '../../api/upload';
 import tableHooks from '../../hooks/tableHooks'
 
 const myDialogRef = ref();
-const title = ref();
+const title = ref('');
 const keyWord = ref('');
 
-// 使用hook封装
+// 使用hook
 const { handleExcelUpload, getInfo, tableData, handleDelete, addUpload } = tableHooks({ excelUpload, getInfoApi, del })
 
 const addForm = () => {
@@ -64,10 +64,13 @@ const addForm = () => {
 }
 const handleEdit = (index, row) => {
   console.log(index, row)
-  const { title, english, } = row
   title.value = '修改'
   myDialogRef.value.centerDialogVisible = true;
-  // myDialogRef.value.numberValidateForm
+  myDialogRef.value.numberValidateForm.desc = row.desc;
+  myDialogRef.value.numberValidateForm.title = row.title;
+  myDialogRef.value.numberValidateForm.english = row.english;
+  myDialogRef.value.numberValidateForm._id = row._id;
+
 }
 
 // 请求头配置

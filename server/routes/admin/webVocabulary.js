@@ -58,10 +58,11 @@ router.post('/add', async (req, res) => {
 
 // 更新一条数据
 router.post('/update', (req, res) => {
-  let { title, english, word, _id } = req.body;
-  WebVocabulary.findByIdAndUpdate({ _id }, { title, english, word }, {}, (err, docs) => {
+  let { title, english, desc, _id } = req.body;
+  let word = english.slice(0, 1).toUpperCase()
+  WebVocabulary.findByIdAndUpdate({ _id }, { title, english, desc, word }, {}, (err, docs) => {
     if (!err) {
-      console.log(docs);
+      // console.log(docs);
       res.send({
         code: 200,
         msg: '更新成功',
