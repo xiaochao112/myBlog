@@ -13,8 +13,8 @@
       <el-input style=" width: 150px" v-model="keyWord" placeholder="单词搜索" :suffix-icon="Search" />
     </div>
 
-    <el-table :data="tableData" border :default-sort="{ prop: 'date', order: 'descending' }" style="width: 100%"
-      height="500">
+    <el-table v-loading="loading" :data="tableData" border :default-sort="{ prop: 'date', order: 'descending' }"
+      style="width: 100%">
       <el-table-column prop="createdAt" label="创建时间" sortable width="180">
         <template #default="scope">
           <p>{{ getData(scope.row['createdAt']) }}</p>
@@ -24,7 +24,7 @@
       <el-table-column prop="title" label="中文" width="120" />
       <el-table-column prop="english" label="单词" width="120" />
       <el-table-column prop="desc" label="备注" />
-      <el-table-column align="center" label="菜单" width="180">
+      <el-table-column align="center" label="菜单" width="240">
         <template #default="scope">
           <el-button size="small" @click="handleEdit(scope.$index, scope.row)">修改</el-button>
           <el-button size="small" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
@@ -32,15 +32,16 @@
       </el-table-column>
     </el-table>
 
-    <Pagination></Pagination>
+    <Pagination :total="total" :pageNo="listData.pageNo" :pageSize="listData.pageSize" @getPage="getPage"></Pagination>
   </el-card>
 
-  <MyDialog ref="myDialogRef" :title="title" @getInfo="getInfo"></MyDialog>
+  <MyDialog ref="myDialogRef" :title="title" @getInfo="getInfo">
+  </MyDialog>
 </template>
 
 <script setup>
 import { onMounted, reactive, ref } from 'vue';
-import { getInfoApi, del } from '../../api/werVocabulary';
+import { getList, del } from '../../api/werVocabulary';
 import { ElMessage } from 'element-plus';
 import { localGet } from '../../utils/index'
 import { download } from '../../api/expors';
@@ -55,13 +56,16 @@ const myDialogRef = ref();
 const title = ref('');
 const keyWord = ref('');
 
-// 使用hook
-const { handleExcelUpload, getInfo, tableData, handleDelete, addUpload } = tableHooks({ excelUpload, getInfoApi, del })
+// 使用hook函数
+// 封装表格方法
+const { handleExcelUpload, getInfo, tableData, handleDelete, addUpload, total, loading, listData, getPage } = tableHooks({ excelUpload, getList, del })
 
+// 新增一条数据
 const addForm = () => {
   title.value = '新增'
   myDialogRef.value.centerDialogVisible = true;
 }
+// 修改某一条数据
 const handleEdit = (index, row) => {
   console.log(index, row)
   title.value = '修改'
@@ -73,7 +77,8 @@ const handleEdit = (index, row) => {
 
 }
 
-// 请求头配置
+
+// 上传文件请求头配置
 const getAuthHeaders = () => {
   return {
     'token': localGet('token')

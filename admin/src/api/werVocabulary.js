@@ -1,7 +1,7 @@
 import http from './index';
 
 // 获取词汇列表
-export const getInfoApi = (data) => {
+export const getList = (data) => {
   return http.post('/webVocabulary/page', data);
 }
 

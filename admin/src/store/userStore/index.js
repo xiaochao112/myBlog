@@ -1,12 +1,14 @@
 import { defineStore } from 'pinia';
-import { piniaLocalStorage } from '../config';
+import { piniaLocalStorage } from '../config/index';
 import { getInfoApi, getLoginApi } from '@/api/user';
 import { localSet } from '../../utils';
 
 export const userInfoStore = defineStore('userInfo', {
-  state: () => ({
-    user: {},
-  }),
+  state: () => {
+    return {
+      user: {},
+    }
+  },
   actions: {
     // 根据token获取用户信息
     async setUser() {

@@ -19,7 +19,11 @@
     </template>
   </el-page-header>
   <el-divider></el-divider>
-  <router-view></router-view>
+  <router-view v-slot="{ Component }">
+    <keep-alive>
+      <component :is="Component" />
+    </keep-alive>
+  </router-view>
 </template>
 
 <script setup>

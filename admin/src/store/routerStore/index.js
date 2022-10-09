@@ -2,10 +2,12 @@ import { defineStore } from 'pinia';
 import { piniaLocalStorage } from '../config';
 
 export const routerStore = defineStore('routes', {
-  state: () => ({
-    routes: [],
-    currentRoute: {}
-  }),
+  state: () => {
+    return {
+      routes: [],
+      currentRoute: {}
+    }
+  },
   actions: {
     setRoutes(routes) {
       this.routes = routes;

@@ -101,6 +101,25 @@ const routes = [
       icon: 'icon-guanjianci'
     }
   },
+  {
+    path: '/log',
+    component: layout,
+    children: [
+      {
+        path: '/log/index',
+        component: () => import('@/view/log/index.vue'),
+        meta: {
+          title: '操作日志',
+          icon: 'icon-guanjianci'
+        }
+      },
+    ],
+    meta: {
+      nav: true,
+      title: '操作日志',
+      icon: 'icon-shouye'
+    }
+  },
 ];
 
 const router = createRouter({

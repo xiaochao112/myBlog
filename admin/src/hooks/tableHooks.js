@@ -9,16 +9,28 @@ export default function tableHooks(api) {
     pageNo: 1,
     pageSize: 10
   })
+  const total = ref(0)
   // 列表信息
   const tableData = ref([]);
+  // 加载
+  const loading = ref(false);
 
   // 获取列表信息
   const getInfo = async () => {
-    const result = await api.getInfoApi(listData);
+    loading.value = true
+    const result = await api.getList(listData);
     if (result.code) {
+      loading.value = false
       tableData.value = result.data;
-      console.log(tableData.value);
+      total.value = result.total;
     }
+  }
+  // 获取分页组件的当前页数和每页显示的数量
+  const getPage = (pageNo, pageSize) => {
+    // console.log(pageNo, pageSize);
+    listData.pageNo = pageNo;
+    listData.pageSize = pageSize;
+    getInfo()
   }
 
   // 上传excel文件
@@ -83,6 +95,10 @@ export default function tableHooks(api) {
     getInfo,
     tableData,
     handleDelete,
-    addUpload
+    addUpload,
+    total,
+    loading,
+    listData,
+    getPage
   }
 }

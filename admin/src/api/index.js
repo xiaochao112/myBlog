@@ -31,10 +31,9 @@ http.interceptors.request.use(
 // 请求拦截器，内部根据返回值，重新组装，统一管理。
 http.interceptors.response.use(
   (res) => {
-    // if (typeof res.data !== 'object') {
-    //   ElMessage.error('服务端异常！')
-    //   return Promise.reject(res)
-    // }
+    if (res.data.code !== 200) {
+      ElMessage.error(res.data.msg)
+    }
     NProgress.done()
     return res.data
   },

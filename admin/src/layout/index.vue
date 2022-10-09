@@ -1,13 +1,13 @@
 <template>
   <el-container class="common-layout">
-    <el-header>
-      <Header></Header>
-    </el-header>
     <el-container class="content">
       <el-aside :width="`${Width}px`" class="nav">
         <NavMenu @getWidth="getWidth"></NavMenu>
       </el-aside>
       <el-container ref="containerRef" class="content-main">
+        <el-header>
+          <Header></Header>
+        </el-header>
         <el-main>
           <Main></Main>
         </el-main>

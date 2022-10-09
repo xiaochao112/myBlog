@@ -3,7 +3,7 @@
     <el-dropdown>
       <span class="el-dropdown-link">
         <el-avatar :size="40" class="mr-3" :src="`http://localhost:3000${state.user.avatar}`" />
-        <h3 class="title">admin
+        <h3 class="title">{{ state.user.username }}
           <el-icon class="el-icon--right">
             <arrow-down />
           </el-icon>
@@ -27,6 +27,7 @@ import { localRemove } from '../../utils';
 import { ref } from 'vue';
 import { getInfoApi } from '../../api/user';
 import { userInfoStore } from '@/store/userStore';
+import router from '@/router/index'
 
 const state = userInfoStore();
 
@@ -34,7 +35,8 @@ const userDrawerRef = ref();
 // 退出登录
 const outLogin = async () => {
   localRemove('token');
-  await getInfoApi()
+  // await getInfoApi()
+  router.push('/login');
 }
 // 打开用户信息管理
 const userInfo = () => {

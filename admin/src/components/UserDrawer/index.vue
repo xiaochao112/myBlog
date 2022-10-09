@@ -125,17 +125,15 @@ const handleUpload = (file) => {
 const submitForm = async () => {
   const { password } = ruleFormRef;
   try {
-    const { msg } = await updatedPsd({ _id: user.value._id, password });
-    ElMessage({
-      message: msg,
-      type: 'success',
-    })
-    ruleFormRef.password = ''
+    const result = await updatedPsd({ _id: user.value._id, password });
+    if (result.code == 200) {
+      ElMessage({
+        message: result.msg,
+        type: 'success',
+      })
+      ruleFormRef.password = ''
+    }
   } catch (error) {
-    ElMessage({
-      message: error,
-      type: 'error',
-    })
     console.log(error);
 
   }

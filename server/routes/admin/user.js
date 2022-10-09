@@ -20,6 +20,7 @@ router.post('/login', async (req, res) => {
     userArr = await AdminUser.create({
       username: req.body.username,
       password: req.body.password,
+      roles: ['user']
     })
   }
   const isValid = bcrypt.compareSync(password, userArr.password)
@@ -58,22 +59,17 @@ router.get('/info', async (req, res) => {
 // 修改密码
 router.post('/updatePassword', (req, res) => {
   const { _id, password } = req.body;
-  // const newPwd = bcrypt.hashSync(password, 10);
-  AdminUser.findByIdAndUpdate({ _id }, { password }, {},
-    (err, data) => {
-      if (err) {
-        console.log('更新失败');
-        res.status(402).send({ msg: err })
-      }
-      if (data) {
-        console.log('更新成功');
-        res.send({
-          msg: '修改成功'
-        })
-      }
+
+  if (_id === '6340cb97cf058739b01512b7') return res.status(500).send({ msg: '配置失败，超级管理员禁止修改' })
+  AdminUser.updateOne({ _id }, { password })
+    .then((data) => {
+      console.log(data)
+      res.send({ code: 200, msg: '配置成功' })
+    })
+    .catch(() => {
+      res.send({ code: 500, msg: '配置失败' })
     })
 })
-
 // 上传头像
 router.post('/avatar', (req, res) => {
   const { _id, avatar } = req.body;
@@ -81,15 +77,46 @@ router.post('/avatar', (req, res) => {
     (err, data) => {
       if (err) {
         console.log('上传失败');
-        res.status(402).send({ msg: err })
+        res.send({
+          code: 500,
+          msg: err
+        })
       }
       if (data) {
         console.log('上传成功');
         res.send({
+          code: 200,
           msg: '上传成功'
         })
       }
     })
 })
 
+// 获取用户列表信息（管理员或用户列表）
+router.post('/userList', (req, res) => {
+  const pageNo = Number(req.body.pageNo) || 1;
+  const pageSize = Number(req.body.pageSize) || 10;
+  // 正则方法
+  const reg = new RegExp()
+  // 计数
+  AdminUser.countDocuments((err, count) => {
+    if (err) {
+      res.send({ code: 500, msg: "列表获取失败" });
+      return
+    }
+    AdminUser.find().skip(pageSize * (pageNo - 1)).limit(pageSize).sort('-createdAt').then(data => {
+      res.send({
+        code: 200,
+        data,
+        total: count,
+        pageNo: pageNo,
+        pageSize: pageSize,
+        msg: '列表获取成功',
+      })
+    })
+      .catch(() => {
+        res.send({ code: 500, msg: '列表获取失败' })
+      });
+  })
+});
 module.exports = router;
