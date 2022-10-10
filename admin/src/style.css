@@ -95,17 +95,17 @@ button:focus-visible {
   }
 }
 
-.lFloat {
+.fl {
   float: left;
 }
 
-.rFloat {
+.fr {
   float: right;
 }
 
 .icon {
-  width: 1.5em;
-  height: 1.5em;
+  width: 1.2em;
+  height: 1.2em;
   vertical-align: -0.15em;
   fill: currentColor;
   overflow: hidden;
@@ -113,8 +113,8 @@ button:focus-visible {
 
 .icon-big {
   cursor: pointer;
-  width: 2em;
-  height: 2em;
+  width: 1.2em;
+  height: 1.2em;
   vertical-align: -0.15em;
   fill: currentColor;
   overflow: hidden;

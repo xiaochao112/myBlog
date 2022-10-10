@@ -1,15 +1,21 @@
 <template>
-  <el-dialog v-model="centerDialogVisible" :title="`${prop.title}单词`" width="30%" align-center>
+  <el-dialog v-model="centerDialogVisible" :title="`${prop.title}资料卡`" width="30%" align-center>
     <el-form ref="formRef" :model="numberValidateForm" label-width="100px" class="demo-ruleForm" :rules="rules"
       label-position="top">
-      <el-form-item label="单词：" prop="english">
-        <el-input v-model="numberValidateForm.english" placeholder="请输入英文：" type="text" autocomplete="off" />
+      <el-form-item label="标题" prop="title">
+        <el-input v-model="numberValidateForm.title" placeholder="请输入标题：" type="text" autocomplete="off" />
       </el-form-item>
-      <el-form-item label="中文：" prop="title">
-        <el-input v-model="numberValidateForm.title" placeholder="请输入中文信息：" type="text" autocomplete="off" />
+      <el-form-item label="上传图片：" prop="img">
+        <el-upload class="avatar-uploader" action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15"
+          :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
+          <img v-if="imageUrl" :src="imageUrl" class="avatar" />
+          <el-icon v-else class="avatar-uploader-icon">
+            <Plus />
+          </el-icon>
+        </el-upload>
       </el-form-item>
-      <el-form-item label="备注：" prop="desc">
-        <el-input v-model="numberValidateForm.desc" placeholder="请输入备注：" type="text" autocomplete="off" />
+      <el-form-item label="详情" prop="desc">
+        <el-input v-model="numberValidateForm.desc" placeholder="请输入详细信息：" type="textarea" autocomplete="off" />
       </el-form-item>
     </el-form>
     <template #footer>
@@ -25,12 +31,12 @@
 <script lang="ts" setup>
 import { reactive, ref } from 'vue';
 import { ElMessage } from 'element-plus'
-import { add, update } from '../../../api/werVocabulary';
+import { add, update } from '@/api/myInformation.js';
+import { Plus } from '@element-plus/icons-vue';
 
 const formRef = ref()
 const centerDialogVisible = ref(false);
 const numberValidateForm = reactive({
-  english: '',
   title: '',
   desc: '',
   _id: ''
@@ -46,12 +52,31 @@ const prop = defineProps({
     default: '新增'
   },
 })
+const imageUrl = ref('')
+
+const handleAvatarSuccess = (
+  response,
+  uploadFile
+) => {
+  imageUrl.value = URL.createObjectURL(uploadFile.raw!)
+}
+
+const beforeAvatarUpload = (rawFile) => {
+  if (rawFile.type !== 'image/jpeg') {
+    // ElMessage.error('Avatar picture must be JPG format!')
+    // return false
+  } else if (rawFile.size / 1024 / 1024 > 2) {
+    ElMessage.error('Avatar picture size can not exceed 2MB!')
+    return false
+  }
+  return true
+}
 
 const submitForm = async () => {
   let result
   if (prop.title == '新增') {
-    const { english, title, desc } = numberValidateForm;
-    result = await add({ english, title, desc });
+    const { title, desc } = numberValidateForm
+    result = await add({ title, desc });
   }
   else {
     result = await update(numberValidateForm);
@@ -62,9 +87,7 @@ const submitForm = async () => {
       type: 'success',
     })
     numberValidateForm.title = '';
-    numberValidateForm.english = '';
     numberValidateForm.desc = '';
-    numberValidateForm._id = '';
     centerDialogVisible.value = false;
   } else {
     ElMessage({
@@ -77,9 +100,7 @@ const submitForm = async () => {
 
 const resetForm = () => {
   numberValidateForm.title = '';
-  numberValidateForm.english = '';
   numberValidateForm.desc = '';
-  numberValidateForm._id = '';
   centerDialogVisible.value = false;
 }
 

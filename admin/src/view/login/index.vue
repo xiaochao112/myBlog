@@ -21,8 +21,8 @@
 import { reactive, ref, computed } from 'vue';
 // el图标
 import { User, Lock } from '@element-plus/icons-vue';
-import { userInfoStore } from '../../store/userStore';
-import router from '../../router';
+import { userInfoStore } from '@/store/modules/userStore';
+import router from '@/router';
 
 const store = userInfoStore();
 
@@ -33,7 +33,7 @@ const title = reactive({
 const ruleFormRef = ref();
 const ruleForm = reactive({
   username: 'admin',
-  password: '123456',
+  password: '12345678',
 })
 
 const rules = reactive({

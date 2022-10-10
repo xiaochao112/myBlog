@@ -1,6 +1,6 @@
 <template>
   <el-menu :default-active="currentRouter" active-text-color="#ffd04b" background-color="#545c64" text-color="#fff"
-    class="el-menu-vertical-demo lFloat" :collapse="isCollapse" @open="handleOpen" @close="handleClose"
+    class="el-menu-vertical-demo" :collapse="munu.munuStates" @open="handleOpen" @close="handleClose"
     @select="handleRouter" router>
     <template v-for="item in state.routes" :key="item.path">
       <el-sub-menu v-if="item.children.length > 1" :index="item.path">
@@ -25,21 +25,15 @@
       </el-menu-item>
     </template>
   </el-menu>
-  <transition>
-    <!-- xxx参照下图的格式 -->
-    <svg class="icon-big" aria-hidden="true" @click="setCollapse">
-      <use :xlink:href="`#${icon}`"></use>
-    </svg>
-  </transition>
 
 </template>
 
 <script  setup>
 import { computed, onMounted, ref } from 'vue';
-import { routerStore } from '../../store/routerStore';
+import { routerStore } from '@/store/modules/routerStore';
+import { munuStore } from '@/store/modules/munuStore';
 
-const isCollapse = ref(false);
-const emits = defineEmits(['getWidth'])
+const munu = munuStore()
 
 const state = routerStore();
 // 当前路由导航
@@ -49,20 +43,6 @@ const handleOpen = (key, keyPath) => {
 }
 const handleClose = (key, keyPath) => {
   // console.log(key, keyPath)
-}
-// 放大或缩小导航栏
-const icon = computed(() => {
-  return isCollapse.value ? 'icon-fangda' : 'icon-suoxiao';
-})
-
-// 切换导航栏状态
-const setCollapse = () => {
-  isCollapse.value = !isCollapse.value;
-  if (isCollapse.value) {
-    emits('getWidth', 100)
-  } else {
-    emits('getWidth', 236)
-  }
 }
 
 // 获取当前选中的导航菜单
@@ -74,7 +54,7 @@ onMounted(() => {
 
 <style>
 .el-menu {
-  border: none;
+  /* border: none; */
   height: 100%;
   overflow: hidden;
 }
@@ -87,15 +67,5 @@ onMounted(() => {
 <style lang="scss" scoped>
 .icon {
   cursor: pointer;
-}
-
-.v-enter-active,
-.v-leave-active {
-  transition: opacity 1s ease;
-}
-
-.v-enter-from,
-.v-leave-to {
-  opacity: 1;
 }
 </style>

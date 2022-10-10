@@ -4,8 +4,8 @@ import NProgress from 'nprogress';
 import 'nprogress/nprogress.css';
 import { localGet } from './utils';
 import pinia from './store';
-import { userInfoStore } from './store/userStore';
-import { routerStore } from './store/routerStore/index.js';
+import { userInfoStore } from './store/modules/userStore';
+import { routerStore } from './store/modules/routerStore/index.js';
 
 const store = userInfoStore(pinia);
 const state = routerStore(pinia);

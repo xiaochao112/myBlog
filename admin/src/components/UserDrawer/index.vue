@@ -37,14 +37,14 @@
   </el-drawer>
 </template>
 
-<script lang="ts" setup>
+<script setup>
 import { ref, reactive, computed } from 'vue';
 import { ElMessage } from 'element-plus'
 import { Plus } from '@element-plus/icons-vue'
-import { updatedPsd } from '@/api/user'
+import { updatedPsd } from '@/api/user';
 // import { mavonEditor } from 'mavon-editor'
 // import 'mavon-editor/dist/css/index.css'
-import { userInfoStore } from '@/store/userStore';
+import { userInfoStore } from '@/store/modules/userStore';
 import { getData, localGet } from '../../utils';
 import { updatedAvatar } from '../../api/user';
 import { uploadImg } from '../../api/upload';

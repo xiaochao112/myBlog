@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { piniaLocalStorage } from '../config';
+import { piniaLocalStorage } from '@/store/config';
 
 export const routerStore = defineStore('routes', {
   state: () => {

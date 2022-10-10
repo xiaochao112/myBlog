@@ -6,24 +6,39 @@ const router = express.Router({
 })
 
 // 获取资料卡信息
-router.get('/info', async (req, res) => {
-  let data = await MyInformation.find((err, docs) => {
-    if (!err) {
-      console.log(docs)
+router.post('/info', async (req, res) => {
+  const pageNo = Number(req.body.pageNo) || 1;
+  const pageSize = Number(req.body.pageSize) || 10;
+  // 正则方法
+  const reg = new RegExp()
+  // 计数
+  MyInformation.countDocuments((err, count) => {
+    if (err) {
+      res.send({ code: 500, msg: "列表获取失败" });
+      return
     }
-  });
-  res.send({
-    code: 200,
-    data,
+    MyInformation.find().skip(pageSize * (pageNo - 1)).limit(pageSize).sort('-createdAt').then(data => {
+      res.send({
+        code: 200,
+        data,
+        total: count,
+        pageNo: pageNo,
+        pageSize: pageSize,
+        msg: '列表获取成功',
+      })
+    })
+      .catch(() => {
+        res.send({ code: 500, msg: '列表获取失败' })
+      });
   })
 });
 
 // 增加一条数据
-router.post('add', (req, res) => {
-  let { title, img, dosc } = req.data;
-  MyInformation.create({ title, img, dosc }, (err, docs) => {
+router.post('/add', (req, res) => {
+  let { title, desc } = req.body;
+  MyInformation.create({ title, desc }, (err, desc) => {
     if (!err) {
-      console.log(docs);
+      console.log(desc);
       res.send({
         code: 200,
         msg: '新增成功',
@@ -32,12 +47,13 @@ router.post('add', (req, res) => {
   })
 })
 
+
 // 更新一条数据
-router.post('update', (req, res) => {
-  let { title, img, dosc, _id } = req.data;
-  MyInformation.findByIdAndUpdate({ _id }, { title, img, dosc }, {}, (err, docs) => {
+router.post('/update', (req, res) => {
+  let { title, desc, _id } = req.body;
+  MyInformation.findByIdAndUpdate({ _id }, { title, desc }, {}, (err, desc) => {
     if (!err) {
-      console.log(docs);
+      console.log(desc);
       res.send({
         code: 200,
         msg: '更新成功',
@@ -47,8 +63,8 @@ router.post('update', (req, res) => {
 })
 
 // 删除一条数据
-router.post('del', (req, res) => {
-  let { _id } = req.data;
+router.post('/del', (req, res) => {
+  let { _id } = req.body;
   MyInformation.findByIdAndRemove({ _id }, (err) => {
     if (!err) {
       res.send({

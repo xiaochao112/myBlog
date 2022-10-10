@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
-import { piniaLocalStorage } from '../config/index';
+import { piniaLocalStorage } from '@/store/config/index';
 import { getInfoApi, getLoginApi } from '@/api/user';
-import { localSet } from '../../utils';
+import { localSet } from '@/utils';
 
 export const userInfoStore = defineStore('userInfo', {
   state: () => {

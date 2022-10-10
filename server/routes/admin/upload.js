@@ -86,19 +86,20 @@ var excel = multer({ storage: excelstorage }).single('avatar')
  * @apiParam {String} avatar excel文件（）
  */
 router.post('/import', excel, (req, res) => {
-  console.log(req.file);
   // res.send({ code: 200, msg: '添加成功' })
   parseExcel(req.file.filename)
     .then((data) => {
       // 是否重复
       // const temp = []
-      // data.map((item, index) => {
-      //   if (WebVocabulary.find({ english: item.english })) {
+      // data.map(async (item, index) => {
+      //   const result = await WebVocabulary.find({ english: item.english })
+      //   if (result && result.english) {
       //     temp.push(item)
-      //     data.splice(index, 1)
+      //     // data.splice(index, 1)
+      //     WebVocabulary.insertOne(item)
       //   }
       // })
-      // console.log('data', data, 'temp', temp)
+      // console.log('temp', temp, 'data', data)
       WebVocabulary.insertMany(data)
       // res.send({ code: 200, msg: '添加成功' })
     })

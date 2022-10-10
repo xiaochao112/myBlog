@@ -1,8 +1,8 @@
 import http from './index';
 
 // 获取资料卡列表
-export const getInfoApi = () => {
-  return http.get('/myInformation/info');
+export const getList = (data) => {
+  return http.post('/myInformation/info', data);
 }
 
 export const add = (data) => {
