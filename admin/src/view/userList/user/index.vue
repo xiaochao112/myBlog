@@ -23,7 +23,11 @@
           <p>{{ getData(scope.row['endLoginTime']) }}</p>
         </template>
       </el-table-column>
-      <el-table-column prop="roles" label="权限" width="120" />
+      <el-table-column prop="roles" label="权限" width="120">
+        <template #default="scope">
+          <el-tag class="ml-2" type="success">{{ scope.row.roles[0] }}</el-tag>
+        </template>
+      </el-table-column>
       <el-table-column prop="desc" label="备注" />
       <el-table-column prop="code" label="状态" width="120" />
 

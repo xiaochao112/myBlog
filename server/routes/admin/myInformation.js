@@ -36,7 +36,20 @@ router.post('/info', async (req, res) => {
 // 增加一条数据
 router.post('/add', (req, res) => {
   let { title, desc } = req.body;
-  MyInformation.create({ title, desc }, (err, desc) => {
+  let data = {}
+  if (req.body.img) {
+    data = {
+      title,
+      desc,
+      img: req.body.img
+    }
+  } else {
+    data = {
+      title,
+      desc,
+    }
+  }
+  MyInformation.create(data, (err, desc) => {
     if (!err) {
       console.log(desc);
       res.send({
@@ -50,8 +63,8 @@ router.post('/add', (req, res) => {
 
 // 更新一条数据
 router.post('/update', (req, res) => {
-  let { title, desc, _id } = req.body;
-  MyInformation.findByIdAndUpdate({ _id }, { title, desc }, {}, (err, desc) => {
+  let { title, desc, _id, img } = req.body;
+  MyInformation.findByIdAndUpdate({ _id }, { title, desc, img }, {}, (err, desc) => {
     if (!err) {
       console.log(desc);
       res.send({

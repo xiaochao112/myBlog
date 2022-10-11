@@ -6,9 +6,9 @@
         <el-input v-model="numberValidateForm.title" placeholder="请输入标题：" type="text" autocomplete="off" />
       </el-form-item>
       <el-form-item label="上传图片：" prop="img">
-        <el-upload class="avatar-uploader" action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15"
-          :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
-          <img v-if="imageUrl" :src="imageUrl" class="avatar" />
+        <el-upload class="avatar-uploader" ref="addUpload" action :show-file-list="false" :headers="getAuthHeaders()"
+          :before-upload="handleUpload">
+          <img v-if="numberValidateForm.img" :src="`http://localhost:3000${numberValidateForm.img}`" class="avatar" />
           <el-icon v-else class="avatar-uploader-icon">
             <Plus />
           </el-icon>
@@ -33,12 +33,17 @@ import { reactive, ref } from 'vue';
 import { ElMessage } from 'element-plus'
 import { add, update } from '@/api/myInformation.js';
 import { Plus } from '@element-plus/icons-vue';
+import { localGet } from '@/utils';
+import { uploadImg } from '@/api/upload';
 
-const formRef = ref()
+
+const formRef = ref();
+const addUpload = ref();
 const centerDialogVisible = ref(false);
 const numberValidateForm = reactive({
   title: '',
   desc: '',
+  img: '',
   _id: ''
 })
 const rules = reactive({
@@ -52,31 +57,65 @@ const prop = defineProps({
     default: '新增'
   },
 })
-const imageUrl = ref('')
-
-const handleAvatarSuccess = (
-  response,
-  uploadFile
-) => {
-  imageUrl.value = URL.createObjectURL(uploadFile.raw!)
+// 请求头配置
+const getAuthHeaders = () => {
+  return {
+    'token': localGet('token')
+  }
 }
 
-const beforeAvatarUpload = (rawFile) => {
-  if (rawFile.type !== 'image/jpeg') {
-    // ElMessage.error('Avatar picture must be JPG format!')
-    // return false
-  } else if (rawFile.size / 1024 / 1024 > 2) {
-    ElMessage.error('Avatar picture size can not exceed 2MB!')
-    return false
+// 头像上传
+const handleUpload = (file) => {
+  if (file) {
+    if (file.size > 500 * 1024) {
+      ElMessage({
+        message: '图片尺寸太大',
+        type: 'error',
+      })
+      addUpload.value.clearFiles();
+    } else {
+      // const reader = new FileReader();
+      // reader.readAsDataURL(file);
+      // reader.onload = () => {
+      //   const _base64 = reader.result;
+      //   imageUrl.value = _base64; //将_base64赋值给图片的src，实现图片预览
+      // };
+      let formData = new FormData();
+      formData.append("avatar", file);
+      // 上传图片
+      uploadImg(formData)
+        .then((res) => {
+          if (res.code = 200) {
+            numberValidateForm.img = res.imgUrl;
+          } else {
+            ElMessage({
+              message: "err",
+              type: 'error',
+            })
+          }
+        })
+        .catch((err) => {
+          ElMessage({
+            message: err,
+            type: 'error',
+          })
+        });
+      return false; //阻止图片继续上传，使得form表单提交时统一上传
+    }
   }
-  return true
+  return false;
 }
 
 const submitForm = async () => {
   let result
   if (prop.title == '新增') {
-    const { title, desc } = numberValidateForm
-    result = await add({ title, desc });
+    const { title, desc, img } = numberValidateForm;
+    if (img) {
+      result = await add({ title, desc, img });
+    } else {
+      result = await add({ title, desc });
+    }
+
   }
   else {
     result = await update(numberValidateForm);
@@ -88,6 +127,7 @@ const submitForm = async () => {
     })
     numberValidateForm.title = '';
     numberValidateForm.desc = '';
+    numberValidateForm.img = '';
     centerDialogVisible.value = false;
   } else {
     ElMessage({
@@ -101,6 +141,7 @@ const submitForm = async () => {
 const resetForm = () => {
   numberValidateForm.title = '';
   numberValidateForm.desc = '';
+  numberValidateForm.img = '';
   centerDialogVisible.value = false;
 }
 

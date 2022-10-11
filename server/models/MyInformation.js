@@ -6,7 +6,7 @@ const schema = new mongoose.Schema({
   },
   img: {
     type: String,
-    default: 'http://dummyimage.com/266x400'
+    default: '/static/img/16654514276892856.jpg'
   },
   desc: {
     type: String

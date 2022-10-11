@@ -13,7 +13,7 @@
       <el-input style=" width: 150px" v-model="keyWord" placeholder="单词搜索" :suffix-icon="Search" />
     </div>
 
-    <el-table v-loading="loading" :data="tableData" border :default-sort="{ prop: 'date', order: 'descending' }"
+    <el-table v-loading="loading" :data="tableData" stripe border :default-sort="{ prop: 'date', order: 'descending' }"
       style="width: 100%">
       <el-table-column prop="createdAt" label="创建时间" sortable width="180">
         <template #default="scope">
@@ -21,8 +21,16 @@
         </template>
       </el-table-column>
       <el-table-column prop="word" label="首字母" width="120" />
-      <el-table-column prop="title" label="中文" width="120" />
-      <el-table-column prop="english" label="单词" width="120" />
+      <el-table-column prop="title" label="中文" width="120">
+        <template #default="scope">
+          <el-tag class="ml-2">{{ scope.row.title }}</el-tag>
+        </template>
+      </el-table-column>
+      <el-table-column prop="english" label="单词" width="120">
+        <template #default="scope">
+          <el-tag class="ml-2" type="success">{{ scope.row.english }}</el-tag>
+        </template>
+      </el-table-column>
       <el-table-column prop="desc" label="备注" />
       <el-table-column align="center" label="菜单" width="240">
         <template #default="scope">

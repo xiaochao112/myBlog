@@ -92,19 +92,52 @@ router.post('/avatar', (req, res) => {
     })
 })
 
-// 获取用户列表信息（管理员或用户列表）
-router.post('/userList', (req, res) => {
+// 获取管理员列表信息
+router.post('/adminList', (req, res) => {
   const pageNo = Number(req.body.pageNo) || 1;
   const pageSize = Number(req.body.pageSize) || 10;
+  const userData = {
+    roles: ['admin']
+  }
   // 正则方法
   const reg = new RegExp()
   // 计数
-  AdminUser.countDocuments((err, count) => {
+  AdminUser.countDocuments(userData, (err, count) => {
     if (err) {
       res.send({ code: 500, msg: "列表获取失败" });
       return
     }
-    AdminUser.find().skip(pageSize * (pageNo - 1)).limit(pageSize).sort('-createdAt').then(data => {
+    AdminUser.find(userData).skip(pageSize * (pageNo - 1)).limit(pageSize).sort('-createdAt').then(data => {
+      res.send({
+        code: 200,
+        data,
+        total: count,
+        pageNo: pageNo,
+        pageSize: pageSize,
+        msg: '列表获取成功',
+      })
+    })
+      .catch(() => {
+        res.send({ code: 500, msg: '列表获取失败' })
+      });
+  })
+});
+// 获取用户列表信息
+router.post('/userList', (req, res) => {
+  const pageNo = Number(req.body.pageNo) || 1;
+  const pageSize = Number(req.body.pageSize) || 10;
+  const userData = {
+    roles: ['user']
+  }
+  // 正则方法
+  const reg = new RegExp()
+  // 计数
+  AdminUser.countDocuments(userData, (err, count) => {
+    if (err) {
+      res.send({ code: 500, msg: "列表获取失败" });
+      return
+    }
+    AdminUser.find(userData).skip(pageSize * (pageNo - 1)).limit(pageSize).sort('-createdAt').then(data => {
       res.send({
         code: 200,
         data,

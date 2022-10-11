@@ -45,7 +45,7 @@
 
 <script setup>
 import { onMounted, ref } from 'vue';
-import { getList } from '@/api/myInformation.js';
+import { getList, del } from '@/api/myInformation.js';
 import { getData } from '@/utils';
 import { Search } from '@element-plus/icons-vue';
 import tableHooks from '@/hooks/tableHooks';
@@ -60,7 +60,7 @@ const myDescriptionsRef = ref()
 
 // 使用hook函数
 // 封装表格方法
-const { getInfo, tableData, total, loading, handleDelete, listData, getPage } = tableHooks({ getList })
+const { getInfo, tableData, total, loading, handleDelete, listData, getPage } = tableHooks({ getList, del })
 
 // 新增一条数据
 const addForm = () => {
@@ -75,6 +75,7 @@ const handleEdit = (index, row) => {
   // 携带表格数据
   myDialogRef.value.numberValidateForm.desc = row.desc;
   myDialogRef.value.numberValidateForm.title = row.title;
+  myDialogRef.value.numberValidateForm.img = row.img;
   myDialogRef.value.numberValidateForm._id = row._id;
 }
 // 查看详情
