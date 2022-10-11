@@ -81,6 +81,7 @@ const handleEdit = (index, row) => {
 // 查看详情
 const showInfo = (index, row) => {
   // console.log(index, row);
+  row.img = import.meta.env.VITE_API_URL + row.img
   myDescriptionsRef.value.detailObj = row;
   myDescriptionsRef.value.dialogVisible = true;
 }

@@ -4,7 +4,7 @@
       <el-descriptions-item label="标题：" label-class-name="my-label" class-name="my-content" width="150px">
         <el-tag size="small">{{ detailObj.title }}</el-tag>
       </el-descriptions-item>
-      <el-descriptions-item><img :src="`http://localhost:3000${detailObj.img}`" alt=""></el-descriptions-item>
+      <el-descriptions-item><img :src="detailObj.img" alt=""></el-descriptions-item>
       <el-descriptions-item label="创建时间：">
         <el-tag size="small">{{ getData(detailObj.createdAt) }}</el-tag>
       </el-descriptions-item>

@@ -8,7 +8,7 @@
       <el-form-item label="上传图片：" prop="img">
         <el-upload class="avatar-uploader" ref="addUpload" action :show-file-list="false" :headers="getAuthHeaders()"
           :before-upload="handleUpload">
-          <img v-if="numberValidateForm.img" :src="`http://localhost:3000${numberValidateForm.img}`" class="avatar" />
+          <img v-if="numberValidateForm.img" :src="cardImgUrl" class="avatar" />
           <el-icon v-else class="avatar-uploader-icon">
             <Plus />
           </el-icon>
@@ -29,7 +29,7 @@
 
 
 <script lang="ts" setup>
-import { reactive, ref } from 'vue';
+import { computed, reactive, ref } from 'vue';
 import { ElMessage } from 'element-plus'
 import { add, update } from '@/api/myInformation.js';
 import { Plus } from '@element-plus/icons-vue';
@@ -56,6 +56,10 @@ const prop = defineProps({
     type: String,
     default: '新增'
   },
+})
+
+const cardImgUrl = computed(() => {
+  return import.meta.env.VITE_API_URL + numberValidateForm.img
 })
 // 请求头配置
 const getAuthHeaders = () => {

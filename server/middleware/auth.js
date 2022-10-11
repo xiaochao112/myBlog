@@ -1,17 +1,24 @@
 module.exports = options => {
   const assert = require('http-assert')
-  const jwt = require('jsonwebtoken')
-  const AdminUser = require('../models/AdminUser')
+  const JwtUtil = require('../jwt')
 
-  return async (req, res, next) => {
-    const token = String(req.headers.authorization || '').split(' ').pop()
-    assert(token, 401, 'token不存在')
-    const {
-      id
-    } = jwt.verify(token, req.app.get('secret'))
-    assert(id, 401, '请先登录')
-    req.user = await AdminUser.findById(id)
-    assert(req.user, 401, '用户不存在，请先登录')
-    await next()
+  return (req, res, next) => {
+    console.log(req.url);
+    if (req.url !== '/login') {
+      let token = req.headers['token'];
+      if (!token) {
+        res.status(401).send({ msg: 'token不能为空' });
+      }
+      let jwt = new JwtUtil(token);
+      let result = jwt.verifyToken();
+      // 如果验证通过就next，否则就返回登陆信息不正确
+      if (result === 'err') {
+        res.status(401).send({ msg: '登录已过期,请重新登录' });
+      } else {
+        next();
+      }
+    } else {
+      next();
+    }
   }
 }

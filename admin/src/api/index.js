@@ -6,9 +6,11 @@ import qs from 'qs';
 import NProgress from 'nprogress';
 import 'nprogress/nprogress.css';
 
+console.log('服务器地址------' + import.meta.env.VITE_API_URL);
 const http = axios.create({
   // baseURL: process.env.VUE_APP_API_URL || '/admin/api',
-  baseURL: 'http://localhost:3000/admin/api',
+  // baseURL: 'http://localhost:3000/api/admin',
+  baseURL: import.meta.env.VITE_API_URL + '/admin/api',
   headers: {
     'Content-type': 'application/json; charset=utf-8',
   }

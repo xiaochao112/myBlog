@@ -28,7 +28,7 @@
 
     <el-dropdown class="fr dropdownContent">
       <span class="el-dropdown-link">
-        <el-avatar :size="40" class="mr-3" :src="`http://localhost:3000${state.user.avatar}`" />
+        <el-avatar :size="40" class="mr-3" :src="avaterUrl" />
         <h3 class="title">{{ state.user.username }}
           <el-icon class="el-icon--right">
             <arrow-down />
@@ -74,6 +74,9 @@ const prontRouter = computed(() => {
   if (index > 0) {
     return routerArr.routes.find(item => item.path == current.slice(0, index));
   }
+})
+const avaterUrl = computed(() => {
+  return import.meta.env.VITE_API_URL + state.user.avatar
 })
 // 放大或缩小导航栏
 const icon = computed(() => {

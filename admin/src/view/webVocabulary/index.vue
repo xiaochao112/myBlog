@@ -6,8 +6,8 @@
         :before-upload="handleExcelUpload">
         <el-button type="primary"> 上传 </el-button>
       </el-upload>
-      <el-button>
-        <el-link href="http://localhost:3000/admin/api/excel/download">导出</el-link>
+      <el-button @click.prevent="exportXmls">
+        导出
       </el-button>
 
       <el-input style=" width: 150px" v-model="keyWord" placeholder="单词搜索" :suffix-icon="Search" />
@@ -95,7 +95,7 @@ const getAuthHeaders = () => {
 
 // 导出
 const exportXmls = () => {
-  // window.open('http://localhost:3000/admin/api/excel/download')
+  window.location.href = import.meta.env.VITE_API_URL + `/admin/api/excel/download`;
 }
 
 onMounted(() => {

@@ -45,28 +45,26 @@ app.use('/static', express.static(__dirname + '/static'))
 // app.use('/admin', express.static(__dirname + '/admin'))
 
 //错误处理函数
-app.use(function (req, res, next) {
-  console.log(req.url);
-  if (req.url !== '/admin/api/user/login') {
-    // 访问静态资源放行
-    if (req.url == '/static/:') { next() }
+// app.use((req, res, next) => {
+//   console.log(req.url);
+//   if (req.url !== '/admin/api/user/login') {
+//     let token = req.headers['token'];
+//     if (!token) {
+//       res.status(401).send({ msg: 'token不能为空' });
+//     }
 
-    let token = req.headers['token'];
-    if (!token) {
-      res.status(401).send({ msg: 'token不能为空' });
-    }
-    let jwt = new JwtUtil(token);
-    let result = jwt.verifyToken();
-    // 如果验证通过就next，否则就返回登陆信息不正确
-    if (result === 'err') {
-      res.status(401).send({ msg: '登录已过期,请重新登录' });
-    } else {
-      next();
-    }
-  } else {
-    next();
-  }
-})
+//     let jwt = new JwtUtil(token);
+//     let result = jwt.verifyToken();
+//     // 如果验证通过就next，否则就返回登陆信息不正确
+//     if (result === 'err') {
+//       res.status(401).send({ msg: '登录已过期,请重新登录' });
+//     } else {
+//       next();
+//     }
+//   } else {
+//     next();
+//   }
+// })
 
 require('./plugins/db')(app)
 require('./routes/admin/index.js')(app)

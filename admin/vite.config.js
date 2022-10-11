@@ -1,13 +1,16 @@
-import { defineConfig } from 'vite';
+import { defineConfig, loadEnv } from 'vite';
+import { createHtmlPlugin } from "vite-plugin-html";
 import vue from '@vitejs/plugin-vue';
 import path, { resolve } from "path";
+import { wrapperEnv } from "./src/utils/getEnv";
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 
 // https://vitejs.dev/config/
-export default defineConfig(() => {
-  // const viteEnv = wrapperEnv(env)
+export default defineConfig(({ mode }) => {
+  const env = loadEnv(mode, process.cwd());
+  const viteEnv = wrapperEnv(env)
   return {
     plugins: [
       vue({
@@ -17,6 +20,13 @@ export default defineConfig(() => {
           },
           transformAssetUrls: {
             // ...
+          }
+        }
+      }),
+      createHtmlPlugin({
+        inject: {
+          data: {
+            title: viteEnv.VITE_GLOB_APP_TITLE
           }
         }
       }),
@@ -32,6 +42,12 @@ export default defineConfig(() => {
         "@": resolve(__dirname, "./src"),
         // "vue-i18n": "vue-i18n/dist/vue-i18n.cjs.js"
       }
+    },
+    server: {
+      // 服务器主机名，如果允许外部访问，可设置为 "0.0.0.0"
+      host: "0.0.0.0",
+      port: viteEnv.VITE_PORT,
+      open: viteEnv.VITE_OPEN,
     },
     css: {
       preprocessorOptions: {

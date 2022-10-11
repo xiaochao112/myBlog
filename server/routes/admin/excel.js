@@ -40,7 +40,7 @@ router.get('/download', (req, res) => {
 })
 
 // 上传接口
-router.get('/upload')
+// router.get('/upload')
 
 
 module.exports = router

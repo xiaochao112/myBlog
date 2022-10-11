@@ -1,17 +1,19 @@
 module.exports = (app) => {
+  // token加密
+  const JwtUtil = require('../../jwt');
+
   //登录校验中间件
   const authMiddleware = require('../../middleware/auth')
-  //资源中间件
-  const resourceMiddleware = require('../../middleware/resource')
+  //校验token中间件
+  const tokenMiddleware = require('../../middleware/resource')
 
   // 注册路由
-  app.use('/admin/api/user', require('./user'));
+
+  app.use('/admin/api/user', authMiddleware(), require('./user'));
   app.use('/admin/api/upload', require('./upload'));
   app.use('/admin/api/myInformation', require('./myInformation'));
   app.use('/admin/api/webVocabulary', require('./webVocabulary'));
   app.use('/admin/api/excel', require('./excel'));
-
-
 
   /* //用于阿里云oss图片上传
 const multer = require('multer')
