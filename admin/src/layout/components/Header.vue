@@ -86,12 +86,11 @@ const icon = computed(() => {
 // 返回首页
 function goHome() {
   router.push('/home/index');
-  state.setCurrentRoute('/home/index');
+  routerArr.setCurrentRoute('/home/index');
 }
 
 // 返回上一页
 function onBack() {
-  if (router.currentRoute.value.path == '/login') return
   router.go(-1);
 }
 // 切换导航栏状态

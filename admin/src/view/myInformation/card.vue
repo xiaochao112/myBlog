@@ -6,7 +6,7 @@
       <el-input style=" width: 150px" v-model="keyWord" placeholder="搜索" :suffix-icon="Search" />
     </div>
     <el-table v-loading="loading" :data="tableData" border :default-sort="{ prop: 'date', order: 'descending' }"
-      height="500" style="width: 100%">
+      height="400" style="width: 100%">
       <el-table-column type=index label="序号" align="center" width="60" />
       <el-table-column prop="title" label="标题" width="120" />
       <el-table-column prop="title" label="来源" width="120" />
@@ -20,27 +20,28 @@
           <p>{{ getData(scope.row['updatedAt']) }}</p>
         </template>
       </el-table-column>
-      <!-- <el-table-column prop="img" label="图片">
+      <el-table-column prop="img" label="图片">
         <template #default="scope">
-          <img :src="scope.row['img']" alt="">
+          <img :src="scope.row['img']" alt="" style="width: 60px">
         </template>
-      </el-table-column> -->
-      <el-table-column prop="desc" label="详情" />
+      </el-table-column>
+      <el-table-column prop="desc" label="备注" />
 
       <el-table-column align="center" label="菜单" width="240">
         <template #default="scope">
           <el-button size="small" @click="handleEdit(scope.$index, scope.row)">修改</el-button>
-          <el-button size="small" type="primary" @click="showInfo(scope.$index, scope.row)">查看详情</el-button>
+          <!-- <el-button size="small" type="primary" @click="showInfo(scope.$index, scope.row)">查看详情</el-button> -->
           <el-button size="small" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
     <Pagination :total="total" :pageNo="listData.pageNo" :pageSize="listData.pageSize" @getPage="getPage"></Pagination>
+
+    <!-- 新增或修改对话框 -->
+    <myDialog ref="myDialogRef" :title="title" @getInfo="getInfo"></myDialog>
+    <!-- 详情对话框 -->
+    <!-- <myDescriptions ref="myDescriptionsRef"></myDescriptions> -->
   </el-card>
-  <!-- 新增或修改对话框 -->
-  <myDialog ref="myDialogRef" :title="title" @getInfo="getInfo"></myDialog>
-  <!-- 详情对话框 -->
-  <myDescriptions ref="myDescriptionsRef"></myDescriptions>
 </template>
 
 <script setup>
@@ -80,13 +81,11 @@ const handleEdit = (index, row) => {
 }
 // 查看详情
 const showInfo = (index, row) => {
-  // console.log(index, row);
-  row.img = import.meta.env.VITE_API_URL + row.img
   myDescriptionsRef.value.detailObj = row;
   myDescriptionsRef.value.dialogVisible = true;
 }
 onMounted(() => {
-  getInfo()
+  getInfo();
 })
 </script>
 

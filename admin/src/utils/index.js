@@ -16,6 +16,7 @@ export function localRemove(key) {
   window.localStorage.removeItem(key)
 }
 
+// 设置时间格式
 export function getData(n) {
   let date = new Date(n * 1000);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
   let Y = date.getFullYear() + '-';

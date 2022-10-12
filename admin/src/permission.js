@@ -24,8 +24,8 @@ router.beforeEach((to, from, next) => {
     if (to.path === '/login') {
       next({ path: '/home' });
       NProgress.done()
-    } else {
 
+    } else {
       try {
         // 派发pinia，获取用户信息
         store.setUser()
@@ -34,12 +34,13 @@ router.beforeEach((to, from, next) => {
         state.setRoutes(routes);
         // 当前要去的路由导航
         state.setCurrentRoute(to.path);
+        next()
+        NProgress.done()
       } catch (error) {
         console.log(error);
       }
     }
-    next()
-    NProgress.done()
+
   } else {
     if (whiteList.indexOf(to.path) !== -1) {
       next()

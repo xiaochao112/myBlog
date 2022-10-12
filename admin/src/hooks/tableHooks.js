@@ -19,9 +19,18 @@ export default function tableHooks(api) {
   const getInfo = async () => {
     loading.value = true
     const result = await api.getList(listData);
-    if (result.code) {
+    if (result.code == 200) {
       loading.value = false
-      tableData.value = result.data;
+
+      // 如果有图片处理一下路径
+      if (result.data[0] && result.data[0].img) {
+        tableData.value = result.data.map(item => {
+          item.img = import.meta.env.VITE_API_URL + item.img
+          return item
+        });
+      } else {
+        tableData.value = result.data;
+      }
       total.value = result.total;
     }
   }

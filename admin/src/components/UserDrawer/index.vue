@@ -1,6 +1,9 @@
 <template>
   <el-drawer v-model="drawer" title="" size="20%">
     <el-descriptions title="用户信息" :column="2">
+      <el-descriptions-item>
+        <el-avatar :size="40" class="mr-3" :src="avaterUrl" />
+      </el-descriptions-item>
       <el-descriptions-item label="用户名">
         <el-tag size="small">{{ user.username }}</el-tag>
       </el-descriptions-item>
@@ -38,16 +41,18 @@
 </template>
 
 <script setup>
-import { ref, reactive, computed } from 'vue';
+import { ref, reactive, computed, onMounted } from 'vue';
 import { ElMessage } from 'element-plus'
 import { Plus } from '@element-plus/icons-vue'
 import { updatedPsd } from '@/api/user';
 // import { mavonEditor } from 'mavon-editor'
 // import 'mavon-editor/dist/css/index.css'
 import { userInfoStore } from '@/store/modules/userStore';
-import { getData, localGet } from '../../utils';
+import { getData, localGet, localRemove } from '../../utils';
 import { updatedAvatar } from '../../api/user';
 import { uploadImg } from '../../api/upload';
+import router from '@/router/index'
+
 
 const store = userInfoStore();
 
@@ -74,6 +79,10 @@ const getAuthHeaders = () => {
     'token': localGet('token')
   }
 }
+// 用户头像路径地址
+const avaterUrl = computed(() => {
+  return import.meta.env.VITE_API_URL + store.user.avatar;
+})
 
 // 头像上传
 const handleUpload = (file) => {
@@ -85,12 +94,12 @@ const handleUpload = (file) => {
       })
       addUpload.value.clearFiles();
     } else {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => {
-        const _base64 = reader.result;
-        imageUrl.value = _base64; //将_base64赋值给图片的src，实现图片预览
-      };
+      // const reader = new FileReader();
+      // reader.readAsDataURL(file);
+      // reader.onload = () => {
+      //   const _base64 = reader.result;
+      //   imageUrl.value = _base64; //将_base64赋值给图片的src，实现图片预览
+      // };
       let formData = new FormData();
       formData.append("avatar", file);
       uploadImg(formData)
@@ -102,6 +111,8 @@ const handleUpload = (file) => {
                 type: 'success',
               })
             });
+            // 重新获取用户信息
+            store.setUser()
           } else {
             ElMessage({
               message: "err",
@@ -128,17 +139,20 @@ const submitForm = async () => {
     const result = await updatedPsd({ _id: user.value._id, password });
     if (result.code == 200) {
       ElMessage({
-        message: result.msg,
+        message: '修改成功，3秒后返回登录页面',
         type: 'success',
       })
       ruleFormRef.password = ''
+      setTimeout(() => {
+        localRemove('token');
+        router.replace('/login')
+      }, 3000)
+
     }
   } catch (error) {
     console.log(error);
-
   }
 }
-
 // 暴露给父组件使用
 defineExpose({
   drawer

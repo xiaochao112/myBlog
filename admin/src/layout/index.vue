@@ -42,7 +42,14 @@ const containerRef = ref();
   height: 100vh;
   overflow-x: hidden;
 
-  .content {}
+  .content {
+    .content-main {
+      .el-main {
+        overflow: hidden;
+
+      }
+    }
+  }
 }
 </style>
 

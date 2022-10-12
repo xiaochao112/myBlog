@@ -14,7 +14,7 @@
     </div>
 
     <el-table v-loading="loading" :data="tableData" stripe border :default-sort="{ prop: 'date', order: 'descending' }"
-      style="width: 100%">
+      style="width: 100%" height="400">
       <el-table-column prop="createdAt" label="创建时间" sortable width="180">
         <template #default="scope">
           <p>{{ getData(scope.row['createdAt']) }}</p>
@@ -39,12 +39,14 @@
         </template>
       </el-table-column>
     </el-table>
-
+    <!-- 分页 -->
     <Pagination :total="total" :pageNo="listData.pageNo" :pageSize="listData.pageSize" @getPage="getPage"></Pagination>
+
+    <!-- 添加、修改对话框 -->
+    <MyDialog ref="myDialogRef" :title="title" @getInfo="getInfo">
+    </MyDialog>
   </el-card>
 
-  <MyDialog ref="myDialogRef" :title="title" @getInfo="getInfo">
-  </MyDialog>
 </template>
 
 <script setup>
