@@ -85,29 +85,39 @@ var excel = multer({ storage: excelstorage }).single('avatar')
  *
  * @apiParam {String} avatar excel文件（）
  */
-router.post('/import', excel, (req, res) => {
-  // res.send({ code: 200, msg: '添加成功' })
+router.post('/import', excel, async (req, res) => {
+
   parseExcel(req.file.filename)
-    .then((data) => {
-      // 是否重复
-      // const temp = []
-      // data.map(async (item, index) => {
-      //   const result = await WebVocabulary.find({ english: item.english })
-      //   if (result && result.english) {
-      //     temp.push(item)
-      //     // data.splice(index, 1)
-      //     WebVocabulary.insertOne(item)
+    .then(async (data) => {
+      // 对上传的文件数据进行查重
+      function cutarray(arr) {
+        let obj = {};    //obj用来记录该项重复出现了几次
+        let brr = [];    //brr是去重后的数组
+        arr.forEach((item) => {
+          if (obj[item.title] == undefined) {
+            obj[item.title] = 1;
+            brr.push(item);
+          } else {
+            obj[item.title] += 1;
+          }
+        });
+        return brr;
+      }
+      let arr = cutarray(data);;
+      // 查重
+      // let arr = [];
+      // for (let i = 0; i < data.length; i++) {
+      //   const item = data[i];
+      //   let temp = await WebVocabulary.find({ english: item.english })
+      //   if (!temp.english) {
+      //     arr.push(data[i])
       //   }
-      // })
-      // console.log('temp', temp, 'data', data)
-      WebVocabulary.insertMany(data)
-      // res.send({ code: 200, msg: '添加成功' })
-    })
-    .then(data => {
-      res.send({ code: 200, msg: '添加成功' })
+      // }
+      WebVocabulary.insertMany(arr);
+      res.send({ code: 200, msg: '添加成功' });
     })
     .catch((err) => {
-      res.send({ code: 500, msg: '失败' })
+      res.send({ code: 500, msg: '失败' });
     })
 })
 
