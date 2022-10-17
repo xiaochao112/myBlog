@@ -86,9 +86,9 @@ var excel = multer({ storage: excelstorage }).single('avatar')
  * @apiParam {String} avatar excel文件（）
  */
 router.post('/import', excel, async (req, res) => {
-
+  let temp = await WebVocabulary.find({}, { _id: 0, title: 1, english: 1, desc: 1, word: 1 });
   parseExcel(req.file.filename)
-    .then(async (data) => {
+    .then((data) => {
       // 对上传的文件数据进行查重
       function cutarray(arr) {
         let obj = {};    //obj用来记录该项重复出现了几次
@@ -103,17 +103,16 @@ router.post('/import', excel, async (req, res) => {
         });
         return brr;
       }
-      let arr = cutarray(data);;
-      // 查重
-      // let arr = [];
-      // for (let i = 0; i < data.length; i++) {
-      //   const item = data[i];
-      //   let temp = await WebVocabulary.find({ english: item.english })
-      //   if (!temp.english) {
-      //     arr.push(data[i])
-      //   }
-      // }
-      WebVocabulary.insertMany(arr);
+      let arr = cutarray(data);
+      let dataSql = [] // 要存进数据库的数据
+      arr.forEach((item) => {
+        // 查找是否存在于数据库数据中
+        let Item = temp.find(element => element.title == item.title);
+        if (!Item) {
+          dataSql.push(item)
+        }
+      })
+      WebVocabulary.insertMany(dataSql);
       res.send({ code: 200, msg: '添加成功' });
     })
     .catch((err) => {
