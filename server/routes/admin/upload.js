@@ -104,16 +104,21 @@ router.post('/import', excel, async (req, res) => {
         return brr;
       }
       let arr = cutarray(data);
-      let dataSql = [] // 要存进数据库的数据
+      let dataSql = []; // 要存进数据库的数据
+      let cfSum = 0; // 重复数据的数量 
+      let dataSum = 0; // 要存进数据库的数据数量
       arr.forEach((item) => {
         // 查找是否存在于数据库数据中
         let Item = temp.find(element => element.title == item.title);
         if (!Item) {
-          dataSql.push(item)
+          dataSum++;
+          dataSql.push(item);
+        } else {
+          cfSum++;
         }
       })
       WebVocabulary.insertMany(dataSql);
-      res.send({ code: 200, msg: '添加成功' });
+      res.send({ code: 200, msg: '添加成功', cfSum, dataSum });
     })
     .catch((err) => {
       res.send({ code: 500, msg: '失败' });
