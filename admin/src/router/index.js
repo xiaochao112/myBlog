@@ -120,6 +120,25 @@ const routes = [
       icon: 'icon-shouye'
     }
   },
+  {
+    path: '/tog',
+    component: layout,
+    children: [
+      {
+        path: '/tog/index',
+        component: () => import('@/view/tog/index.vue'),
+        meta: {
+          title: '标签',
+          icon: 'icon-guanjianci'
+        }
+      },
+    ],
+    meta: {
+      nav: true,
+      title: '标签',
+      icon: 'icon-shouye'
+    }
+  },
 ];
 
 const router = createRouter({

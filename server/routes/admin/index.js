@@ -8,12 +8,12 @@ module.exports = (app) => {
   const tokenMiddleware = require('../../middleware/resource')
 
   // 注册路由
-
-  app.use('/admin/api/user', authMiddleware(), require('./user'));
-  app.use('/admin/api/upload', require('./upload'));
-  app.use('/admin/api/myInformation', require('./myInformation'));
-  app.use('/admin/api/webVocabulary', require('./webVocabulary'));
-  app.use('/admin/api/excel', require('./excel'));
+  app.use('/admin/api/user', authMiddleware(), require('./user')); // 用户或管理员
+  app.use('/admin/api/upload', require('./upload')); // 上传路由
+  app.use('/admin/api/myInformation', require('./myInformation')); // 资料卡信息
+  app.use('/admin/api/webVocabulary', require('./webVocabulary')); // 前端词汇列表
+  app.use('/admin/api/excel', require('./excel')); // 导出Excel
+  app.use('/admin/api/togList', require('./TogList')); // 标签列表路由
 
   /* //用于阿里云oss图片上传
 const multer = require('multer')
