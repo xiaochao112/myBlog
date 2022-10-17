@@ -8,7 +8,7 @@
       <el-form-item label="上传图片：" prop="img">
         <el-upload class="avatar-uploader" ref="addUpload" action :show-file-list="false" :headers="getAuthHeaders()"
           :before-upload="handleUpload">
-          <img v-if="numberValidateForm.img" :src="cardImgUrl" class="avatar" />
+          <img v-if="numberValidateForm.img" :src="numberValidateForm.img" class="avatar" />
           <el-icon v-else class="avatar-uploader-icon">
             <Plus />
           </el-icon>
@@ -58,9 +58,6 @@ const prop = defineProps({
   },
 })
 
-const cardImgUrl = computed(() => {
-  return import.meta.env.VITE_API_URL + numberValidateForm.img
-})
 // 请求头配置
 const getAuthHeaders = () => {
   return {
