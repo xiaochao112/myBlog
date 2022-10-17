@@ -14,7 +14,7 @@
     </div>
 
     <el-table v-loading="loading" :data="tableData" stripe border :default-sort="{ prop: 'date', order: 'descending' }"
-      style="width: 100%" height="400">
+      style="width: 100%">
       <el-table-column prop="createdAt" label="创建时间" sortable width="180">
         <template #default="scope">
           <p>{{ getData(scope.row['createdAt']) }}</p>

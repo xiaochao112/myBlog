@@ -1,7 +1,6 @@
 <template>
   <el-card class="box-card">
-    <el-table :data="tableData" border :default-sort="{ prop: 'date', order: 'descending' }" height="500"
-      style="width: 100%">
+    <el-table :data="tableData" border :default-sort="{ prop: 'date', order: 'descending' }" style="width: 100%">
       <el-table-column prop="date" label="操作时间" width="120" />
       <el-table-column prop="name" label="ID" />
       <el-table-column prop="czuo" label="操作" />

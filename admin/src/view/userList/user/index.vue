@@ -10,7 +10,7 @@
       <el-input style=" width: 150px" v-model="keyWord" placeholder="搜索" :suffix-icon="Search" />
     </div>
     <el-table v-loading="loading" :data="tableData" border :default-sort="{ prop: 'date', order: 'descending' }"
-      height="400" style="width: 100%">
+      style="width: 100%">
       <el-table-column type=index label="序号" align="center" width="60" />
       <el-table-column prop="username" label="用户名" width="120" />
       <el-table-column prop="creationTime" label="创建时间" width="150">

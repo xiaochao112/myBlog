@@ -54,14 +54,15 @@ onMounted(() => {
 
 <style>
 .el-menu {
-  /* border: none; */
   height: 100%;
-  overflow: hidden;
 }
 
 .el-menu-vertical-demo:not(.el-menu--collapse) {
   width: 200px;
-  height: 100%;
+  height: 100vh;
+  position: fixed;
+  z-index: 999;
+
 }
 </style>
 <style lang="scss" scoped>
