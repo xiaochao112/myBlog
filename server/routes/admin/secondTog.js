@@ -58,7 +58,7 @@ router.post('/page', (req, res) => {
   //       },
   //       // {
   //       // $project中的字段值 为1表示筛选该字段，为0表示过滤该字段
-  //       // $project: { firstTogs: { secondTitle: 1, __v: 0, _id: 0 } }
+  //       // $project: { firstTogs: { title: 1, __v: 0, _id: 0 } }
   //       // }
   //     ], (err, docs) => {
   //       if (err) {
@@ -80,10 +80,10 @@ router.post('/page', (req, res) => {
 
 // 增加一条数据
 router.post('/add', (req, res) => {
-  let { secondTitle, desc, typeId } = req.body;
-  TogItem.find({ secondTitle }).then(data => {
+  let { title, desc, typeId } = req.body;
+  TogItem.find({ title }).then(data => {
     if (data.length === 0) {
-      TogItem.create({ secondTitle, desc, typeId }, (err, docs) => {
+      TogItem.create({ title, desc, typeId }, (err, docs) => {
         if (!err) {
           res.send({
             code: 200,
@@ -102,8 +102,8 @@ router.post('/add', (req, res) => {
 
 // 更新一条数据
 router.post('/update', (req, res) => {
-  let { secondTitle, desc, _id } = req.body;
-  TogItem.findByIdAndUpdate({ _id }, { secondTitle, desc }, {}, (err, docs) => {
+  let { title, desc, _id } = req.body;
+  TogItem.findByIdAndUpdate({ _id }, { title, desc }, {}, (err, docs) => {
     if (!err) {
       res.send({
         code: 200,

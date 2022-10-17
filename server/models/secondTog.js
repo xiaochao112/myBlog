@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 
 const schema = new mongoose.Schema({
-  secondTitle: { type: String, required: true }, // 标签名
+  title: { type: String, required: true }, // 标签名
   typeId: { type: Number, required: true }, // 类型
   desc: { type: String, default: '' }, // 描述
   createdAt: Number, // 创建时间

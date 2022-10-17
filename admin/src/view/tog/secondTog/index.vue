@@ -12,7 +12,7 @@
     <el-table v-loading="loading" :data="tableData" border :default-sort="{ prop: 'date', order: 'descending' }"
       style="width: 100%">
       <el-table-column type=index label="序号" align="center" width="60" />
-      <el-table-column prop="secondTitle" label="标签名" width="120" />
+      <el-table-column prop="title" label="标签名" width="120" />
       <el-table-column prop="createdAt" label="创建时间" width="150">
         <template #default="scope">
           <p>{{ getData(scope.row['createdAt']) }}</p>
@@ -68,7 +68,7 @@ const handleEdit = (index, row) => {
   myDialogRef.value.centerDialogVisible = true;
   // 表单数据渲染
   myDialogRef.value.numberValidateForm._id = row._id;
-  myDialogRef.value.numberValidateForm.secondTitle = row.secondTitle;
+  myDialogRef.value.numberValidateForm.title = row.title;
   myDialogRef.value.numberValidateForm.desc = row.desc;
 
 }

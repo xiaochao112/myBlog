@@ -109,7 +109,7 @@ const routes = [
         path: '/tog/firstTog',
         component: () => import('@/view/tog/firstTog/index.vue'),
         meta: {
-          title: '一级标签',
+          title: '标签',
           icon: 'icon-guanjianci'
         }
       },
@@ -117,7 +117,7 @@ const routes = [
         path: '/tog/secondTog',
         component: () => import('@/view/tog/secondTog/index.vue'),
         meta: {
-          title: '二级标签',
+          title: '博客发表',
           icon: 'icon-guanjianci'
         }
       },

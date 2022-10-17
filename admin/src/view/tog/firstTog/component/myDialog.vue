@@ -2,8 +2,8 @@
   <el-dialog v-model="centerDialogVisible" :title="`${prop.title}标签`" width="30%" align-center>
     <el-form ref="formRef" :model="numberValidateForm" label-width="100px" class="demo-ruleForm" :rules="rules"
       label-position="top">
-      <el-form-item label="标签名：" prop="firstTitle">
-        <el-input v-model="numberValidateForm.firstTitle" placeholder="请输入标签名：" type="text" autocomplete="off" />
+      <el-form-item label="标签名：" prop="title">
+        <el-input v-model="numberValidateForm.title" placeholder="请输入标签名：" type="text" autocomplete="off" />
       </el-form-item>
       <el-form-item label="备注：" prop="desc">
         <el-input v-model="numberValidateForm.desc" placeholder="请输入备注：" type="text" autocomplete="off" />
@@ -28,7 +28,7 @@ const formRef = ref();
 const centerDialogVisible = ref(false); // 对话框关闭或打开
 
 const numberValidateForm = reactive({
-  firstTitle: '',
+  title: '',
   desc: '',
   _id: ''
 })
@@ -47,8 +47,8 @@ const prop = defineProps({
 const submitForm = async () => {
   let result
   if (prop.title == '新增') {
-    const { firstTitle, desc } = numberValidateForm;
-    result = await add({ firstTitle, desc });
+    const { title, desc } = numberValidateForm;
+    result = await add({ title, desc });
   }
   else {
     result = await update(numberValidateForm);
@@ -58,7 +58,7 @@ const submitForm = async () => {
       message: `${prop.title}成功`,
       type: 'success',
     })
-    numberValidateForm.firstTitle = '';
+    numberValidateForm.title = '';
     numberValidateForm.desc = '';
     numberValidateForm._id = '';
     centerDialogVisible.value = false;
@@ -72,7 +72,7 @@ const submitForm = async () => {
 }
 
 const resetForm = () => {
-  numberValidateForm.firstTitle = '';
+  numberValidateForm.title = '';
   numberValidateForm.desc = '';
   numberValidateForm._id = '';
   centerDialogVisible.value = false;

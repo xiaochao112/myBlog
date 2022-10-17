@@ -4,11 +4,11 @@
       label-position="top">
       <el-form-item label="类型：" prop="typeId">
         <el-select v-model="numberValidateForm.typeId" class="m-2" placeholder="Select" size="large">
-          <el-option v-for="item in options" :key="item.typeId" :label="item.secondTitle" :value="item.typeId" />
+          <el-option v-for="item in options" :key="item.typeId" :label="item.title" :value="item.typeId" />
         </el-select>
       </el-form-item>
-      <el-form-item label="标签名：" prop="secondTitle">
-        <el-input v-model="numberValidateForm.secondTitle" placeholder="请输入标签名：" type="text" autocomplete="off" />
+      <el-form-item label="标签名：" prop="title">
+        <el-input v-model="numberValidateForm.title" placeholder="请输入标签名：" type="text" autocomplete="off" />
       </el-form-item>
       <el-form-item label="备注：" prop="desc">
         <el-input v-model="numberValidateForm.desc" placeholder="请输入备注：" type="text" autocomplete="off" />
@@ -34,13 +34,13 @@ const formRef = ref();
 const centerDialogVisible = ref(false); // 对话框关闭或打开
 
 const numberValidateForm = reactive({
-  secondTitle: '',
+  title: '',
   typeId: 0,
   desc: '',
   _id: ''
 })
 const rules = reactive({
-  secondTitle: [{ required: true, message: '不能为空', trigger: 'blur' }],
+  title: [{ required: true, message: '不能为空', trigger: 'blur' }],
 })
 
 const value = ref()
@@ -64,8 +64,8 @@ const getTogList = async () => {
 const submitForm = async () => {
   let result
   if (prop.title == '新增') {
-    const { secondTitle, desc, typeId } = numberValidateForm;
-    result = await add({ secondTitle, desc, typeId });
+    const { title, desc, typeId } = numberValidateForm;
+    result = await add({ title, desc, typeId });
   }
   else {
     result = await update(numberValidateForm);
@@ -75,7 +75,7 @@ const submitForm = async () => {
       message: `${prop.title}成功`,
       type: 'success',
     })
-    numberValidateForm.secondTitle = '';
+    numberValidateForm.title = '';
     numberValidateForm.desc = '';
     numberValidateForm._id = '';
     centerDialogVisible.value = false;
@@ -89,7 +89,7 @@ const submitForm = async () => {
 }
 
 const resetForm = () => {
-  numberValidateForm.secondTitle = '';
+  numberValidateForm.title = '';
   numberValidateForm.desc = '';
   numberValidateForm._id = '';
   centerDialogVisible.value = false;
