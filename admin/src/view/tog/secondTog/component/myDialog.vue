@@ -2,8 +2,13 @@
   <el-dialog v-model="centerDialogVisible" :title="`${prop.title}标签`" width="30%" align-center>
     <el-form ref="formRef" :model="numberValidateForm" label-width="100px" class="demo-ruleForm" :rules="rules"
       label-position="top">
-      <el-form-item label="标签名：" prop="togTitle">
-        <el-input v-model="numberValidateForm.togTitle" placeholder="请输入标签名：" type="text" autocomplete="off" />
+      <el-form-item label="类型：" prop="typeId">
+        <el-select v-model="numberValidateForm.typeId" class="m-2" placeholder="Select" size="large">
+          <el-option v-for="item in options" :key="item.typeId" :label="item.secondTitle" :value="item.typeId" />
+        </el-select>
+      </el-form-item>
+      <el-form-item label="标签名：" prop="secondTitle">
+        <el-input v-model="numberValidateForm.secondTitle" placeholder="请输入标签名：" type="text" autocomplete="off" />
       </el-form-item>
       <el-form-item label="备注：" prop="desc">
         <el-input v-model="numberValidateForm.desc" placeholder="请输入备注：" type="text" autocomplete="off" />
@@ -20,23 +25,30 @@
 
 
 <script lang="ts" setup>
-import { reactive, ref } from 'vue';
+import { onMounted, reactive, ref } from 'vue';
 import { ElMessage } from 'element-plus'
-import { add, update } from '@/api/tog.js';
+import { getList } from '@/api/tog.js';
+import { add, update } from '@/api/togItem.js';
 
 const formRef = ref();
 const centerDialogVisible = ref(false); // 对话框关闭或打开
 
 const numberValidateForm = reactive({
-  togTitle: '',
+  secondTitle: '',
+  typeId: 0,
   desc: '',
   _id: ''
 })
 const rules = reactive({
-  english: [{ required: true, message: '不能为空', trigger: 'blur' }],
+  secondTitle: [{ required: true, message: '不能为空', trigger: 'blur' }],
 })
+
+const value = ref()
+
+const options = ref([])
 // 子组件触发父组件方法
 const emit = defineEmits(['getInfo']);
+
 const prop = defineProps({
   title: {
     type: String,
@@ -44,11 +56,16 @@ const prop = defineProps({
   },
 })
 
+const getTogList = async () => {
+  let result = await getList();
+  options.value = result.data
+}
+
 const submitForm = async () => {
   let result
   if (prop.title == '新增') {
-    const { togTitle, desc } = numberValidateForm;
-    result = await add({ togTitle, desc });
+    const { secondTitle, desc, typeId } = numberValidateForm;
+    result = await add({ secondTitle, desc, typeId });
   }
   else {
     result = await update(numberValidateForm);
@@ -58,7 +75,7 @@ const submitForm = async () => {
       message: `${prop.title}成功`,
       type: 'success',
     })
-    numberValidateForm.togTitle = '';
+    numberValidateForm.secondTitle = '';
     numberValidateForm.desc = '';
     numberValidateForm._id = '';
     centerDialogVisible.value = false;
@@ -72,11 +89,14 @@ const submitForm = async () => {
 }
 
 const resetForm = () => {
-  numberValidateForm.togTitle = '';
+  numberValidateForm.secondTitle = '';
   numberValidateForm.desc = '';
   numberValidateForm._id = '';
   centerDialogVisible.value = false;
 }
+onMounted(() => {
+  getTogList()
+})
 
 defineExpose({
   centerDialogVisible,

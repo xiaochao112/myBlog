@@ -1,5 +1,5 @@
 const express = require('express');
-const TogList = require('../../models/TogList');
+const firstTog = require('../../models/firstTog');
 const { getCounter } = require('../../utils/counter');
 // const assert = require('http-assert');
 const router = express.Router({
@@ -12,19 +12,46 @@ router.post('/page', (req, res) => {
   const pageSize = Number(req.body.pageSize) || 10;
   const reg = new RegExp()
   // 计数
-  TogList.countDocuments((err, count) => {
+  firstTog.countDocuments((err, count) => {
     if (err) {
       res.send({ code: 500, msg: "列表获取失败" });
       return
     }
-    TogList.find().skip(pageSize * (pageNo - 1)).limit(pageSize).sort('-createdAt').then(data => {
+    firstTog.aggregate([
+      {
+        $match: {}
+      },
+      {
+        $lookup: { // 多表联查  通过roleId获取foodtypes表数据
+          from: "secondtogs", // 需要关联的表roles
+          localField: "typeId", // TogItem表需要关联的键
+          foreignField: "typeId", // firstTogs表需要关联的键
+          as: "secondtogs" // 对应的外键集合的数据，是个数组 例如： "roles": [{ "roleName": "超级管理员"}]
+        }
+      },
+      {
+        $skip: pageSize * (pageNo - 1)
+      },
+      {
+        $limit: pageSize
+      },
+      // {
+      // $project中的字段值 为1表示筛选该字段，为0表示过滤该字段
+      // $project: { firstTogs: { firstTitle: 1, __v: 0, _id: 0 } }
+      // }
+    ], (err, docs) => {
+      if (err) {
+        console.log(err);
+        res.send({ code: 500, msg: '商品列表获取失败' })
+        return;
+      }
       res.send({
         code: 200,
-        data,
+        data: docs,
         total: count,
         pageNo: pageNo,
         pageSize: pageSize,
-        msg: '列表获取成功',
+        msg: '商品列表获取成功',
       })
     })
       .catch(() => {
@@ -35,8 +62,8 @@ router.post('/page', (req, res) => {
 
 // 增加一条数据
 router.post('/add', (req, res) => {
-  let { togTitle, desc } = req.body;
-  TogList.find({ togTitle }).then(data => {
+  let { firstTitle, desc } = req.body;
+  firstTog.find({ firstTitle }).then(data => {
     if (data.length === 0) {
       return getCounter('tog')
     } else {
@@ -47,7 +74,7 @@ router.post('/add', (req, res) => {
     }
   })
     .then(id => {
-      TogList.create({ togTitle, desc, typeId: id }, (err, docs) => {
+      firstTog.create({ firstTitle, desc, typeId: id }, (err, docs) => {
         if (!err) {
           res.send({
             code: 200,
@@ -60,8 +87,8 @@ router.post('/add', (req, res) => {
 
 // 更新一条数据
 router.post('/update', (req, res) => {
-  let { togTitle, desc, _id } = req.body;
-  TogList.findByIdAndUpdate({ _id }, { togTitle, desc }, {}, (err, docs) => {
+  let { firstTitle, desc, _id } = req.body;
+  firstTog.findByIdAndUpdate({ _id }, { firstTitle, desc }, {}, (err, docs) => {
     if (!err) {
       res.send({
         code: 200,
@@ -79,7 +106,7 @@ router.post('/update', (req, res) => {
 // 删除一条数据
 router.post('/del', (req, res) => {
   const { _id } = req.body
-  TogList.findByIdAndRemove({ _id }, (err) => {
+  firstTog.findByIdAndRemove({ _id }, (err) => {
     if (!err) {
       res.send({
         code: 200,

@@ -102,6 +102,33 @@ const routes = [
     }
   },
   {
+    path: '/tog',
+    component: layout,
+    children: [
+      {
+        path: '/tog/firstTog',
+        component: () => import('@/view/tog/firstTog/index.vue'),
+        meta: {
+          title: '一级标签',
+          icon: 'icon-guanjianci'
+        }
+      },
+      {
+        path: '/tog/secondTog',
+        component: () => import('@/view/tog/secondTog/index.vue'),
+        meta: {
+          title: '二级标签',
+          icon: 'icon-guanjianci'
+        }
+      },
+    ],
+    meta: {
+      nav: true,
+      title: '标签',
+      icon: 'icon-guanjianci'
+    }
+  },
+  {
     path: '/log',
     component: layout,
     children: [
@@ -117,25 +144,6 @@ const routes = [
     meta: {
       nav: true,
       title: '操作日志',
-      icon: 'icon-shouye'
-    }
-  },
-  {
-    path: '/tog',
-    component: layout,
-    children: [
-      {
-        path: '/tog/index',
-        component: () => import('@/view/tog/index.vue'),
-        meta: {
-          title: '标签',
-          icon: 'icon-guanjianci'
-        }
-      },
-    ],
-    meta: {
-      nav: true,
-      title: '标签',
       icon: 'icon-shouye'
     }
   },

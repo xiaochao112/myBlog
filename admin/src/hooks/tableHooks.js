@@ -2,20 +2,17 @@ import { onMounted, reactive, ref } from 'vue';
 
 export default function tableHooks(api) {
 
-  // 上传组件
-  const addUpload = ref();
+  const addUpload = ref(); // 上传组件Ref
   // 获取列表条数和当前页数
   const listData = reactive({
     pageNo: 1,
     pageSize: 10
   })
-  const total = ref(0)
-  // 列表信息
-  const tableData = ref([]);
-  // 加载
-  const loading = ref(false);
+  const total = ref(0);  // 表格数据总数
+  const tableData = ref([]); // 表格数据
+  const loading = ref(false); // 加载
 
-  // 获取列表信息
+  // 获取表格信息
   const getInfo = async () => {
     loading.value = true
     const result = await api.getList(listData);
