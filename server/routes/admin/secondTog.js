@@ -102,8 +102,8 @@ router.post('/add', (req, res) => {
 
 // 更新一条数据
 router.post('/update', (req, res) => {
-  let { title, desc, _id } = req.body;
-  TogItem.findByIdAndUpdate({ _id }, { title, desc }, {}, (err, docs) => {
+  let { title, desc, _id, typeId } = req.body;
+  TogItem.findByIdAndUpdate({ _id }, { title, desc, typeId }, {}, (err, docs) => {
     if (!err) {
       res.send({
         code: 200,

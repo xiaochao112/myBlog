@@ -9,17 +9,24 @@ const router = express.Router({
 // 获取标签列表
 router.post('/page', (req, res) => {
   const pageNo = Number(req.body.pageNo) || 1;
-  const pageSize = Number(req.body.pageSize) || 10;
+  const pageSize = Number(req.body.pageSize) || 20;
+  const { typeId } = req.body;
+  let query = {}
+  if (typeId) {
+    query = {
+      typeId
+    }
+  }
   const reg = new RegExp()
   // 计数
-  firstTog.countDocuments((err, count) => {
+  firstTog.countDocuments(query, (err, count) => {
     if (err) {
       res.send({ code: 500, msg: "列表获取失败" });
       return
     }
     firstTog.aggregate([
       {
-        $match: {}
+        $match: query
       },
       {
         $lookup: { // 多表联查  通过roleId获取foodtypes表数据
@@ -54,6 +61,16 @@ router.post('/page', (req, res) => {
         msg: '商品列表获取成功',
       })
     })
+      // firstTog.find().skip(pageSize * (pageNo - 1)).limit(pageSize).sort('-createdAt').then(data => {
+      //   res.send({
+      //     code: 200,
+      //     data,
+      //     total: count,
+      //     pageNo: pageNo,
+      //     pageSize: pageSize,
+      //     msg: '列表获取成功',
+      //   })
+      // })
       .catch(() => {
         res.send({ code: 500, msg: '列表获取失败' })
       });

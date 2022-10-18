@@ -118,7 +118,7 @@ router.post('/import', excel, async (req, res) => {
         }
       })
       WebVocabulary.insertMany(dataSql);
-      res.send({ code: 200, msg: '添加成功', cfSum, dataSum });
+      res.send({ code: 200, msg: `上传成功`, cfSum, dataSum });
     })
     .catch((err) => {
       res.send({ code: 500, msg: '失败' });

@@ -11,7 +11,7 @@
     </div>
     <el-table v-loading="loading" :data="tableData" border :default-sort="{ prop: 'date', order: 'descending' }"
       style="width: 100%" row-key="_id" :tree-props="{ children: 'secondtogs', hasChildren: 'hasChildren' }">
-      <el-table-column type=index label="序号" align="center" width="60" />
+      <!-- <el-table-column type=index label="序号" align="center" width="60" /> -->
       <el-table-column prop="title" label="标签名" width="120" />
       <el-table-column prop="createdAt" label="创建时间" width="150">
         <template #default="scope">

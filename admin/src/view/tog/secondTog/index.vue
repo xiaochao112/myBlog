@@ -68,6 +68,7 @@ const handleEdit = (index, row) => {
   myDialogRef.value.centerDialogVisible = true;
   // 表单数据渲染
   myDialogRef.value.numberValidateForm._id = row._id;
+  myDialogRef.value.numberValidateForm.typeId = row.typeId;
   myDialogRef.value.numberValidateForm.title = row.title;
   myDialogRef.value.numberValidateForm.desc = row.desc;
 

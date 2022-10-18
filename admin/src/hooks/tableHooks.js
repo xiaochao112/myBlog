@@ -59,7 +59,7 @@ export default function tableHooks(api) {
           .then((res) => {
             if (res.code === 200) {
               ElMessage({
-                message: res.msg,
+                message: `${res.cfSum}条重复，${res.dataSum}条上传成功`,
                 type: 'success',
               })
               getInfo()
