@@ -2,6 +2,11 @@
   <el-dialog v-model="centerDialogVisible" :title="`${prop.title}标签`" width="30%" align-center>
     <el-form ref="formRef" :model="numberValidateForm" label-width="100px" class="demo-ruleForm" :rules="rules"
       label-position="top">
+      <el-form-item label="类型：" prop="typeId">
+        <el-select v-model="numberValidateForm.typeId" class="m-2" placeholder="Select" size="large">
+          <el-option v-for="item in options" :key="item.typeId" :label="item.title" :value="item.typeId" />
+        </el-select>
+      </el-form-item>
       <el-form-item label="标签名：" prop="title">
         <el-input v-model="numberValidateForm.title" placeholder="请输入标签名：" type="text" autocomplete="off" />
       </el-form-item>
@@ -20,23 +25,30 @@
 
 
 <script lang="ts" setup>
-import { reactive, ref } from 'vue';
+import { onMounted, reactive, ref } from 'vue';
 import { ElMessage } from 'element-plus'
-import { add, update } from '@/api/tog.js';
+import { getList } from '@/api/tog.js';
+import { add, update } from '@/api/togItem.js';
 
 const formRef = ref();
 const centerDialogVisible = ref(false); // 对话框关闭或打开
 
 const numberValidateForm = reactive({
   title: '',
+  typeId: 0,
   desc: '',
   _id: ''
 })
 const rules = reactive({
-  english: [{ required: true, message: '不能为空', trigger: 'blur' }],
+  title: [{ required: true, message: '不能为空', trigger: 'blur' }],
 })
+
+const value = ref()
+
+const options = ref([])
 // 子组件触发父组件方法
 const emit = defineEmits(['getInfo']);
+
 const prop = defineProps({
   title: {
     type: String,
@@ -44,11 +56,16 @@ const prop = defineProps({
   },
 })
 
+const getTogList = async () => {
+  let result = await getList();
+  options.value = result.data
+}
+
 const submitForm = async () => {
   let result
   if (prop.title == '新增') {
-    const { title, desc } = numberValidateForm;
-    result = await add({ title, desc });
+    const { title, desc, typeId } = numberValidateForm;
+    result = await add({ title, desc, typeId });
   }
   else {
     result = await update(numberValidateForm);
@@ -77,6 +94,9 @@ const resetForm = () => {
   numberValidateForm._id = '';
   centerDialogVisible.value = false;
 }
+onMounted(() => {
+  getTogList()
+})
 
 defineExpose({
   centerDialogVisible,

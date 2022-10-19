@@ -1,6 +1,13 @@
 import { onMounted, reactive, ref } from 'vue';
 
-export default function tableHooks(api) {
+/**
+ * @description tableHooks 页面操作方法封装
+ * @param {Function} api 获取资料卡数据 api 方法(必传)
+ * @param {Object} initParam 获取数据初始化参数(非必传，默认为{})
+ * @param {Boolean} isPageable 是否有分页(非必传，默认为true)
+ * @param {Function} dataCallBack 对后台返回的数据进行处理的方法(非必传)
+ * */
+export default function tableHooks(api, initParam = {}) {
 
   const addUpload = ref(); // 上传组件Ref
   // 获取列表条数和当前页数
@@ -13,9 +20,9 @@ export default function tableHooks(api) {
   const loading = ref(false); // 加载
 
   // 获取表格信息
-  const getInfo = async () => {
+  const getInfo = async (keword = {}) => {
     loading.value = true
-    const result = await api.getList(listData);
+    const result = await api.getList({ ...listData, ...initParam, ...keword });
     if (result.code == 200) {
       loading.value = false
 

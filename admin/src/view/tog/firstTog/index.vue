@@ -9,10 +9,40 @@
 
       <el-input style=" width: 150px" placeholder="搜索" :suffix-icon="Search" />
     </div>
-    <el-table v-loading="loading" :data="tableData" border :default-sort="{ prop: 'date', order: 'descending' }"
-      style="width: 100%" row-key="_id" :tree-props="{ children: 'secondtogs', hasChildren: 'hasChildren' }">
+    <el-table v-loading="loading" :data="tableData" :default-sort="{ prop: 'date', order: 'descending' }"
+      style="width: 100%">
+      <el-table-column type="expand" width="80%">
+        <template #default="props">
+          <div m="4">
+            <!-- <h3>Family</h3> -->
+            <el-table :data="props.row.secondtogs" :border="true" style="width: 100%">
+              <el-table-column label="二级标签" prop="title" width="150" align="center" />
+              <el-table-column prop="createdAt" label="创建时间" width="150">
+                <template #default="scope">
+                  <p>{{ getData(scope.row['createdAt']) }}</p>
+                </template>
+              </el-table-column>
+              <el-table-column prop="updatedAt" label="更新时间" width="150">
+                <template #default="scope">
+                  <p>{{ getData(scope.row['updatedAt']) }}</p>
+                </template>
+              </el-table-column>
+              <el-table-column prop="desc" label="备注" />
+              <el-table-column align="center" label="菜单" width="240">
+                <template #default="scope">
+                  <el-button size="small" @click="handleSecondEdit(scope.$index, scope.row)">修改</el-button>
+                  <el-button size="small" type="danger" @click="handleSecondDelete(scope.$index, scope.row)">删除
+                  </el-button>
+                </template>
+              </el-table-column>
+            </el-table>
+            <!-- <secondTog></secondTog> -->
+          </div>
+        </template>
+      </el-table-column>
+
       <!-- <el-table-column type=index label="序号" align="center" width="60" /> -->
-      <el-table-column prop="title" label="标签名" width="120" />
+      <el-table-column prop="title" label="一级标签" align="center" width="120" />
       <el-table-column prop="createdAt" label="创建时间" width="150">
         <template #default="scope">
           <p>{{ getData(scope.row['createdAt']) }}</p>
@@ -23,58 +53,73 @@
           <p>{{ getData(scope.row['updatedAt']) }}</p>
         </template>
       </el-table-column>
-      <!-- <el-table-column prop="typeId" label="类型" width="120" /> -->
+      <el-table-column prop="promise" label="是否重要" width="120">
+        <template #default="scope">
+          <el-tag class="ml-2">{{ scope.row.promise }}</el-tag>
+        </template>
+      </el-table-column>
       <el-table-column prop="desc" label="备注" />
 
       <el-table-column align="center" label="菜单" width="240">
         <template #default="scope">
           <el-button size="small" @click="handleEdit(scope.$index, scope.row)">修改</el-button>
-          <el-button size="small" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+          <el-button size="small" type="danger" @click="emit('handleDelete', scope.$index, scope.row)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
-    <Pagination :total="total" :pageNo="listData.pageNo" :pageSize="listData.pageSize" @getPage="getPage"></Pagination>
+    <Pagination :total="total" :pageNo="listData.pageNo" :pageSize="listData.pageSize" @getPage="emit('getPage')">
+    </Pagination>
 
     <!-- 添加、修改对话框 -->
-    <MyDialog ref="myDialogRef" :title="title" @getInfo="getInfo">
-    </MyDialog>
+    <firstDialog ref="firstDialogRef" :title="title" @getInfo="emit('getInfo')">
+    </firstDialog>
+    <!--  -->
+    <!-- 添加、修改对话框 -->
+    <!-- <MyDialog ref="myDialogRef" :title="title" @getInfo="getInfo">
+    </MyDialog> -->
   </el-card>
 </template>
 
 <script setup>
 import { onMounted, ref } from 'vue';
-import { getList, del } from '@/api/tog.js';
 import { getData } from '@/utils';
 import { Search } from '@element-plus/icons-vue';
-import tableHooks from '@/hooks/tableHooks';
-import MyDialog from './component/myDialog.vue';
+import firstDialog from './component/firstDialog.vue';
+// import secondTog from '../secondTog/index.vue';
 
 const title = ref('');
-const myDialogRef = ref();
+const firstDialogRef = ref();
+const emit = defineEmits(['getInfo', 'handleDelete', 'getPage']);
 
-// 使用hook函数
-// 封装表格方法
-const { getInfo, tableData, total, loading, handleDelete, listData, getPage } = tableHooks({ getList, del })
+const props = defineProps({
+  tableData: { type: Array },
+  loading: { type: Boolean },
+  listData: { type: Object },
+  total: { tyoe: Number }
+})
 
+// * 一级标签
 // 新增一条数据
 const addForm = () => {
   title.value = '新增'
-  myDialogRef.value.centerDialogVisible = true;
+  firstDialogRef.value.centerDialogVisible = true;
 }
 // 修改某一条数据
 const handleEdit = (index, row) => {
-  console.log(index, row)
   title.value = '修改';
-  myDialogRef.value.centerDialogVisible = true;
+  firstDialogRef.value.centerDialogVisible = true;
   // 表单数据渲染
-  myDialogRef.value.numberValidateForm._id = row._id;
-  myDialogRef.value.numberValidateForm.title = row.title;
-  myDialogRef.value.numberValidateForm.desc = row.desc;
+  firstDialogRef.value.numberValidateForm.promise = row.promise;
+  firstDialogRef.value.numberValidateForm._id = row._id;
+  firstDialogRef.value.numberValidateForm.title = row.title;
+  firstDialogRef.value.numberValidateForm.desc = row.desc;
 
 }
-onMounted(() => {
-  getInfo()
-})
+
+// * 二级标签
+const handleSecondEdit = (index, row) => { };
+const handleSecondDelete = (index, row) => { };
+
 </script>
 
 

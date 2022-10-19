@@ -106,26 +106,53 @@ const routes = [
     component: layout,
     children: [
       {
-        path: '/tog/firstTog',
-        component: () => import('@/view/tog/firstTog/index.vue'),
+        path: '/tog/index',
+        component: () => import('@/view/tog/index.vue'),
         meta: {
           title: '标签',
           icon: 'icon-guanjianci'
         }
       },
-      {
-        path: '/tog/secondTog',
-        component: () => import('@/view/tog/secondTog/index.vue'),
-        meta: {
-          title: '博客发表',
-          icon: 'icon-guanjianci'
-        }
-      },
+      // {
+      //   path: '/tog/firstTog',
+      //   component: () => import('@/view/tog/firstTog/index.vue'),
+      //   meta: {
+      //     title: '标签',
+      //     icon: 'icon-guanjianci'
+      //   }
+      // },
+      // {
+      //   path: '/tog/secondTog',
+      //   component: () => import('@/view/tog/secondTog/index.vue'),
+      //   meta: {
+      //     title: '博客发表',
+      //     icon: 'icon-guanjianci'
+      //   }
+      // },
     ],
     meta: {
       nav: true,
       title: '标签',
       icon: 'icon-guanjianci'
+    }
+  },
+  {
+    path: '/bk',
+    component: layout,
+    children: [
+      {
+        path: '/bk/index',
+        component: () => import('@/view/bk/index.vue'),
+        meta: {
+          title: '博客发表',
+          icon: 'icon-shouye'
+        }
+      },
+    ],
+    meta: {
+      nav: true,
+      title: '博客发表',
+      icon: 'icon-shouye'
     }
   },
   {

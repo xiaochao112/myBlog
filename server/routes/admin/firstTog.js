@@ -79,7 +79,7 @@ router.post('/page', (req, res) => {
 
 // 增加一条数据
 router.post('/add', (req, res) => {
-  let { title, desc } = req.body;
+  let { title, desc, promise } = req.body;
   firstTog.find({ title }).then(data => {
     if (data.length === 0) {
       return getCounter('tog')
@@ -91,7 +91,7 @@ router.post('/add', (req, res) => {
     }
   })
     .then(id => {
-      firstTog.create({ title, desc, typeId: id }, (err, docs) => {
+      firstTog.create({ promise, title, desc, typeId: id }, (err, docs) => {
         if (!err) {
           res.send({
             code: 200,
@@ -104,8 +104,8 @@ router.post('/add', (req, res) => {
 
 // 更新一条数据
 router.post('/update', (req, res) => {
-  let { title, desc, _id } = req.body;
-  firstTog.findByIdAndUpdate({ _id }, { title, desc }, {}, (err, docs) => {
+  let { promise, title, desc, _id } = req.body;
+  firstTog.findByIdAndUpdate({ _id }, { title, desc, promise }, {}, (err, docs) => {
     if (!err) {
       res.send({
         code: 200,
