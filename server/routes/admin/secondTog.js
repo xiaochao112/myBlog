@@ -80,10 +80,10 @@ router.post('/page', (req, res) => {
 
 // 增加一条数据
 router.post('/add', (req, res) => {
-  let { title, desc, typeId } = req.body;
+  let { title, desc, typeId, content } = req.body;
   TogItem.find({ title }).then(data => {
     if (data.length === 0) {
-      TogItem.create({ title, desc, typeId }, (err, docs) => {
+      TogItem.create({ title, desc, typeId, content }, (err, docs) => {
         if (!err) {
           res.send({
             code: 200,
@@ -102,8 +102,8 @@ router.post('/add', (req, res) => {
 
 // 更新一条数据
 router.post('/update', (req, res) => {
-  let { title, desc, _id, typeId } = req.body;
-  TogItem.findByIdAndUpdate({ _id }, { title, desc, typeId }, {}, (err, docs) => {
+  let { title, desc, _id, typeId, content } = req.body;
+  TogItem.findByIdAndUpdate({ _id }, { $set: { title, desc, typeId, content } }, {}, (err, docs) => {
     if (!err) {
       res.send({
         code: 200,
