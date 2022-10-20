@@ -21,8 +21,13 @@ const treeTogRef = ref();
 const typeId = ref(0); // 标签页是否只显示某个标签栏
 
 const handleNodeClick = (data) => {
-  typeId.value = data.typeId;
-  getInfo({ typeId: data.typeId })
+  if (data) {
+    typeId.value = data.typeId;
+    getInfo({ typeId: data.typeId })
+  } else {
+    getInfo()
+
+  }
 }
 
 onBeforeMount(() => {

@@ -1,5 +1,8 @@
 <template>
-  <el-tree :data="tableData" :props="defaultProps" @node-click="handleNodeClick" />
+  <div class="tree">
+    <p @click="hadleClickAll" class="all_tog">全部</p>
+    <el-tree :data="tableData" :props="defaultProps" @node-click="handleNodeClick" />
+  </div>
 </template>
 
 <script setup>
@@ -15,6 +18,9 @@ const handleNodeClick = (data) => {
   // console.log(data);
   emit('handleNodeClick', data)
 }
+const hadleClickAll = () => {
+  emit('handleNodeClick')
+}
 onBeforeMount(() => {
   getInfo()
 })
@@ -25,5 +31,19 @@ const defaultProps = {
 </script>
 
 <style lang="scss" scoped>
+.tree {
 
+  .all_tog {
+    text-indent: 1.5rem;
+    cursor: pointer;
+
+    &:hover {
+      background-color: rgba(226, 214, 214, 0.3);
+    }
+
+    &:checked {
+      background-color: rgba(226, 214, 214, 0.3);
+    }
+  }
+}
 </style>

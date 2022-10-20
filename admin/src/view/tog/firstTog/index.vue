@@ -1,12 +1,14 @@
 <template>
   <el-card class="box-card">
     <div class="header_box">
-      <el-button type="primary" @click="addForm"> 新增 + </el-button>
-      <el-button type="primary"> 上传 </el-button>
-      <el-button>
-        <el-link href="#">导出</el-link>
-      </el-button>
-
+      <div>
+        <el-button type="primary" @click="addForm"> 新增一级标签 + </el-button>
+        <el-button type="primary"> 上传 </el-button>
+        <el-button>
+          <el-link href="#">导出</el-link>
+        </el-button>
+        <el-button type="primary" @click="addSecondTogForm"> 新增二级标签 + </el-button>
+      </div>
       <el-input style=" width: 150px" placeholder="搜索" :suffix-icon="Search" />
     </div>
     <el-table v-loading="loading" :data="tableData" :default-sort="{ prop: 'date', order: 'descending' }"
@@ -120,6 +122,11 @@ const handleEdit = (index, row) => {
 }
 
 // * 二级标签
+// 新增数据
+const addSecondTogForm = () => {
+  title.value = '新增';
+  SecondTogDialogRef.value.centerDialogVisible = true;
+}
 // 修改数据
 const handleSecondEdit = (index, row) => {
   console.log(index, row);
@@ -158,8 +165,7 @@ const handleSecondDelete = (index, row) => {
 
 .header_box {
   padding: 20px 0 50px 0;
-  width: 400px;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
 }
 </style>
