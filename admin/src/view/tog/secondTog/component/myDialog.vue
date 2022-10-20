@@ -1,5 +1,5 @@
 <template>
-  <el-dialog v-model="centerDialogVisible" :title="`${prop.title}标签`" width="30%" align-center>
+  <el-dialog v-model="centerDialogVisible" :title="`${prop.title}二级标签`" width="30%" align-center>
     <el-form ref="formRef" :model="numberValidateForm" label-width="100px" class="demo-ruleForm" :rules="rules"
       label-position="top">
       <el-form-item label="类型：" prop="typeId">
@@ -61,6 +61,7 @@ const getTogList = async () => {
   options.value = result.data
 }
 
+// 提交添加或修改表单
 const submitForm = async () => {
   let result
   if (prop.title == '新增') {
@@ -87,7 +88,7 @@ const submitForm = async () => {
   }
   emit('getInfo');
 }
-
+// 取消提交
 const resetForm = () => {
   numberValidateForm.title = '';
   numberValidateForm.desc = '';

@@ -21,6 +21,9 @@ export default function tableHooks(api, initParam = {}) {
 
   // 获取表格信息
   const getInfo = async (keword = {}) => {
+    if (!keword.typeId) {
+      keword = {}
+    }
     loading.value = true
     const result = await api.getList({ ...listData, ...initParam, ...keword });
     if (result.code == 200) {

@@ -21,5 +21,5 @@ export const routerStore = defineStore('routes', {
     }
   },
   getters: {},
-  persist: piniaLocalStorage('routesStore')
+  persist: piniaLocalStorage('routes')
 })

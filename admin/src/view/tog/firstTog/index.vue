@@ -13,9 +13,7 @@
       style="width: 100%">
       <el-table-column type="expand" width="80%">
         <template #default="props">
-          <div m="4">
-            <!-- <h3>Family</h3> -->
-            <el-table :data="props.row.secondtogs" :border="true" style="width: 100%">
+          <!-- <el-table :data="props.row.secondtogs" :border="true" style="width: 100%">
               <el-table-column label="二级标签" prop="title" width="150" align="center" />
               <el-table-column prop="createdAt" label="创建时间" width="150">
                 <template #default="scope">
@@ -35,9 +33,9 @@
                   </el-button>
                 </template>
               </el-table-column>
-            </el-table>
-            <!-- <secondTog></secondTog> -->
-          </div>
+            </el-table> -->
+          <secondTog :secondTog="props.row.secondtogs" @handleSecondEdit="handleSecondEdit"
+            @handleSecondDelete="handleSecondDelete"></secondTog>
         </template>
       </el-table-column>
 
@@ -70,32 +68,37 @@
     <Pagination :total="total" :pageNo="listData.pageNo" :pageSize="listData.pageSize" @getPage="emit('getPage')">
     </Pagination>
 
-    <!-- 添加、修改对话框 -->
-    <firstDialog ref="firstDialogRef" :title="title" @getInfo="emit('getInfo')">
+    <!-- 一级标签添加、修改对话框 -->
+    <firstDialog ref="firstDialogRef" :title="title" @getInfo="emit('getInfo', { typeId })">
     </firstDialog>
     <!--  -->
-    <!-- 添加、修改对话框 -->
-    <!-- <MyDialog ref="myDialogRef" :title="title" @getInfo="getInfo">
-    </MyDialog> -->
+    <!-- 二级标签添加、修改对话框 -->
+    <SecondTogDialog ref="SecondTogDialogRef" :title="title" @getInfo="emit('getInfo', { typeId })">
+    </SecondTogDialog>
   </el-card>
 </template>
 
 <script setup>
 import { onMounted, ref } from 'vue';
 import { getData } from '@/utils';
+import { del } from '@/api/togItem.js';
 import { Search } from '@element-plus/icons-vue';
 import firstDialog from './component/firstDialog.vue';
-// import secondTog from '../secondTog/index.vue';
+import secondTog from '../secondTog/index.vue';
+import SecondTogDialog from '../secondTog/component/myDialog.vue';
+
 
 const title = ref('');
-const firstDialogRef = ref();
+const firstDialogRef = ref(); // 一级标签对话框ref
+const SecondTogDialogRef = ref(); // 二级标签对话框ref
 const emit = defineEmits(['getInfo', 'handleDelete', 'getPage']);
 
 const props = defineProps({
   tableData: { type: Array },
   loading: { type: Boolean },
   listData: { type: Object },
-  total: { tyoe: Number }
+  total: { tyoe: Number },
+  typeId: { type: Number, default: 0 }
 })
 
 // * 一级标签
@@ -117,8 +120,33 @@ const handleEdit = (index, row) => {
 }
 
 // * 二级标签
-const handleSecondEdit = (index, row) => { };
-const handleSecondDelete = (index, row) => { };
+// 修改数据
+const handleSecondEdit = (index, row) => {
+  console.log(index, row);
+  title.value = '修改';
+  SecondTogDialogRef.value.centerDialogVisible = true;
+  // 表单数据渲染
+  SecondTogDialogRef.value.numberValidateForm._id = row._id;
+  SecondTogDialogRef.value.numberValidateForm.typeId = row.typeId;
+  SecondTogDialogRef.value.numberValidateForm.title = row.title;
+  SecondTogDialogRef.value.numberValidateForm.desc = row.desc;
+};
+// 删除数据
+const handleSecondDelete = (index, row) => {
+  console.log(index, row);
+  let _id = row._id
+  del({ _id }).then(res => {
+    ElMessage({
+      message: '删除成功',
+      type: 'success',
+    })
+    emit('getInfo', { typeId: props.typeId })
+  })
+    .catch(err => {
+      console.log(err);
+    })
+
+};
 
 </script>
 

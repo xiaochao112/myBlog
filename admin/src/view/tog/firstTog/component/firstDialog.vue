@@ -1,5 +1,5 @@
 <template>
-  <el-dialog v-model="centerDialogVisible" :title="`${prop.title}标签`" width="30%" align-center>
+  <el-dialog v-model="centerDialogVisible" :title="`${prop.title}一级标签`" width="30%" align-center>
     <el-form ref="formRef" :model="numberValidateForm" label-width="100px" class="demo-ruleForm" :rules="rules"
       label-position="top">
       <el-form-item label="标签名：" prop="title">
