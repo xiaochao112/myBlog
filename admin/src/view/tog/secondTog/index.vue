@@ -18,6 +18,7 @@
     <el-table-column align="center" label="菜单" width="240">
       <template #default="scope">
         <el-button size="small" @click="emit('handleSecondEdit', scope.$index, scope.row)">修改</el-button>
+        <el-button size="small" type="primary" @click="emit('showContent', scope.$index, scope.row)">编辑内容</el-button>
         <el-button size="small" type="danger" @click="emit('handleSecondDelete', scope.$index, scope.row)">删除
         </el-button>
       </template>
@@ -31,7 +32,7 @@ import { getData } from '@/utils';
 import tableHooks from '@/hooks/tableHooks';
 import MyDialog from './component/myDialog.vue';
 
-const emit = defineEmits(['handleSecondEdit', 'handleSecondDelete']);
+const emit = defineEmits(['handleSecondEdit', 'handleSecondDelete', 'showContent']);
 
 const props = defineProps({
   secondTog: { type: Array }

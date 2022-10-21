@@ -3,7 +3,7 @@
     <!-- 树形控件 -->
     <TreeTog class="treeContent" ref="treeTogRef" @handleNodeClick="handleNodeClick"></TreeTog>
     <!-- 表格 -->
-    <FirstTog class="tog" @getInfo="getInfo" :tableData="tableData" :typeId="typeId" :listData="listData" :total="total"
+    <FirstTog class="tog" @getInfo="getInfo" :tableData="tableData" :listData="listData" :total="total"
       :loading="loading" @handleDelete="handleDelete" @getPage="getPage"></FirstTog>
   </div>
 </template>
@@ -14,17 +14,20 @@ import FirstTog from './firstTog/index.vue';
 import TreeTog from './treeTog/index.vue';
 import { getList, del } from '@/api/tog.js';
 import tableHooks from '@/hooks/tableHooks';
+import { tagStore } from '@/store/modules/tagStore';
 
+const state = tagStore()
 const { getInfo, tableData, total, loading, handleDelete, listData, getPage } = tableHooks({ getList, del }, {})
 
 const treeTogRef = ref();
-const typeId = ref(0); // 标签页是否只显示某个标签栏
 
 const handleNodeClick = (data) => {
   if (data) {
-    typeId.value = data.typeId;
-    getInfo({ typeId: data.typeId })
+    state.setTypeId(data.typeId);
+
+    getInfo({ typeId: state.typeId })
   } else {
+    state.setTypeId(null);
     getInfo()
 
   }

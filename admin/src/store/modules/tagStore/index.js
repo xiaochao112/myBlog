@@ -16,5 +16,5 @@ export const tagStore = defineStore('tag', {
     },
   },
   getters: {},
-  // persist: piniaLocalStorage('tag')
+  persist: piniaLocalStorage('tag')
 })

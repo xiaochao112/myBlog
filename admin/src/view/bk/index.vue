@@ -1,40 +1,53 @@
 <template>
   <div class="bk">
-    <WangEditor height="500px" v-model:value="content"></WangEditor>
+    <WangEditor height="500px" v-model:value="ruleForm.content"></WangEditor>
 
     <el-card>
-      <el-form ref="form" :model="sizeForm" label-width="auto" label-position="top">
-        <el-form-item label="文章标题：">
-          <el-input v-model="sizeForm.name" />
+      <el-form ref="ruleFormRef" :model="ruleForm" label-position="top" :rules="rules" class="demo-ruleForm"
+        :size="formSize" status-icon>
+        <el-form-item label="文档标题" prop="title">
+          <el-input v-model="ruleForm.title" />
         </el-form-item>
-        <el-form-item label="类型：">
-          <el-select v-model="sizeForm.value" placeholder="选择类型">
-            <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"
+        <el-form-item label="类型：" prop="typeId">
+          <el-select v-model="ruleForm.typeId" placeholder="选择类型">
+            <el-option v-for="item in dataList" :key="item.typeId" :label="item.title" :value="item.typeId"
               :disabled="item.disabled" />
           </el-select>
         </el-form-item>
-        <el-form-item label="是否摘要：">
-          <el-checkbox-group v-model="sizeForm.type">
+        <!-- <el-form-item label="是否摘要：" prop="type">
+          <el-checkbox-group v-model="ruleForm.type">
             <el-checkbox-button label="是" name="type" />
             <el-checkbox-button label="否" name="type" />
           </el-checkbox-group>
+        </el-form-item> -->
+        <el-form-item label="备注" prop="desc">
+          <el-input v-model="ruleForm.desc" type="textarea" />
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="submitForm(ruleFormRef)">内容预览</el-button>
+          <el-button @click="resetForm(ruleFormRef)">清除</el-button>
         </el-form-item>
       </el-form>
-
-      <el-button type="primary" @click="showContent">内容预览</el-button>
     </el-card>
 
     <!-- 预览 -->
-    <el-dialog v-model="dialogVisible" title="富文本内容预览" width="1000px" top="50px">
-      <el-descriptions title="">
+    <el-dialog v-model="dialogVisible" title="内容预览" width="1000px" top="50px">
+      <h3 v-if="false">{{ ruleForm.typeId }}</h3>
+      <el-descriptions title="" :column="2" style="width: 400px">
         <el-descriptions-item label="文章名称">
-          <el-tag size="small">{{ sizeForm.name }}</el-tag>
+          <el-tag size="small">{{ ruleForm.title }}</el-tag>
         </el-descriptions-item>
         <el-descriptions-item label="类型">
-          <el-tag size="small">{{ sizeForm.value }}</el-tag>
+          <el-tag size="small">{{ currentFristTag.title }}</el-tag>
+        </el-descriptions-item>
+        <el-descriptions-item label="备注">
+          <el-tag size="small">{{ ruleForm.desc }}</el-tag>
         </el-descriptions-item>
       </el-descriptions>
-      <div class="view" v-html="content"></div>
+      <div class="view" v-html="ruleForm.content"></div>
+      <div>
+        <el-button type="primary" @click="setBkPublish">发表</el-button>
+      </div>
     </el-dialog>
   </div>
 </template>
@@ -42,48 +55,62 @@
 <script setup>
 import WangEditor from "@/components/WangEditor/index.vue";
 import BkDetail from './component/BkDetail/index.vue';
-import { onMounted, reactive, ref } from "vue";
+import { computed, onBeforeMount, reactive, ref, watch } from "vue";
+import bkHooks from '@/hooks/bkHooks';
+import { getList } from '@/api/tog.js';
+import { add, update } from '@/api/togItem.js';
+import { bkStore } from '@/store/modules/bkStore';
+import { useRoute } from 'vue-router';
 
-const dialogVisible = ref(false);
-const content = ref(''); // 富文本编辑器内容
+const state = bkStore();
 
-const sizeForm = reactive({
-  name: '',
-  type: [],
-  desc: '',
-  value: ''
+const route = useRoute();
+const { setBkPublish, currentFristTag, ruleForm, dialogVisible, getInfo, dataList, updatedContent } = bkHooks({ getList, add, update });
+
+const formSize = ref('default');
+const ruleFormRef = ref();
+
+const rules = reactive({
+  title: [
+    { required: true, message: '不能为空', trigger: 'blur' },
+  ],
+  typeId: [
+    {
+      required: true,
+      message: '不能为空',
+      trigger: 'change',
+    },
+  ]
 })
-const options = [
-  {
-    value: 'Option1',
-    label: 'Option1',
-  },
-  {
-    value: 'Option2',
-    label: 'Option2',
-    disabled: true,
-  },
-  {
-    value: 'Option3',
-    label: 'Option3',
-  },
-  {
-    value: 'Option4',
-    label: 'Option4',
-  },
-  {
-    value: 'Option5',
-    label: 'Option5',
-  },
-]
+// 根据路由是否携带二级标签_id来判断是否为编辑或添加状态
+watch(route, (newValue) => {
+  if (!newValue.query._id) return
+  updatedContent(newValue.query);
+})
 
-const showContent = () => {
-  dialogVisible.value = true
+const submitForm = async (formEl) => {
+  if (!formEl) return
+  await formEl.validate((valid, fields) => {
+    if (valid) {
+      dialogVisible.value = true;
+    } else {
+      console.log('error submit!', fields)
+    }
+  })
 }
 
-function onSubmit() {
-  console.log('submit!')
+const resetForm = (formEl) => {
+  if (!formEl) return
+  formEl.resetFields()
 }
+
+onBeforeMount(() => {
+  getInfo();
+  if (state.bkIformation._id) {
+    ruleForm
+  }
+});
+
 </script>
 
 

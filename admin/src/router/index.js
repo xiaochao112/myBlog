@@ -138,9 +138,11 @@ const routes = [
   },
   {
     path: '/bk',
+    name: 'bk',
     component: layout,
     children: [
       {
+        name: 'bkIndex',
         path: '/bk/index',
         component: () => import('@/view/bk/index.vue'),
         meta: {

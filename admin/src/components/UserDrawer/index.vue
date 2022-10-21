@@ -28,12 +28,13 @@
         <Plus />
       </el-icon>
     </el-upload>
-    <el-form :model="ruleFormRef" label-position="top" :rules="rules" class="demo-ruleForm" status-icon>
+    <el-form ref="ruleFormRef" :model="ruleForm" label-position="top" :size="formSize" :rules="rules"
+      class="demo-ruleForm" status-icon>
       <el-form-item label="新密码：" prop="password">
-        <el-input v-model="ruleFormRef.password" placeholder="新密码" type="password" show-password />
+        <el-input v-model="ruleForm.password" placeholder="新密码" type="password" show-password />
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="submitForm">确认</el-button>
+        <el-button type="primary" @click="submitForm(ruleFormRef)">确认</el-button>
         <el-button>取消</el-button>
       </el-form-item>
     </el-form>
@@ -53,12 +54,14 @@ import { updatedAvatar } from '../../api/user';
 import { uploadImg } from '../../api/upload';
 import router from '@/router/index'
 
-
 const store = userInfoStore();
 
+
+const ruleFormRef = ref();
+const formSize = ref('default')
 const addUpload = ref();
 const drawer = ref(false)
-const ruleFormRef = reactive({
+const ruleForm = reactive({
   password: '',
 })
 const imageUrl = ref('')
@@ -133,25 +136,33 @@ const handleUpload = (file) => {
 }
 
 // 更新密码
-const submitForm = async () => {
-  const { password } = ruleFormRef;
-  try {
-    const result = await updatedPsd({ _id: user.value._id, password });
-    if (result.code == 200) {
-      ElMessage({
-        message: '修改成功，3秒后返回登录页面',
-        type: 'success',
-      })
-      ruleFormRef.password = ''
-      setTimeout(() => {
-        localRemove('token');
-        router.replace('/login')
-      }, 3000)
+const submitForm = async (formEl) => {
+  if (!formEl) return
+  await formEl.validate(async (valid, fields) => {
+    if (valid) {
+      const { password } = ruleFormRef;
+      try {
+        const result = await updatedPsd({ _id: user.value._id, password });
+        if (result.code == 200) {
+          ElMessage({
+            message: '修改成功，3秒后返回登录页面',
+            type: 'success',
+          })
+          ruleFormRef.password = ''
+          setTimeout(() => {
+            localRemove('token');
+            router.replace('/login')
+          }, 3000)
 
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      console.log('error submit!', fields)
     }
-  } catch (error) {
-    console.log(error);
-  }
+  })
+
 }
 // 暴露给父组件使用
 defineExpose({

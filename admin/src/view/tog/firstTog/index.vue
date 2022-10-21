@@ -15,29 +15,9 @@
       style="width: 100%">
       <el-table-column type="expand" width="80%">
         <template #default="props">
-          <!-- <el-table :data="props.row.secondtogs" :border="true" style="width: 100%">
-              <el-table-column label="二级标签" prop="title" width="150" align="center" />
-              <el-table-column prop="createdAt" label="创建时间" width="150">
-                <template #default="scope">
-                  <p>{{ getData(scope.row['createdAt']) }}</p>
-                </template>
-              </el-table-column>
-              <el-table-column prop="updatedAt" label="更新时间" width="150">
-                <template #default="scope">
-                  <p>{{ getData(scope.row['updatedAt']) }}</p>
-                </template>
-              </el-table-column>
-              <el-table-column prop="desc" label="备注" />
-              <el-table-column align="center" label="菜单" width="240">
-                <template #default="scope">
-                  <el-button size="small" @click="handleSecondEdit(scope.$index, scope.row)">修改</el-button>
-                  <el-button size="small" type="danger" @click="handleSecondDelete(scope.$index, scope.row)">删除
-                  </el-button>
-                </template>
-              </el-table-column>
-            </el-table> -->
+          <!-- 二级标签表格 -->
           <secondTog :secondTog="props.row.secondtogs" @handleSecondEdit="handleSecondEdit"
-            @handleSecondDelete="handleSecondDelete"></secondTog>
+            @handleSecondDelete="handleSecondDelete" @showContent="showContent"></secondTog>
         </template>
       </el-table-column>
 
@@ -71,12 +51,14 @@
     </Pagination>
 
     <!-- 一级标签添加、修改对话框 -->
-    <firstDialog ref="firstDialogRef" :title="title" @getInfo="emit('getInfo', { typeId })">
+    <firstDialog ref="firstDialogRef" :title="title" @getInfo="emit('getInfo')">
     </firstDialog>
     <!--  -->
     <!-- 二级标签添加、修改对话框 -->
-    <SecondTogDialog ref="SecondTogDialogRef" :title="title" @getInfo="emit('getInfo', { typeId })">
+    <SecondTogDialog ref="SecondTogDialogRef" :title="title" @getInfo="emit('getInfo')">
     </SecondTogDialog>
+
+
   </el-card>
 </template>
 
@@ -88,11 +70,15 @@ import { Search } from '@element-plus/icons-vue';
 import firstDialog from './component/firstDialog.vue';
 import secondTog from '../secondTog/index.vue';
 import SecondTogDialog from '../secondTog/component/myDialog.vue';
+import router from '@/router/index.js';
+import { bkStore } from '@/store/modules/bkStore';
 
+const state = bkStore();
 
 const title = ref('');
 const firstDialogRef = ref(); // 一级标签对话框ref
 const SecondTogDialogRef = ref(); // 二级标签对话框ref
+
 const emit = defineEmits(['getInfo', 'handleDelete', 'getPage']);
 
 const props = defineProps({
@@ -100,7 +86,6 @@ const props = defineProps({
   loading: { type: Boolean },
   listData: { type: Object },
   total: { tyoe: Number },
-  typeId: { type: Number, default: 0 }
 })
 
 // * 一级标签
@@ -147,12 +132,18 @@ const handleSecondDelete = (index, row) => {
       message: '删除成功',
       type: 'success',
     })
-    emit('getInfo', { typeId: props.typeId })
+    emit('getInfo')
   })
     .catch(err => {
       console.log(err);
     })
 
+};
+// 编辑二级标签内容
+const showContent = (index, row) => {
+  console.log(index, row);
+  state.setBkIformation(row);
+  router.push({ name: 'bkIndex' });
 };
 
 </script>

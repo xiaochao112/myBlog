@@ -1,4 +1,6 @@
 import { onMounted, reactive, ref } from 'vue';
+import { tagStore } from '@/store/modules/tagStore';
+import { routerStore } from '@/store/modules/routerStore';
 
 /**
  * @description tableHooks 页面操作方法封装
@@ -8,6 +10,8 @@ import { onMounted, reactive, ref } from 'vue';
  * @param {Function} dataCallBack 对后台返回的数据进行处理的方法(非必传)
  * */
 export default function tableHooks(api, initParam = {}) {
+  const state = tagStore();
+  const route = routerStore()
 
   const addUpload = ref(); // 上传组件Ref
   // 获取列表条数和当前页数
@@ -21,11 +25,12 @@ export default function tableHooks(api, initParam = {}) {
 
   // 获取表格信息
   const getInfo = async (keword = {}) => {
-    if (!keword.typeId) {
-      keword = {}
+    // 判断是否为标签页且有id
+    if (route.currentRoute.path == '/tog/index' && state.typeId) {
+      keword = { ...keword, typeId: state.typeId };
     }
     loading.value = true
-    const result = await api.getList({ ...listData, ...initParam, ...keword });
+    const result = await api.getList({ ...listData, ...initParam, ...keword, });
     if (result.code == 200) {
       loading.value = false
 

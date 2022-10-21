@@ -8,10 +8,10 @@
 <script setup>
 import { getList } from '@/api/tog.js';
 import tableHooks from '@/hooks/tableHooks';
-import { onBeforeMount } from '@vue/runtime-core';
+import { onBeforeMount, ref } from 'vue';
 
-const { getInfo, tableData } = tableHooks({ getList })
-
+const tableData = ref([]);
+const total = ref(0);
 const emit = defineEmits(['handleNodeClick'])
 
 const handleNodeClick = (data) => {
@@ -21,6 +21,24 @@ const handleNodeClick = (data) => {
 const hadleClickAll = () => {
   emit('handleNodeClick')
 }
+
+// 初始化
+const getInfo = async () => {
+  const result = await getList();
+  if (result.code == 200) {
+    // 如果有图片处理一下路径
+    if (result.data[0] && result.data[0].img) {
+      tableData.value = result.data.map(item => {
+        item.img = import.meta.env.VITE_API_URL + item.img
+        return item
+      });
+    } else {
+      tableData.value = result.data;
+    }
+    total.value = result.total;
+  }
+}
+
 onBeforeMount(() => {
   getInfo()
 })
