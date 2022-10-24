@@ -33,7 +33,7 @@ router.post('/page', (req, res) => {
           from: "secondtogs", // 需要关联的表roles
           localField: "typeId", // TogItem表需要关联的键
           foreignField: "typeId", // firstTogs表需要关联的键
-          as: "secondtogs" // 对应的外键集合的数据，是个数组 例如： "roles": [{ "roleName": "超级管理员"}]
+          as: "secondtags" // 对应的外键集合的数据，是个数组 例如： "roles": [{ "roleName": "超级管理员"}]
         }
       },
       {

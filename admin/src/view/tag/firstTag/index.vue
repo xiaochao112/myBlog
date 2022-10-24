@@ -7,7 +7,7 @@
         <el-button>
           <el-link href="#">导出</el-link>
         </el-button>
-        <el-button type="primary" @click="addSecondTogForm"> 新增二级标签 + </el-button>
+        <el-button type="primary" @click="addSecondTagForm"> 新增二级标签 + </el-button>
       </div>
       <el-input style=" width: 150px" placeholder="搜索" :suffix-icon="Search" />
     </div>
@@ -16,8 +16,8 @@
       <el-table-column type="expand" width="80%">
         <template #default="props">
           <!-- 二级标签表格 -->
-          <secondTog :secondTog="props.row.secondtogs" @handleSecondEdit="handleSecondEdit"
-            @handleSecondDelete="handleSecondDelete" @showContent="showContent"></secondTog>
+          <secondTag :secondTag="props.row.secondtags" @handleSecondEdit="handleSecondEdit"
+            @handleSecondDelete="handleSecondDelete" @showContent="showContent"></secondTag>
         </template>
       </el-table-column>
 
@@ -55,8 +55,8 @@
     </firstDialog>
     <!--  -->
     <!-- 二级标签添加、修改对话框 -->
-    <SecondTogDialog ref="SecondTogDialogRef" :title="title" @getInfo="emit('getInfo')">
-    </SecondTogDialog>
+    <SecondTagDialog ref="SecondTagDialogRef" :title="title" @getInfo="emit('getInfo')">
+    </SecondTagDialog>
 
 
   </el-card>
@@ -65,11 +65,11 @@
 <script setup>
 import { onMounted, ref } from 'vue';
 import { getData } from '@/utils';
-import { del } from '@/api/togItem.js';
+import { del } from '@/api/tagItem.js';
 import { Search } from '@element-plus/icons-vue';
 import firstDialog from './component/firstDialog.vue';
-import secondTog from '../secondTog/index.vue';
-import SecondTogDialog from '../secondTog/component/myDialog.vue';
+import secondTag from '../secondTag/index.vue';
+import SecondTagDialog from '../secondTag/component/myDialog.vue';
 import router from '@/router/index.js';
 import { bkStore } from '@/store/modules/bkStore';
 
@@ -77,7 +77,7 @@ const state = bkStore();
 
 const title = ref('');
 const firstDialogRef = ref(); // 一级标签对话框ref
-const SecondTogDialogRef = ref(); // 二级标签对话框ref
+const SecondTagDialogRef = ref(); // 二级标签对话框ref
 
 const emit = defineEmits(['getInfo', 'handleDelete', 'getPage']);
 
@@ -108,20 +108,20 @@ const handleEdit = (index, row) => {
 
 // * 二级标签
 // 新增数据
-const addSecondTogForm = () => {
+const addSecondTagForm = () => {
   title.value = '新增';
-  SecondTogDialogRef.value.centerDialogVisible = true;
+  SecondTagDialogRef.value.centerDialogVisible = true;
 }
 // 修改数据
 const handleSecondEdit = (index, row) => {
   console.log(index, row);
   title.value = '修改';
-  SecondTogDialogRef.value.centerDialogVisible = true;
+  SecondTagDialogRef.value.centerDialogVisible = true;
   // 表单数据渲染
-  SecondTogDialogRef.value.numberValidateForm._id = row._id;
-  SecondTogDialogRef.value.numberValidateForm.typeId = row.typeId;
-  SecondTogDialogRef.value.numberValidateForm.title = row.title;
-  SecondTogDialogRef.value.numberValidateForm.desc = row.desc;
+  SecondTagDialogRef.value.numberValidateForm._id = row._id;
+  SecondTagDialogRef.value.numberValidateForm.typeId = row.typeId;
+  SecondTagDialogRef.value.numberValidateForm.title = row.title;
+  SecondTagDialogRef.value.numberValidateForm.desc = row.desc;
 };
 // 删除数据
 const handleSecondDelete = (index, row) => {

@@ -1,12 +1,12 @@
 <template>
   <div class="tree">
-    <p @click="hadleClickAll" class="all_tog">全部</p>
+    <p @click="hadleClickAll" class="all_tag">全部</p>
     <el-tree :data="tableData" :props="defaultProps" @node-click="handleNodeClick" />
   </div>
 </template>
 
 <script setup>
-import { getList } from '@/api/tog.js';
+import { getList } from '@/api/tag.js';
 import tableHooks from '@/hooks/tableHooks';
 import { onBeforeMount, ref } from 'vue';
 
@@ -51,7 +51,7 @@ const defaultProps = {
 <style lang="scss" scoped>
 .tree {
 
-  .all_tog {
+  .all_tag {
     text-indent: 1.5rem;
     cursor: pointer;
 

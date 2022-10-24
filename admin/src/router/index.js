@@ -102,28 +102,28 @@ const routes = [
     }
   },
   {
-    path: '/tog',
+    path: '/tag',
     component: layout,
     children: [
       {
-        path: '/tog/index',
-        component: () => import('@/view/tog/index.vue'),
+        path: '/tag/index',
+        component: () => import('@/view/tag/index.vue'),
         meta: {
           title: '标签',
           icon: 'icon-guanjianci'
         }
       },
       // {
-      //   path: '/tog/firstTog',
-      //   component: () => import('@/view/tog/firstTog/index.vue'),
+      //   path: '/tag/firstTag',
+      //   component: () => import('@/view/tag/firstTag/index.vue'),
       //   meta: {
       //     title: '标签',
       //     icon: 'icon-guanjianci'
       //   }
       // },
       // {
-      //   path: '/tog/secondTog',
-      //   component: () => import('@/view/tog/secondTog/index.vue'),
+      //   path: '/tag/secondTag',
+      //   component: () => import('@/view/tag/secondTag/index.vue'),
       //   meta: {
       //     title: '博客发表',
       //     icon: 'icon-guanjianci'

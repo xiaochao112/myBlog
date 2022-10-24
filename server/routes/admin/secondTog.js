@@ -12,13 +12,20 @@ router.post('/page', (req, res) => {
   const pageNo = Number(req.body.pageNo) || 1;
   const pageSize = Number(req.body.pageSize) || 10;
   const reg = new RegExp()
+  const { _id } = req.body;
+  let query = {}
+  if (_id) {
+    query = {
+      _id
+    }
+  }
   // 计数
-  TogItem.countDocuments((err, count) => {
+  TogItem.countDocuments(query, (err, count) => {
     if (err) {
       res.send({ code: 500, msg: "列表获取失败" });
       return
     }
-    TogItem.find().skip(pageSize * (pageNo - 1)).limit(pageSize).sort('-createdAt').then(data => {
+    TogItem.find(query).skip(pageSize * (pageNo - 1)).limit(pageSize).sort('-createdAt').then(data => {
       res.send({
         code: 200,
         data,

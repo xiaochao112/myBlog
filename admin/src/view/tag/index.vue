@@ -1,25 +1,25 @@
 <template>
-  <div class="togContent">
+  <div class="tagContent">
     <!-- 树形控件 -->
-    <TreeTog class="treeContent" ref="treeTogRef" @handleNodeClick="handleNodeClick"></TreeTog>
+    <TreeTag class="treeContent" ref="treeTagRef" @handleNodeClick="handleNodeClick"></TreeTag>
     <!-- 表格 -->
-    <FirstTog class="tog" @getInfo="getInfo" :tableData="tableData" :listData="listData" :total="total"
-      :loading="loading" @handleDelete="handleDelete" @getPage="getPage"></FirstTog>
+    <FirstTag class="tag" @getInfo="getInfo" :tableData="tableData" :listData="listData" :total="total"
+      :loading="loading" @handleDelete="handleDelete" @getPage="getPage"></FirstTag>
   </div>
 </template>
 
 <script setup>
 import { onBeforeMount, provide, ref } from 'vue';
-import FirstTog from './firstTog/index.vue';
-import TreeTog from './treeTog/index.vue';
-import { getList, del } from '@/api/tog.js';
+import FirstTag from './firstTag/index.vue';
+import TreeTag from './treeTag/index.vue';
+import { getList, del } from '@/api/tag.js';
 import tableHooks from '@/hooks/tableHooks';
 import { tagStore } from '@/store/modules/tagStore';
 
 const state = tagStore()
 const { getInfo, tableData, total, loading, handleDelete, listData, getPage } = tableHooks({ getList, del }, {})
 
-const treeTogRef = ref();
+const treeTagRef = ref();
 
 const handleNodeClick = (data) => {
   if (data) {
@@ -41,7 +41,7 @@ onBeforeMount(() => {
 
 
 <style lang="scss" scoped>
-.togContent {
+.tagContent {
   display: flex;
   // justify-content: space-around;
 
@@ -49,7 +49,7 @@ onBeforeMount(() => {
     width: 15%;
   }
 
-  .tog {
+  .tag {
     width: 85%;
   }
 }

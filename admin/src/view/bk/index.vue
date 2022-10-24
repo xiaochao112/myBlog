@@ -57,8 +57,8 @@ import WangEditor from "@/components/WangEditor/index.vue";
 import BkDetail from './component/BkDetail/index.vue';
 import { computed, onBeforeMount, reactive, ref, watch } from "vue";
 import bkHooks from '@/hooks/bkHooks';
-import { getList } from '@/api/tog.js';
-import { add, update } from '@/api/togItem.js';
+import { getList } from '@/api/tag.js';
+import { add, update } from '@/api/tagItem.js';
 import { bkStore } from '@/store/modules/bkStore';
 import { useRoute } from 'vue-router';
 
@@ -107,7 +107,12 @@ const resetForm = (formEl) => {
 onBeforeMount(() => {
   getInfo();
   if (state.bkIformation._id) {
-    ruleForm
+    ruleForm._id = state.bkIformation._id;
+    ruleForm.title = state.bkIformation.title;
+    ruleForm.typeId = state.bkIformation.typeId;
+    ruleForm.desc = state.bkIformation.desc;
+    ruleForm.content = state.bkIformation.content;
+
   }
 });
 

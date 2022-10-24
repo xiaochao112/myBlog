@@ -13,8 +13,8 @@ module.exports = (app) => {
   app.use('/admin/api/myInformation', require('./myInformation')); // 资料卡信息
   app.use('/admin/api/webVocabulary', require('./webVocabulary')); // 前端词汇列表
   app.use('/admin/api/excel', require('./excel')); // 导出Excel
-  app.use('/admin/api/togList', require('./firstTog')); // 标签列表路由
-  app.use('/admin/api/togItem', require('./secondTog')); // 标签列表路由
+  app.use('/admin/api/tagList', require('./firstTog')); // 标签列表路由
+  app.use('/admin/api/tagItem', require('./secondTog')); // 标签列表路由
 
   /* //用于阿里云oss图片上传
 const multer = require('multer')

@@ -1,5 +1,5 @@
 <template>
-  <el-table :data="secondTog" border :default-sort="{ prop: 'date', order: 'descending' }" style="width: 100%">
+  <el-table :data="secondTag" border :default-sort="{ prop: 'date', order: 'descending' }" style="width: 100%">
     <el-table-column type=index label="序号" align="center" width="60" />
     <el-table-column prop="title" label="二级标签" width="120" />
     <el-table-column prop="createdAt" label="创建时间" width="150">
@@ -35,7 +35,7 @@ import MyDialog from './component/myDialog.vue';
 const emit = defineEmits(['handleSecondEdit', 'handleSecondDelete', 'showContent']);
 
 const props = defineProps({
-  secondTog: { type: Array }
+  secondTag: { type: Array }
 })
 </script>
 

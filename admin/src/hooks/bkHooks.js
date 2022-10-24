@@ -1,4 +1,5 @@
 import { ref, reactive, computed } from "vue";
+import { bkStore } from '@/store/modules/bkStore';
 
 /**
  * @description bkHooks 博客发表hook封装
@@ -7,6 +8,8 @@ import { ref, reactive, computed } from "vue";
  * @param {Function} dataCallBack 对后台返回的数据进行处理的方法(非必传)
  * */
 export default function bkHooks(api) {
+
+  const state = bkStore();
 
   const content = ref('');
   const dialogVisible = ref(false);
@@ -42,8 +45,6 @@ export default function bkHooks(api) {
     ruleForm.desc = desc;
     ruleForm.typeId = typeId;
 
-    // currentId.value = _id;
-
   }
   // 发表博客()
   const setBkPublish = () => {
@@ -65,6 +66,7 @@ export default function bkHooks(api) {
           message: '编辑成功',
           type: 'success',
         })
+        state.setBkIformation(ruleForm);
         dialogVisible.value = false;
       })
         .catch(err => {

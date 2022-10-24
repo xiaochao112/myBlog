@@ -26,7 +26,7 @@ export default function tableHooks(api, initParam = {}) {
   // 获取表格信息
   const getInfo = async (keword = {}) => {
     // 判断是否为标签页且有id
-    if (route.currentRoute.path == '/tog/index' && state.typeId) {
+    if (route.currentRoute.path == '/tag/index' && state.typeId) {
       keword = { ...keword, typeId: state.typeId };
     }
     loading.value = true

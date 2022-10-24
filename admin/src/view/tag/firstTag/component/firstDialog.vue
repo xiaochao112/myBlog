@@ -1,14 +1,15 @@
 <template>
-  <el-dialog v-model="centerDialogVisible" :title="`${prop.title}二级标签`" width="30%" align-center>
+  <el-dialog v-model="centerDialogVisible" :title="`${prop.title}一级标签`" width="30%" align-center>
     <el-form ref="formRef" :model="numberValidateForm" label-width="100px" class="demo-ruleForm" :rules="rules"
       label-position="top">
-      <el-form-item label="类型：" prop="typeId">
-        <el-select v-model="numberValidateForm.typeId" class="m-2" placeholder="Select" size="large">
-          <el-option v-for="item in options" :key="item.typeId" :label="item.title" :value="item.typeId" />
-        </el-select>
-      </el-form-item>
       <el-form-item label="标签名：" prop="title">
         <el-input v-model="numberValidateForm.title" placeholder="请输入标签名：" type="text" autocomplete="off" />
+      </el-form-item>
+      <el-form-item label="是否设为重要：" prop="promise">
+        <el-radio-group v-model="numberValidateForm.promise">
+          <el-radio :label="true" />
+          <el-radio :label="false" />
+        </el-radio-group>
       </el-form-item>
       <el-form-item label="备注：" prop="desc">
         <el-input v-model="numberValidateForm.desc" placeholder="请输入备注：" type="text" autocomplete="off" />
@@ -25,30 +26,24 @@
 
 
 <script lang="ts" setup>
-import { onMounted, reactive, ref } from 'vue';
+import { reactive, ref } from 'vue';
 import { ElMessage } from 'element-plus'
-import { getList } from '@/api/tog.js';
-import { add, update } from '@/api/togItem.js';
+import { add, update } from '@/api/tag.js';
 
 const formRef = ref();
 const centerDialogVisible = ref(false); // 对话框关闭或打开
 
 const numberValidateForm = reactive({
   title: '',
-  typeId: 0,
+  promise: false,
   desc: '',
   _id: ''
 })
 const rules = reactive({
-  title: [{ required: true, message: '不能为空', trigger: 'blur' }],
+  english: [{ required: true, message: '不能为空', trigger: 'blur' }],
 })
-
-const value = ref()
-
-const options = ref([])
 // 子组件触发父组件方法
 const emit = defineEmits(['getInfo']);
-
 const prop = defineProps({
   title: {
     type: String,
@@ -56,17 +51,12 @@ const prop = defineProps({
   },
 })
 
-const getTogList = async () => {
-  let result = await getList();
-  options.value = result.data
-}
-
-// 提交添加或修改表单
+// 提交表单
 const submitForm = async () => {
   let result
   if (prop.title == '新增') {
-    const { title, desc, typeId } = numberValidateForm;
-    result = await add({ title, desc, typeId });
+    const { title, desc, promise } = numberValidateForm;
+    result = await add({ title, desc, promise });
   }
   else {
     result = await update(numberValidateForm);
@@ -77,6 +67,7 @@ const submitForm = async () => {
       type: 'success',
     })
     numberValidateForm.title = '';
+    numberValidateForm.promise = false;
     numberValidateForm.desc = '';
     numberValidateForm._id = '';
     centerDialogVisible.value = false;
@@ -88,16 +79,15 @@ const submitForm = async () => {
   }
   emit('getInfo');
 }
-// 取消提交
+
+// 关闭对话框
 const resetForm = () => {
   numberValidateForm.title = '';
+  numberValidateForm.promise = false;
   numberValidateForm.desc = '';
   numberValidateForm._id = '';
   centerDialogVisible.value = false;
 }
-onMounted(() => {
-  getTogList()
-})
 
 defineExpose({
   centerDialogVisible,
