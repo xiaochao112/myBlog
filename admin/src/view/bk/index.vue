@@ -1,7 +1,7 @@
 <template>
   <div class="bk">
+    <!-- 富文本编辑器 -->
     <WangEditor height="500px" v-model:value="ruleForm.content"></WangEditor>
-
     <el-card>
       <el-form ref="ruleFormRef" :model="ruleForm" label-position="top" :rules="rules" class="demo-ruleForm"
         :size="formSize" status-icon>
@@ -14,12 +14,6 @@
               :disabled="item.disabled" />
           </el-select>
         </el-form-item>
-        <!-- <el-form-item label="是否摘要：" prop="type">
-          <el-checkbox-group v-model="ruleForm.type">
-            <el-checkbox-button label="是" name="type" />
-            <el-checkbox-button label="否" name="type" />
-          </el-checkbox-group>
-        </el-form-item> -->
         <el-form-item label="备注" prop="desc">
           <el-input v-model="ruleForm.desc" type="textarea" />
         </el-form-item>
@@ -55,7 +49,7 @@
 <script setup>
 import WangEditor from "@/components/WangEditor/index.vue";
 import BkDetail from './component/BkDetail/index.vue';
-import { computed, onBeforeMount, reactive, ref, watch } from "vue";
+import { onBeforeMount, reactive, ref, watch } from "vue";
 import bkHooks from '@/hooks/bkHooks';
 import { getList } from '@/api/tag.js';
 import { add, update } from '@/api/tagItem.js';
@@ -101,7 +95,8 @@ const submitForm = async (formEl) => {
 
 const resetForm = (formEl) => {
   if (!formEl) return
-  formEl.resetFields()
+  state.setBkIformation({});
+  // formEl.resetFields();
 }
 
 onBeforeMount(() => {
@@ -112,7 +107,6 @@ onBeforeMount(() => {
     ruleForm.typeId = state.bkIformation.typeId;
     ruleForm.desc = state.bkIformation.desc;
     ruleForm.content = state.bkIformation.content;
-
   }
 });
 
