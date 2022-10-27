@@ -5,7 +5,14 @@ const router = express.Router({
   mergeParams: true,
 })
 
-// 获取资料卡信息
+/**
+ * @api {post} /myInformation/info 获取资料卡信息
+ * @apiName 获取资料卡信息
+ * @apiGroup myInformation
+ *
+ * @apiParam {Number} pageNo 页数
+ * @apiParam {Number} pageSize 条数
+ */
 router.post('/info', async (req, res) => {
   const pageNo = Number(req.body.pageNo) || 1;
   const pageSize = Number(req.body.pageSize) || 10;
@@ -33,7 +40,15 @@ router.post('/info', async (req, res) => {
   })
 });
 
-// 增加一条数据
+/**
+ * @api {post} /myInformation/add 增加一条数据
+ * @apiName 增加一条数据
+ * @apiGroup myInformation
+ *
+ * @apiParam {String} title 页数
+ * @apiParam {String} desc 条数
+ * @apiParam {String} img 图片路径
+ */
 router.post('/add', (req, res) => {
   let { title, desc } = req.body;
   let data = {}
@@ -61,7 +76,16 @@ router.post('/add', (req, res) => {
 })
 
 
-// 更新一条数据
+/**
+ * @api {post} /myInformation/update 更新一条数据
+ * @apiName 更新一条数据
+ * @apiGroup myInformation
+ *
+ * @apiParam {String} _id Id
+ * @apiParam {String} title 页数
+ * @apiParam {String} desc 条数
+ * @apiParam {String} img 图片路径
+ */
 router.post('/update', (req, res) => {
   let { title, desc, _id, img } = req.body;
   MyInformation.findByIdAndUpdate({ _id }, { title, desc, img }, {}, (err, desc) => {
@@ -75,7 +99,13 @@ router.post('/update', (req, res) => {
   })
 })
 
-// 删除一条数据
+/**
+ * @api {post} /myInformation/del 删除一条数据
+ * @apiName 删除一条数据
+ * @apiGroup myInformation
+ *
+ * @apiParam {String} _id Id
+ */
 router.post('/del', (req, res) => {
   let { _id } = req.body;
   MyInformation.findByIdAndRemove({ _id }, (err) => {

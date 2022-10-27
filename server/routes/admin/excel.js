@@ -7,7 +7,12 @@ const router = express.Router({
   mergeParams: true,
 })
 
-// 导出接口
+/**
+ * @api {post} /excel/download 导出excel
+ * @apiName 导出接口
+ * @apiGroup download
+ *
+ */
 router.get('/download', (req, res) => {
   let cols = ['中文', '单词', '备注'];
   let fields = {

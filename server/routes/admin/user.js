@@ -7,7 +7,14 @@ const router = express.Router({
   mergeParams: true,
 })
 
-// 登录接口
+/**
+ * @api {post} /user/login 登录/注册
+ * @apiName 登录/注册
+ * @apiGroup user
+ *
+ * @apiParam {String} username 用户姓名
+ * @apiParam {Number} password 用户密码
+ */
 router.post('/login', async (req, res) => {
   const { username, password } = req.body;
   let userArr = {}
@@ -46,7 +53,12 @@ router.post('/login', async (req, res) => {
   })
 })
 
-// 获取用户信息
+/**
+ * @api {get} /user/info 获取用户信息
+ * @apiName 获取用户信息
+ * @apiGroup user
+ *
+ */
 router.get('/info', async (req, res) => {
   const token = req.headers['token'];
   // token解码
@@ -56,7 +68,14 @@ router.get('/info', async (req, res) => {
   res.send({ code: 200, user });
 })
 
-// 修改密码
+/**
+ * @api {post} /user/updatePassword 修改密码
+ * @apiName 修改密码
+ * @apiGroup user
+ *
+ * @apiParam {String} _id 用户id
+ * @apiParam {Number} password 新密码
+ */
 router.post('/updatePassword', (req, res) => {
   const { _id, password } = req.body;
 
@@ -70,7 +89,15 @@ router.post('/updatePassword', (req, res) => {
       res.send({ code: 500, msg: '配置失败' })
     })
 })
-// 上传头像
+
+/**
+ * @api {post} /user/avatar 上传头像Url
+ * @apiName 上传头像Url
+ * @apiGroup user
+ *
+ * @apiParam {String} _id 用户id
+ * @apiParam {String} avatar 图片路径
+ */
 router.post('/avatar', (req, res) => {
   const { _id, avatar } = req.body;
   AdminUser.findByIdAndUpdate({ _id }, { avatar }, {},
@@ -92,7 +119,14 @@ router.post('/avatar', (req, res) => {
     })
 })
 
-// 获取管理员列表信息
+/**
+ * @api {post} /user/adminList 获取管理员列表信息
+ * @apiName 获取管理员列表信息
+ * @apiGroup user
+ *
+ * @apiParam {Number} pageNo 页数
+ * @apiParam {Number} pageSize 条数
+ */
 router.post('/adminList', (req, res) => {
   const pageNo = Number(req.body.pageNo) || 1;
   const pageSize = Number(req.body.pageSize) || 10;
@@ -122,7 +156,16 @@ router.post('/adminList', (req, res) => {
       });
   })
 });
-// 获取用户列表信息
+
+
+/**
+ * @api {post} /user/userList 获取用户列表信息
+ * @apiName 获取用户列表信息
+ * @apiGroup user
+ *
+ * @apiParam {Number} pageNo 页数
+ * @apiParam {Number} pageSize 条数
+ */
 router.post('/userList', (req, res) => {
   const pageNo = Number(req.body.pageNo) || 1;
   const pageSize = Number(req.body.pageSize) || 10;

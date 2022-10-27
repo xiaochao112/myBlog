@@ -7,7 +7,15 @@ const router = express.Router({
   mergeParams: true,
 })
 
-// 获取标签列表
+/**
+ * @api {get} /tagItem/page 获取二级标签列表
+ * @apiName 获取二级标签列表
+ * @apiGroup tagItem
+ *
+ * @apiParam {Number} pageNo 页数
+ * @apiParam {Number} pageSize 条数
+ * @apiParam {Number} _id 二级标签Id(可选)
+ */
 router.post('/page', (req, res) => {
   const pageNo = Number(req.body.pageNo) || 1;
   const pageSize = Number(req.body.pageSize) || 10;
@@ -85,7 +93,16 @@ router.post('/page', (req, res) => {
   //   })
 });
 
-// 增加一条数据
+/**
+ * @api {get} /tagItem/add 增加一条数据
+ * @apiName 增加一条数据
+ * @apiGroup tagItem
+ *
+ * @apiParam {String} title 页数
+ * @apiParam {String} desc 条数
+ * @apiParam {Number} typeId 类型
+ * @apiParam {String} content 文章内容
+ */
 router.post('/add', (req, res) => {
   let { title, desc, typeId, content } = req.body;
   TogItem.find({ title }).then(data => {
@@ -107,7 +124,17 @@ router.post('/add', (req, res) => {
   })
 })
 
-// 更新一条数据
+/**
+ * @api {get} /tagItem/update 更新一条数据
+ * @apiName 更新一条数据
+ * @apiGroup tagItem
+ *
+ * @apiParam {String} _id Id
+ * @apiParam {String} title 页数
+ * @apiParam {String} desc 条数
+ * @apiParam {Number} typeId 类型
+ * @apiParam {String} content 文章内容
+ */
 router.post('/update', (req, res) => {
   let { title, desc, _id, typeId, content } = req.body;
   TogItem.findByIdAndUpdate({ _id }, { $set: { title, desc, typeId, content } }, {}, (err, docs) => {
@@ -125,7 +152,13 @@ router.post('/update', (req, res) => {
   })
 })
 
-// 删除一条数据
+/**
+ * @api {get} /tagItem/del 删除一条数据
+ * @apiName 删除一条数据
+ * @apiGroup tagItem
+ *
+ * @apiParam {String} _id Id
+ */
 router.post('/del', (req, res) => {
   const { _id } = req.body
   TogItem.findByIdAndRemove({ _id }, (err) => {

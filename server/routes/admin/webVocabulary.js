@@ -5,7 +5,14 @@ const router = express.Router({
   mergeParams: true,
 })
 
-// 获取词汇列表
+/**
+ * @api {post} /webVocabulary/page 获取词汇列表
+ * @apiName 获取词汇列表
+ * @apiGroup webVocabulary
+ *
+ * @apiParam {Number} pageNo 页数
+ * @apiParam {Number} pageSize 条数
+ */
 router.post('/page', (req, res) => {
   const pageNo = Number(req.body.pageNo) || 1;
   const pageSize = Number(req.body.pageSize) || 10;
@@ -32,7 +39,15 @@ router.post('/page', (req, res) => {
   })
 });
 
-// 增加一条数据
+/**
+ * @api {post} /webVocabulary/add 添加一条数据
+ * @apiName 添加一条数据
+ * @apiGroup webVocabulary
+ *
+ * @apiParam {String} title 中文
+ * @apiParam {String} english 英语
+ * @apiParam {String} desc 备注
+ */
 router.post('/add', async (req, res) => {
   let { title, english, desc } = req.body;
   // 设置首字母大写
@@ -56,7 +71,16 @@ router.post('/add', async (req, res) => {
   }
 })
 
-// 更新一条数据
+/**
+ * @api {post} /webVocabulary/update 更新一条数据
+ * @apiName 更新一条数据
+ * @apiGroup webVocabulary
+ * 
+ * @apiParam {String} _id Id
+ * @apiParam {String} title 中文
+ * @apiParam {String} english 英语
+ * @apiParam {String} desc 备注
+ */
 router.post('/update', (req, res) => {
   let { title, english, desc, _id } = req.body;
   let word = english.slice(0, 1).toUpperCase()
@@ -71,7 +95,14 @@ router.post('/update', (req, res) => {
   })
 })
 
-// 删除一条数据
+
+/**
+ * @api {post} /webVocabulary/del 删除一条数据
+ * @apiName 删除一条数据
+ * @apiGroup webVocabulary
+ * 
+ * @apiParam {String} _id Id
+ */
 router.post('/del', (req, res) => {
   const { _id } = req.body
   WebVocabulary.findByIdAndRemove({ _id }, (err) => {

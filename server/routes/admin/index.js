@@ -15,6 +15,7 @@ module.exports = (app) => {
   app.use('/admin/api/excel', require('./excel')); // 导出Excel
   app.use('/admin/api/tagList', require('./firstTog')); // 标签列表路由
   app.use('/admin/api/tagItem', require('./secondTog')); // 标签列表路由
+  app.use('/admin/api/permit', require('./permit')); // 权限管理路由
 
   /* //用于阿里云oss图片上传
 const multer = require('multer')

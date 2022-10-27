@@ -6,7 +6,15 @@ const router = express.Router({
   mergeParams: true,
 })
 
-// 获取标签列表
+/**
+ * @api {get} /tagList/page 获取一级标签列表
+ * @apiName 获取一级标签列表
+ * @apiGroup tag
+ *
+ * @apiParam {Number} pageNo 页数
+ * @apiParam {Number} pageSize 条数
+ * @apiParam {Number} typeId 类型(可选)
+ */
 router.post('/page', (req, res) => {
   const pageNo = Number(req.body.pageNo) || 1;
   const pageSize = Number(req.body.pageSize) || 20;
@@ -77,7 +85,15 @@ router.post('/page', (req, res) => {
   })
 });
 
-// 增加一条数据
+/**
+ * @api {get} /tagList/add 增加一条数据
+ * @apiName 增加一条数据
+ * @apiGroup tag
+ *
+ * @apiParam {String} title 标签名
+ * @apiParam {String} desc 备注
+ * @apiParam {String} promise 是否重要
+ */
 router.post('/add', (req, res) => {
   let { title, desc, promise } = req.body;
   firstTog.find({ title }).then(data => {
@@ -102,7 +118,16 @@ router.post('/add', (req, res) => {
     });
 })
 
-// 更新一条数据
+/**
+ * @api {get} /tagList/update 更新一条数据
+ * @apiName 更新一条数据
+ * @apiGroup tag
+ *
+ * @apiParam {String} _id 标签Id
+ * @apiParam {String} title 标签名
+ * @apiParam {String} desc 备注
+ * @apiParam {String} promise 是否重要
+ */
 router.post('/update', (req, res) => {
   let { promise, title, desc, _id } = req.body;
   firstTog.findByIdAndUpdate({ _id }, { title, desc, promise }, {}, (err, docs) => {
@@ -120,7 +145,13 @@ router.post('/update', (req, res) => {
   })
 })
 
-// 删除一条数据
+/**
+ * @api {get} /tagList/del 删除一条数据
+ * @apiName 删除一条数据
+ * @apiGroup tag
+ *
+ * @apiParam {String} _id 标签Id
+ */
 router.post('/del', (req, res) => {
   const { _id } = req.body
   firstTog.findByIdAndRemove({ _id }, (err) => {

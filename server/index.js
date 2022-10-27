@@ -32,6 +32,7 @@ app.all("*", async (req, res, next) => {
     ms = new Date() - start;
     log.i(req, ms);
   } catch (error) {
+    console.log("错误日志：--------------------" + error)
     //记录异常日志
     ms = new Date() - start;
     log.e(req, error, ms);
