@@ -1,6 +1,6 @@
 module.exports = options => {
   const assert = require('http-assert')
-  const JwtUtil = require('../jwt')
+  const JwtUtil = require('../utils/jwt')
 
   return (req, res, next) => {
     console.log(req.url);

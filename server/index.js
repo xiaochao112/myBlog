@@ -1,7 +1,7 @@
 const express = require('express')
 const cors = require('cors')
 const app = express()
-const JwtUtil = require('./jwt');
+const JwtUtil = require('./utils/jwt');
 const log = require('./config/log')
 // 跨域设置
 // app.all('*', function (req, res, next) {
@@ -35,7 +35,7 @@ app.all("*", async (req, res, next) => {
     console.log("错误日志：--------------------" + error)
     //记录异常日志
     ms = new Date() - start;
-    log.e(req, error, ms);
+    // log.e(req, error, ms);
   }
   console.log(`${req.method} ${req.url} - ${ms}ms-${res.statusCode}`);
 });

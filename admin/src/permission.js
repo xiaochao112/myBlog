@@ -3,17 +3,18 @@ import { ElMessage } from 'element-plus'
 import NProgress from 'nprogress';
 import 'nprogress/nprogress.css';
 import { localGet } from './utils';
-import pinia from './store';
+
 import { userInfoStore } from './store/modules/userStore';
 import { routerStore } from './store/modules/routerStore/index.js';
-
-const store = userInfoStore(pinia);
-const state = routerStore(pinia);
 
 const whiteList = ['/login'] // 白名单
 // const userState = userInfoStore();
 
 router.beforeEach((to, from, next) => {
+
+  const store = userInfoStore();
+  const state = routerStore();
+
   console.log(to.path);
   NProgress.start()
 

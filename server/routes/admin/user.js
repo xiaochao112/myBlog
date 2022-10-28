@@ -2,7 +2,7 @@ const express = require('express');
 const AdminUser = require('../../models/AdminUser');
 // const assert = require('http-assert');
 const bcrypt = require('bcryptjs')
-const JwtUtil = require('../../jwt');
+const JwtUtil = require('../../utils/jwt');
 const router = express.Router({
   mergeParams: true,
 })
@@ -36,7 +36,7 @@ router.post('/login', async (req, res) => {
       msg: "密码错误, 请重新登录"
     })
   }
-  AdminUser.update({ _id: userArr._id }, { endLoginTime: Math.floor(Date.now() / 1000) }, (err, raw) => {
+  AdminUser.updateOne({ _id: userArr._id }, { endLoginTime: Math.floor(Date.now() / 1000) }, (err, raw) => {
     console.log(raw)
   })
 

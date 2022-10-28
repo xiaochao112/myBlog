@@ -1,6 +1,6 @@
 module.exports = (app) => {
   // token加密
-  const JwtUtil = require('../../jwt');
+  const JwtUtil = require('../../utils/jwt');
 
   //登录校验中间件
   const authMiddleware = require('../../middleware/auth')

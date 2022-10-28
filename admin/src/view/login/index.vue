@@ -49,10 +49,14 @@ const routeNav = computed(() => {
 
 const submitForm = (formEl) => {
   if (!formEl) return
-  formEl.validate(async (valid) => {
+  formEl.validate((valid) => {
     if (valid) {
-      await store.setLongin(ruleForm);
-      router.push('/home/index');
+      store.setLongin(ruleForm)
+        .then(data => {
+          router.push('/home/index');
+          store.setRoleList();
+        })
+        .catch(err => { });
     } else {
       console.log('error submit!')
       return false;

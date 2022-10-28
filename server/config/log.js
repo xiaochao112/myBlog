@@ -4,25 +4,28 @@ var errorLog = log4js.getLogger("errorLog"); //此处使用category的值
 var resLog = log4js.getLogger("responseLog"); //此处使用category的值
 
 var log = {};
-log.i = function(req, resTime) {
+log.i = function (req, resTime) {
   if (req) {
     resLog.info(formatRes(req, resTime));
   }
 };
 
-log.e = function(ctx, error, resTime) {
+log.e = function (ctx, error, resTime) {
+  console.log(1);
   if (ctx && error) {
+    console.log("15" + error);
     errorLog.error(formatError(ctx, error, resTime));
   }
 };
 
 //格式化请求日志
-var formatReqLog = function(req, resTime) {
+var formatReqLog = function (req, resTime) {
 
   let getClientIp = function (req) {
     return req.headers['x-forwarded-for'] ||
       req.connection.remoteAddress ||
       req.socket.remoteAddress ||
+      // req.connection.socket &&
       req.connection.socket.remoteAddress || '';
   };
   let ip = getClientIp(req).match(/\d+.\d+.\d+.\d+/);
@@ -36,7 +39,7 @@ var formatReqLog = function(req, resTime) {
   logText += "request originalUrl:  " + req.originalUrl + "\n";
   //客户端ip
   logText += "request client ip:  " + ip + "\n";
-  
+
   //请求参数
   if (method === "GET") {
     logText += "request query:  " + JSON.stringify(req.query) + "\n";
@@ -46,12 +49,11 @@ var formatReqLog = function(req, resTime) {
 
   //服务器响应时间
   logText += "response time: " + resTime + "\n";
-
   return logText;
 };
 
 //格式化响应日志
-var formatRes = function(res, resTime) {
+var formatRes = function (res, resTime) {
   var logText = new String();
   //响应日志开始
   logText += "\n" + "*************** response log start ***************" + "\n";
@@ -72,7 +74,7 @@ var formatRes = function(res, resTime) {
 };
 
 //格式化错误日志
-var formatError = function(ctx, err, resTime) {
+var formatError = function (ctx, err, resTime) {
   var logText = new String();
 
   //错误信息开始
@@ -93,6 +95,8 @@ var formatError = function(ctx, err, resTime) {
 
   //错误信息结束
   logText += "*************** error log end ***************" + "\n";
+
+  console.log(logText + '50++++++++++++++');
 
   return logText;
 };

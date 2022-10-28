@@ -27,7 +27,7 @@ const schema = new mongoose.Schema({
     type: Array,
     default: ['admin']
   },
-  roesId: { type: Number } // 权限Id
+  roleId: { type: Number } // 权限Id
 });
 
 module.exports = mongoose.model("AdminUser", schema);

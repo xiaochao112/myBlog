@@ -21,6 +21,7 @@ http.interceptors.request.use(
     NProgress.start()
     if (localGet('token')) {
       config.headers['token'] = localGet('token');
+
     }
     return config
   },
