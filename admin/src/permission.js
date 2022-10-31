@@ -2,7 +2,7 @@ import router from './router/index';
 import { ElMessage } from 'element-plus'
 import NProgress from 'nprogress';
 import 'nprogress/nprogress.css';
-import { localGet } from './utils';
+import { localGet, handleRouter } from './utils';
 
 import { userInfoStore } from './store/modules/userStore';
 import { routerStore } from './store/modules/routerStore/index.js';
@@ -10,7 +10,7 @@ import { routerStore } from './store/modules/routerStore/index.js';
 const whiteList = ['/login'] // 白名单
 // const userState = userInfoStore();
 
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
 
   const store = userInfoStore();
   const state = routerStore();
@@ -29,8 +29,9 @@ router.beforeEach((to, from, next) => {
     } else {
       try {
         // 派发pinia，获取用户信息
-        store.setUser()
-        const routes = router.options.routes.filter((item) => item.meta['nav'] !== false)
+        let user = await store.setUser()
+        let routes = handleRouter(router.options.routes)
+
         // 存储路由导航
         state.setRoutes(routes);
         // 当前要去的路由导航

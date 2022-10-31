@@ -26,3 +26,34 @@ export function getData(n) {
   let m = date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes();
   return Y + M + D + h + m;
 }
+
+/**
+ * @description 使用递归处理路由菜单，生成一维数组
+ * @param {Array} routerList 路由集合
+ * @param {Array} newArr 菜单的一维数组
+ * @return array
+ */
+
+export function handleRouter(routerList, roleId = 2,) {
+  const newArr = []
+  let tem = {}
+  routerList.forEach(item => {
+    tem = { ...item }
+    console.log(tem.meta && tem.meta['role'] && tem.meta['role'].includes(roleId));
+    if (tem.meta && tem.meta['role'] && tem.meta['role'].includes(roleId)) {
+      if (tem.children && tem.children.length) {
+        handleRouter(tem.children)
+      }
+      newArr.push(tem)
+    };
+
+  });
+
+  return newArr;
+}
+/**
+ * @description 校验权限路由导航
+ * @param {Array}  权限id
+ * @param {Array} newArr 菜单的一维数组
+ * @return array
+ */

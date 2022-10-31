@@ -16,6 +16,7 @@ export const userInfoStore = defineStore('userInfo', {
     async setUser() {
       const { user } = await getInfoApi();
       this.user = user;
+      return user
     },
     // 登录
     setLongin(ruleForm) {

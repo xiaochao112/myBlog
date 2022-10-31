@@ -23,11 +23,7 @@ const schema = new mongoose.Schema({
     type: Number,
     default: () => Math.floor(Date.now() / 1000)
   }, // 最后登录时间
-  roles: {
-    type: Array,
-    default: ['admin']
-  },
-  roleId: { type: Number } // 权限Id
+  roleId: { type: Number, default: 2 } // 权限Id
 });
 
 module.exports = mongoose.model("AdminUser", schema);

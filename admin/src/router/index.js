@@ -2,6 +2,30 @@
 import { createRouter, createWebHistory } from "vue-router";
 import layout from "../layout/index.vue";
 
+// * 导入所有的router
+const metaRouters = import.meta.glob('./modules/*.js', { eager: true });
+
+// * 处理路由表
+export const routerArray = [];
+Object.keys(metaRouters).forEach(item => {
+  Object.keys(metaRouters[item]).forEach(key => {
+    routerArray.push(...(metaRouters[item][key]));
+  })
+})
+
+/**
+ * @description 路由配置简介
+ * @param path ==> 路由路径
+ * @param redirect ==> 路由重定向
+ * @param component ==> 路由组件
+ * @param meta ==> 路由元信息
+ * @param meta.nav ==> 是否需要权限验证
+ * @param meta.keepAlive ==> 是否需要缓存该路由
+ * @param meta.title ==> 路由标题
+ * @param meta.key	==> 路由key,用来匹配按钮权限
+ * @param meta.role	==> 角色,用来匹配路由权限
+ * 
+ * */
 const routes = [
   {
     path: '/',
@@ -17,170 +41,36 @@ const routes = [
     }
   },
   {
-    path: '/home',
-    redirect: '/home/index',
-    component: layout,
+    path: "/404",
+    name: '404',
     children: [
       {
-        path: '/home/index',
-        component: () => import('@/view/home/index.vue'),
+        path: '/404',
+        component: () => import("@/components/ErrorMessage/404.vue"),
         meta: {
-          title: '首页',
-          icon: 'icon-shouye'
+          nav: false,
+          title: "404页面",
+          key: "404"
         }
-      },
+      }
     ],
-    meta: {
-      nav: true,
-      title: '首页',
-      icon: 'icon-shouye'
-    }
+
   },
+  ...routerArray,
   {
-    path: '/userList',
-    component: layout,
-    children: [
-      {
-        path: '/userList/user',
-        component: () => import('@/view/userList/user/index.vue'),
-        meta: {
-          title: '用户',
-          icon: 'icon-yonghu'
-        }
-      },
-      {
-        path: '/userList/admin',
-        component: () => import('@/view/userList/admin/index.vue'),
-        meta: {
-          title: '管理员',
-          icon: 'icon-guanliyuan'
-        }
-      },
-    ],
+    path: '/:pathMatch(.*)',
+    redirect: '/404',
     meta: {
-      nav: true,
-      title: '用户管理',
-      icon: 'icon-yonghuguanli'
+      nav: false
     }
-  },
-  {
-    path: '/vocabulary',
-    component: layout,
-    children: [
-      {
-        path: '/vocabulary/webVocabulary',
-        component: () => import('@/view/webVocabulary/index.vue'),
-        meta: {
-          title: '前端词汇',
-          icon: 'icon-cidianku'
-        }
-      },
-    ],
-    meta: {
-      nav: true,
-      title: '词汇',
-      icon: 'icon-cidianku'
-    }
-  },
-  {
-    path: '/information',
-    component: layout,
-    children: [
-      {
-        path: '/information/card',
-        component: () => import('@/view/myInformation/card.vue'),
-        meta: {
-          title: '资料卡',
-          icon: 'icon-wj-zlk'
-        }
-      },
-    ],
-    meta: {
-      nav: true,
-      title: '个人信息',
-      icon: 'icon-guanjianci'
-    }
-  },
-  {
-    path: '/tag',
-    component: layout,
-    children: [
-      {
-        path: '/tag/index',
-        component: () => import('@/view/tag/index.vue'),
-        meta: {
-          title: '标签',
-          icon: 'icon-guanjianci'
-        }
-      },
-      // {
-      //   path: '/tag/firstTag',
-      //   component: () => import('@/view/tag/firstTag/index.vue'),
-      //   meta: {
-      //     title: '标签',
-      //     icon: 'icon-guanjianci'
-      //   }
-      // },
-      // {
-      //   path: '/tag/secondTag',
-      //   component: () => import('@/view/tag/secondTag/index.vue'),
-      //   meta: {
-      //     title: '博客发表',
-      //     icon: 'icon-guanjianci'
-      //   }
-      // },
-    ],
-    meta: {
-      nav: true,
-      title: '标签',
-      icon: 'icon-guanjianci'
-    }
-  },
-  {
-    path: '/bk',
-    name: 'bk',
-    component: layout,
-    children: [
-      {
-        name: 'bkIndex',
-        path: '/bk/index',
-        component: () => import('@/view/bk/index.vue'),
-        meta: {
-          title: '博客发表',
-          icon: 'icon-shouye'
-        }
-      },
-    ],
-    meta: {
-      nav: true,
-      title: '博客发表',
-      icon: 'icon-shouye'
-    }
-  },
-  {
-    path: '/log',
-    component: layout,
-    children: [
-      {
-        path: '/log/index',
-        component: () => import('@/view/log/index.vue'),
-        meta: {
-          title: '操作日志',
-          icon: 'icon-guanjianci'
-        }
-      },
-    ],
-    meta: {
-      nav: true,
-      title: '操作日志',
-      icon: 'icon-shouye'
-    }
-  },
+  }
 ];
 
 const router = createRouter({
   history: createWebHistory(),
-  routes
+  routes,
+  // 切换页面，回到最顶部
+  scrollBehavior: () => ({ left: 0, top: 0 })
 });
 
 export default router;

@@ -27,7 +27,6 @@ router.post('/login', async (req, res) => {
     userArr = await AdminUser.create({
       username: req.body.username,
       password: req.body.password,
-      roles: ['user']
     })
   }
   const isValid = bcrypt.compareSync(password, userArr.password)
@@ -82,7 +81,6 @@ router.post('/updatePassword', (req, res) => {
   if (_id === '6340cb97cf058739b01512b7') return res.status(500).send({ msg: '配置失败，超级管理员禁止修改' })
   AdminUser.updateOne({ _id }, { password })
     .then((data) => {
-      console.log(data)
       res.send({ code: 200, msg: '配置成功' })
     })
     .catch(() => {
@@ -131,7 +129,7 @@ router.post('/adminList', (req, res) => {
   const pageNo = Number(req.body.pageNo) || 1;
   const pageSize = Number(req.body.pageSize) || 10;
   const userData = {
-    roles: ['admin']
+    roleId: 1
   }
   // 正则方法
   const reg = new RegExp()
@@ -157,7 +155,6 @@ router.post('/adminList', (req, res) => {
   })
 });
 
-
 /**
  * @api {post} /user/userList 获取用户列表信息
  * @apiName 获取用户列表信息
@@ -170,7 +167,7 @@ router.post('/userList', (req, res) => {
   const pageNo = Number(req.body.pageNo) || 1;
   const pageSize = Number(req.body.pageSize) || 10;
   const userData = {
-    roles: ['user']
+    roleId: 2
   }
   // 正则方法
   const reg = new RegExp()
