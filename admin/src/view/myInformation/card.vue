@@ -44,7 +44,7 @@
   </el-card>
 </template>
 
-<script setup>
+<script setup name="info">
 import { onMounted, ref } from 'vue';
 import { getList, del } from '@/api/myInformation.js';
 import { getData } from '@/utils';

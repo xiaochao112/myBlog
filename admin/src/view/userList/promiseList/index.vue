@@ -43,7 +43,7 @@
   </el-card>
 </template>
 
-<script setup name="admin">
+<script setup name="promiseList">
 import { onMounted, ref } from 'vue';
 import { getList } from '@/api/admin.js';
 import { getData } from '@/utils';

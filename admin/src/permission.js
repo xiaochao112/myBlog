@@ -8,7 +8,6 @@ import { userInfoStore } from './store/modules/userStore';
 import { routerStore } from './store/modules/routerStore/index.js';
 
 const whiteList = ['/login'] // 白名单
-// const userState = userInfoStore();
 
 router.beforeEach(async (to, from, next) => {
 
@@ -30,7 +29,7 @@ router.beforeEach(async (to, from, next) => {
       try {
         // 派发pinia，获取用户信息
         let user = await store.setUser()
-        let routes = handleRouter(router.options.routes)
+        let routes = handleRouter(router.options.routes, user.roleId)
 
         // 存储路由导航
         state.setRoutes(routes);

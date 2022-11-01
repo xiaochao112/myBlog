@@ -9,9 +9,10 @@ const bkRouter = [
       {
         name: 'bkIndex',
         path: '/bk/index',
-        component: () => import('@/view/bk/index.vue'),
+        component: () => import('@/view/bk/bkIndex.vue'),
         meta: {
           role: [1, 2],
+          keepAlive: true,
           title: '博客发表',
           icon: 'icon-shouye'
         }

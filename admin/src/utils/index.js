@@ -28,21 +28,19 @@ export function getData(n) {
 }
 
 /**
- * @description 使用递归处理路由菜单，生成一维数组
+ * @description 使用递归处理路由菜单
  * @param {Array} routerList 路由集合
- * @param {Array} newArr 菜单的一维数组
- * @return array
+ * @param {Number} roleId 权限id
  */
 
-export function handleRouter(routerList, roleId = 2,) {
+export function handleRouter(routerList, roleId = 1,) {
   const newArr = []
   let tem = {}
   routerList.forEach(item => {
     tem = { ...item }
-    console.log(tem.meta && tem.meta['role'] && tem.meta['role'].includes(roleId));
     if (tem.meta && tem.meta['role'] && tem.meta['role'].includes(roleId)) {
       if (tem.children && tem.children.length) {
-        handleRouter(tem.children)
+        tem.children = handleRouter(tem.children, roleId)
       }
       newArr.push(tem)
     };
@@ -52,8 +50,9 @@ export function handleRouter(routerList, roleId = 2,) {
   return newArr;
 }
 /**
- * @description 校验权限路由导航
- * @param {Array}  权限id
+ * @description 使用递归处理路由菜单,生成一维数组
  * @param {Array} newArr 菜单的一维数组
- * @return array
+ * @param {Array} routerList 路由集合
+ * 
+ * @return {Array} newArr 菜单的一维数组 
  */

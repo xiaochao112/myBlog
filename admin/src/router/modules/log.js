@@ -7,9 +7,11 @@ const logRouter = [
     children: [
       {
         path: '/log/index',
+        name: 'log',
         component: () => import('@/view/log/index.vue'),
         meta: {
           role: [1, 2],
+          keepAlive: true,
           title: '操作日志',
           icon: 'icon-guanjianci'
         }

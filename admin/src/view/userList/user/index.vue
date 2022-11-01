@@ -43,7 +43,7 @@
   </el-card>
 </template>
 
-<script setup>
+<script setup name="user">
 import { onMounted, ref } from 'vue';
 import { getList } from '@/api/user.js';
 import { getData } from '@/utils';

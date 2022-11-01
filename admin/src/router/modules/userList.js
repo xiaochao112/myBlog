@@ -7,27 +7,33 @@ const userListRouter = [
     children: [
       {
         path: '/userList/user',
+        name: 'user',
         component: () => import('@/view/userList/user/index.vue'),
         meta: {
           role: [1, 2],
+          keepAlive: true,
           title: '用户',
           icon: 'icon-yonghu'
         }
       },
       {
         path: '/userList/admin',
+        name: 'admin',
         component: () => import('@/view/userList/admin/index.vue'),
         meta: {
           role: [1],
+          keepAlive: true,
           title: '管理员',
           icon: 'icon-guanliyuan'
         }
       },
       {
         path: '/userList/promiseList',
-        component: () => import('@/view/userList/admin/index.vue'),
+        name: 'promiseList',
+        component: () => import('@/view/userList/promiseList/index.vue'),
         meta: {
           role: [1, 2],
+          keepAlive: true,
           title: '权限管理',
           icon: 'icon-guanliyuan'
         }

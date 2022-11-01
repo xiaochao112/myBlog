@@ -19,7 +19,7 @@
   </el-card>
 </template>
 
-<script setup>
+<script setup name="log">
 import { ref } from 'vue';
 
 const centerDialogVisible = ref(false)

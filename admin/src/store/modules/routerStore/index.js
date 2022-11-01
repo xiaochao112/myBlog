@@ -4,15 +4,16 @@ import { piniaLocalStorage } from '@/store/config';
 export const routerStore = defineStore('routes', {
   state: () => {
     return {
-      routes: [],
-      currentRoute: {}
+      routes: [], // 权限路由集合
+      currentRoute: {} // 当前路由
     }
   },
   actions: {
+    // 权限路由集合
     setRoutes(routes) {
-      console.log(routes);
       this.routes = routes;
     },
+    // 当前路由
     setCurrentRoute(path) {
       // 处理导航
       const currentPront = this.routes.find(item => item.path == path.slice(0, path.indexOf('/', 1)));

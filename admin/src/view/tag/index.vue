@@ -8,7 +8,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup name="tag">
 import { onBeforeMount, provide, ref } from 'vue';
 import FirstTag from './firstTag/index.vue';
 import TreeTag from './treeTag/index.vue';

@@ -10,7 +10,7 @@
 </template>
 
 <script setup>
-
+import cacheRouter from '@/router/cacheRouter';
 
 </script>
 

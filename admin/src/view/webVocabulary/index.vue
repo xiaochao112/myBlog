@@ -49,7 +49,7 @@
 
 </template>
 
-<script setup>
+<script setup name="webVocabulary">
 import { onMounted, reactive, ref } from 'vue';
 import { getList, del } from '../../api/werVocabulary';
 import { ElMessage } from 'element-plus';
