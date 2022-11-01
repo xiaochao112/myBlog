@@ -1,32 +1,65 @@
 <template>
   <el-card class="box-card">
-    <el-transfer v-model="value" :data="data" :titles="['权限列表', '已设置权限']" />
+    <el-tree :data="data" show-checkbox node-key="id" :default-expanded-keys="[2, 3]" :default-checked-keys="[5]"
+      :props="defaultProps" />
   </el-card>
 </template>
 
-<script lang="ts" setup >
-import { ref } from 'vue'
-
-interface Option {
-  key: number
-  label: string
-  disabled: boolean
+<script lang="ts" setup>
+const defaultProps = {
+  children: 'children',
+  label: 'label',
 }
-
-const generateData = () => {
-  const data: Option[] = []
-  for (let i = 1; i <= 15; i++) {
-    data.push({
-      key: i,
-      label: `Option ${i}`,
-      disabled: i % 4 === 0,
-    })
-  }
-  return data
-}
-
-const data = ref<Option[]>(generateData())
-const value = ref([])
+const data = [
+  {
+    id: 1,
+    label: 'Level one 1',
+    children: [
+      {
+        id: 4,
+        label: 'Level two 1-1',
+        children: [
+          {
+            id: 9,
+            label: 'Level three 1-1-1',
+          },
+          {
+            id: 10,
+            label: 'Level three 1-1-2',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: 2,
+    label: 'Level one 2',
+    children: [
+      {
+        id: 5,
+        label: 'Level two 2-1',
+      },
+      {
+        id: 6,
+        label: 'Level two 2-2',
+      },
+    ],
+  },
+  {
+    id: 3,
+    label: 'Level one 3',
+    children: [
+      {
+        id: 7,
+        label: 'Level two 3-1',
+      },
+      {
+        id: 8,
+        label: 'Level two 3-2',
+      },
+    ],
+  },
+]
 </script>
 
 

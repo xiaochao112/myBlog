@@ -14,7 +14,23 @@ export const getInfoApi = () => {
 export const updatedPsd = (data) => {
   return http.post('/user/updatePassword', data);
 }
+
 // 存储头像地址
 export const updatedAvatar = (data) => {
   return http.post('/user/avatar', data);
+}
+
+// 删除用户
+export const del = (data) => {
+  return http.post('/user/del', data);
+}
+
+// 新增用户
+export const add = (data) => {
+  return http.post('/user/add', data);
+}
+
+// 修改用户
+export const update = (data) => {
+  return http.post('/user/update', data);
 }

@@ -1,13 +1,13 @@
 <template>
   <el-card class="box-card">
     <div class="header_box">
-      <el-button type="primary" @click="addForm"> 新增 + </el-button>
+      <!-- <el-button type="primary" @click="addForm"> 新增 + </el-button>
       <el-button type="primary"> 上传 </el-button>
       <el-button>
         <el-link href="#">导出</el-link>
       </el-button>
 
-      <el-input style=" width: 150px" v-model="keyWord" placeholder="搜索" :suffix-icon="Search" />
+      <el-input style=" width: 150px" v-model="keyWord" placeholder="搜索" :suffix-icon="Search" /> -->
     </div>
     <el-table v-loading="loading" :data="tableData" border :default-sort="{ prop: 'date', order: 'descending' }"
       style="width: 100%">

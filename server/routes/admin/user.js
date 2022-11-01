@@ -73,7 +73,7 @@ router.get('/info', async (req, res) => {
  * @apiGroup user
  *
  * @apiParam {String} _id 用户id
- * @apiParam {Number} password 新密码
+ * @apiParam {String} password 新密码
  */
 router.post('/updatePassword', (req, res) => {
   const { _id, password } = req.body;
@@ -175,6 +175,54 @@ router.post('/userList', (req, res) => {
       });
   })
 });
+
+/**
+ * @api {post} /user/add 新增用户
+ * @apiName 新增用户
+ * @apiGroup user
+ *
+ * @apiParam {String} username 用户名
+ * @apiParam {String} password 密码
+ * @apiParam {String}  avatar 头像路径
+ */
+router.post('/add', (req, res) => {
+  const { username, password, avatar } = req.body;
+  AdminUser.create({ username, password, avatar },
+    (err, data) => {
+      if (err) {
+        res.send({
+          code: 500,
+          msg: err
+        })
+      }
+      if (data) {
+        res.send({
+          code: 200,
+          msg: '新增成功'
+        })
+      }
+    })
+})
+
+/**
+ * @api {post} /user/updatePassword 修改用户信息
+ * @apiName 修改用户信息
+ * @apiGroup user
+ *
+ * @apiParam {String} _id 用户id
+ * @apiParam {String} password 新密码
+ */
+router.post('/update', (req, res) => {
+  const { _id, password, dosc, avatar } = req.body;
+
+  AdminUser.updateOne({ _id }, { password, dosc, avatar })
+    .then((data) => {
+      res.send({ code: 200, msg: '配置成功' })
+    })
+    .catch(() => {
+      res.send({ code: 500, msg: '配置失败' })
+    })
+})
 
 /**
  * @api {post} /user/adminList 获取普通用户列表信息
