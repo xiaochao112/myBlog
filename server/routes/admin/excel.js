@@ -8,7 +8,7 @@ const router = express.Router({
 })
 
 /**
- * @api {post} /excel/download 导出excel
+ * @api {get} /excel/download 导出excel
  * @apiName 导出接口
  * @apiGroup download
  *
@@ -43,9 +43,5 @@ router.get('/download', (req, res) => {
       })
     })
 })
-
-// 上传接口
-// router.get('/upload')
-
 
 module.exports = router

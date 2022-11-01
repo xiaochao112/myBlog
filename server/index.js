@@ -68,8 +68,8 @@ app.use('/static', express.static(__dirname + '/static'))
 // })
 
 require('./plugins/db')(app)
-require('./routes/admin/index.js')(app)
-require('./routes/web/index.js')(app)
+require('./routes/index.js')(app)
+// require('./routes/web/index.js')(app)
 
 app.listen(3000, '0.0.0.0', async (req, res) => {
   console.log('http://localhost:3000')

@@ -7,7 +7,7 @@ const router = express.Router({
 })
 
 /**
- * @api {get} /tagList/page 获取一级标签列表
+ * @api {post} /tagList/page 获取一级标签列表
  * @apiName 获取一级标签列表
  * @apiGroup tag
  *
@@ -86,7 +86,7 @@ router.post('/page', (req, res) => {
 });
 
 /**
- * @api {get} /tagList/add 增加一条数据
+ * @api {post} /tagList/add 增加一条数据
  * @apiName 增加一条数据
  * @apiGroup tag
  *
@@ -119,7 +119,7 @@ router.post('/add', (req, res) => {
 })
 
 /**
- * @api {get} /tagList/update 更新一条数据
+ * @api {post} /tagList/update 更新一条数据
  * @apiName 更新一条数据
  * @apiGroup tag
  *
@@ -146,7 +146,7 @@ router.post('/update', (req, res) => {
 })
 
 /**
- * @api {get} /tagList/del 删除一条数据
+ * @api {post} /tagList/del 删除一条数据
  * @apiName 删除一条数据
  * @apiGroup tag
  *

@@ -23,9 +23,9 @@
           <p>{{ getData(scope.row['endLoginTime']) }}</p>
         </template>
       </el-table-column>
-      <el-table-column prop="roles" label="权限" width="120">
+      <el-table-column prop="roleId" label="权限" width="120">
         <template #default="scope">
-          <el-tag class="ml-2" type="success">{{ scope.row.roles[0] }}</el-tag>
+          <el-tag class="ml-2" type="success">{{ scope.row.roleId }}</el-tag>
         </template>
       </el-table-column>
       <el-table-column prop="desc" label="备注" />
@@ -45,7 +45,7 @@
 
 <script setup name="user">
 import { onMounted, ref } from 'vue';
-import { getList } from '@/api/user.js';
+import { getList } from '@/api/userList.js';
 import { getData } from '@/utils';
 import { Search } from '@element-plus/icons-vue';
 import tableHooks from '@/hooks/tableHooks'

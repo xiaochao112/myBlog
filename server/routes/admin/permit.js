@@ -10,7 +10,7 @@ const router = express.Router({
 })
 
 /**
- * @api {get} /permit/add 增加一个权限
+ * @api {post} /permit/add 增加一个权限
  * @apiName 增加一个权限
  * @apiGroup permit
  *
@@ -34,7 +34,7 @@ router.post('/add', (req, res) => {
 })
 
 /**
- * @api {get} /permit/menus 获取当前用户权限列表
+ * @api {post} /permit/menus 获取当前用户权限列表
  * @apiName 获取当前用户权限列表
  * @apiGroup permit
  *
@@ -68,5 +68,24 @@ router.post('/menus', (req, res) => {
         res.send({ code: 200, data: permitArr, msg: '权限列表获取成功' });
       });
   }
+})
+
+/**
+ * @api {post} /permit/del 删除权限
+ * @apiName 删除权限
+ * @apiGroup permit
+ *
+ * @apiParam {String} _id 权限Id
+ */
+router.post('/del', (req, res) => {
+  let { _id } = req.body
+  Permit.findOneAndRemove({ _id }, (err) => {
+    if (!err) {
+      res.send({
+        code: 200,
+        msg: '删除成功',
+      })
+    }
+  })
 })
 module.exports = router

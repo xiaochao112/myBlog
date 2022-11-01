@@ -89,6 +89,27 @@ router.post('/updatePassword', (req, res) => {
 })
 
 /**
+ * @api {post} /user/del 删除单个账号
+ * @apiName 删除单个账号
+ * @apiGroup user
+ *
+ * @apiParam {String} _id 用户id
+ */
+router.post('/del', (req, res) => {
+  const { _id, password } = req.body;
+
+  if (_id === '6340cb97cf058739b01512b7') return res.status(500).send({ msg: '配置失败，超级管理员禁止修改' })
+  AdminUser.findByIdAndRemove({ _id }, (err) => {
+    if (!err) {
+      res.send({
+        code: 200,
+        msg: '删除成功',
+      })
+    }
+  })
+})
+
+/**
  * @api {post} /user/avatar 上传头像Url
  * @apiName 上传头像Url
  * @apiGroup user
@@ -118,18 +139,18 @@ router.post('/avatar', (req, res) => {
 })
 
 /**
- * @api {post} /user/adminList 获取管理员列表信息
- * @apiName 获取管理员列表信息
+ * @api {post} /user/userList 获取普通用户列表信息
+ * @apiName 获取普通用户列表信息
  * @apiGroup user
  *
  * @apiParam {Number} pageNo 页数
  * @apiParam {Number} pageSize 条数
  */
-router.post('/adminList', (req, res) => {
+router.post('/userList', (req, res) => {
   const pageNo = Number(req.body.pageNo) || 1;
   const pageSize = Number(req.body.pageSize) || 10;
   const userData = {
-    roleId: 1
+    roleId: 2
   }
   // 正则方法
   const reg = new RegExp()
@@ -156,18 +177,18 @@ router.post('/adminList', (req, res) => {
 });
 
 /**
- * @api {post} /user/userList 获取用户列表信息
- * @apiName 获取用户列表信息
+ * @api {post} /user/adminList 获取普通用户列表信息
+ * @apiName 获取普通用户列表信息
  * @apiGroup user
  *
  * @apiParam {Number} pageNo 页数
  * @apiParam {Number} pageSize 条数
  */
-router.post('/userList', (req, res) => {
+router.post('/adminList', (req, res) => {
   const pageNo = Number(req.body.pageNo) || 1;
   const pageSize = Number(req.body.pageSize) || 10;
   const userData = {
-    roleId: 2
+    roleId: 1
   }
   // 正则方法
   const reg = new RegExp()

@@ -8,7 +8,7 @@ const router = express.Router({
 })
 
 /**
- * @api {get} /role/add 增加一个角色
+ * @api {post} /role/add 增加一个角色
  * @apiName 增加一个角色
  * @apiGroup role
  *
@@ -32,7 +32,7 @@ router.post('/add', (req, res) => {
 })
 
 /**
- * @api {get} /role/update 更新角色信息
+ * @api {post} /role/update 更新角色信息
  * @apiName 更新角色信息
  * @apiGroup role
  *
@@ -48,7 +48,26 @@ router.post('/update', (req, res) => {
 })
 
 /**
- * @api {get} /role/setPermits 更新角色权限
+ * @api {post} /role/del 删除角色
+ * @apiName 删除角色
+ * @apiGroup role
+ *
+ * @apiParam {Number} roleId 角色Id
+ */
+router.post('/del', (req, res) => {
+  let { roleId } = req.body
+  Role.findOneAndRemove({ roleId }, (err) => {
+    if (!err) {
+      res.send({
+        code: 200,
+        msg: '删除成功',
+      })
+    }
+  })
+})
+
+/**
+ * @api {post} /role/setPermits 更新角色权限
  * @apiName 更新角色权限
  * @apiGroup role
  *

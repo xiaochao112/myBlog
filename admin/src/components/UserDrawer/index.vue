@@ -11,7 +11,7 @@
         <el-tag size="small">18100000000</el-tag>
       </el-descriptions-item>
       <el-descriptions-item label="权限">
-        <el-tag size="small">{{ user.roles[0] }}</el-tag>
+        <el-tag size="small">{{ user.roleId }}</el-tag>
       </el-descriptions-item>
       <el-descriptions-item label="注册时间">
         <el-tag size="small">{{ getData(user.creationTime) }}</el-tag>

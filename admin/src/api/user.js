@@ -18,8 +18,3 @@ export const updatedPsd = (data) => {
 export const updatedAvatar = (data) => {
   return http.post('/user/avatar', data);
 }
-
-// 获取用户列表
-export const getList = (data) => {
-  return http.post('/user/userList', data);
-}
