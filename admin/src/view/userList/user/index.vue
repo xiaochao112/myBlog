@@ -29,7 +29,7 @@
         </template>
       </el-table-column>
       <el-table-column prop="desc" label="备注" />
-      <el-table-column prop="code" label="状态" width="120" />
+      <el-table-column prop="status" label="状态" width="120" />
 
       <el-table-column align="center" label="菜单" width="240">
         <template #default="scope">
@@ -70,8 +70,7 @@ const addForm = () => {
   myDialogRef.value.centerDialogVisible = true;
 }
 // 修改某一条数据
-const handleEdit = (index, row) => {
-  console.log(index, row)
+const handleEdit = (row) => {
   title.value = '修改'
   myDialogRef.value.centerDialogVisible = true;
   // 携带表格数据
@@ -80,9 +79,7 @@ const handleEdit = (index, row) => {
   myDialogRef.value.numberValidateForm.avatar = row.avatar;
   myDialogRef.value.numberValidateForm._id = row._id;
 }
-onMounted(() => {
-  getInfo()
-})
+onMounted(() => { getInfo() })
 </script>
 
 

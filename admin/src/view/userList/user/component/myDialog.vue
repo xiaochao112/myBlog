@@ -1,5 +1,6 @@
 <template>
-  <el-dialog v-model="centerDialogVisible" :title="`${prop.title}用户`" width="30%" align-center>
+  <el-dialog v-model="centerDialogVisible" :title="`${prop.title}用户`" width="30%" align-center
+    :before-close="handleClone">
     <el-form ref="formRef" :model="numberValidateForm" label-width="100px" class="demo-ruleForm" :rules="rules"
       label-position="top">
       <el-form-item label="用户名" prop="username">
@@ -9,10 +10,11 @@
       <el-form-item label="密码" prop="password">
         <el-input v-model="numberValidateForm.password" placeholder="请输入密码" type="password" autocomplete="off" />
       </el-form-item>
-      <el-form-item label="上传图片：" prop="avatar">
-        <el-upload class="avatar-uploader" ref="addUpload" http-request="httpRequest" action :show-file-list="false"
-          :headers="getAuthHeaders()" :before-upload="handleUpload">
-          <img v-if="numberValidateForm.avatar" :src="numberValidateForm.avatar" class="avatar" />
+      <el-form-item label="上传头像：" prop="imgUrl">
+        <el-upload class="avatar-uploader" action ref="addUpload" :http-request="httpRequest" :show-file-list="false"
+          :headers="getAuthHeaders()">
+          <img v-if="numberValidateForm.imgUrl || numberValidateForm.avatar"
+            :src="numberValidateForm.imgUrl ? numberValidateForm.imgUrl : avater" class="avatar" />
           <el-icon v-else class="avatar-uploader-icon">
             <Plus />
           </el-icon>
@@ -21,35 +23,36 @@
     </el-form>
     <template #footer>
       <span class="dialog-footer">
-        <el-button @click="resetForm">取消</el-button>
-        <el-button type="primary" @click="submitForm">确定</el-button>
+        <el-button @click="resetForm(formRef)">取消</el-button>
+        <el-button type="primary" @click="submitForm(formRef)">确定</el-button>
       </span>
     </template>
   </el-dialog>
 </template>
 
 
-<script lang="ts" setup>
-import { computed, reactive, ref } from 'vue';
+<script setup>
+import { computed, nextTick, reactive, ref } from 'vue';
 import { ElMessage } from 'element-plus'
 import { add, update } from '@/api/user.js';
 import { Plus } from '@element-plus/icons-vue';
 import { localGet } from '@/utils';
 import { uploadImg } from '@/api/upload';
 
-
 const formRef = ref();
 const addUpload = ref();
 const centerDialogVisible = ref(false);
+const file = ref(); // 上传文件
 const numberValidateForm = reactive({
+  imgUrl: '', // 图片上传预览
   username: '',
   password: '',
   avatar: '',
-  file: '',
   _id: ''
 })
 const rules = reactive({
-  english: [{ required: true, message: '不能为空', trigger: 'blur' }],
+  username: [{ required: true, message: '不能为空', trigger: 'blur' }],
+  password: [{ required: true, message: '不能为空', trigger: 'blur' }],
 })
 // 子组件触发父组件方法
 const emit = defineEmits(['getInfo']);
@@ -60,6 +63,11 @@ const prop = defineProps({
   },
 })
 
+// 头像路径
+const avater = computed(() => {
+  return import.meta.env.VITE_API_URL + numberValidateForm.avatar
+})
+
 // 请求头配置
 const getAuthHeaders = () => {
   return {
@@ -67,88 +75,135 @@ const getAuthHeaders = () => {
   }
 }
 
-// 头像上传
-const handleUpload = (file) => {
-  if (file) {
-    if (file.size > 500 * 1024) {
-      ElMessage({
-        message: '图片尺寸太大',
-        type: 'error',
-      })
-      addUpload.value.clearFiles();
-    } else {
-      // const reader = new FileReader();
-      // reader.readAsDataURL(file);
-      // reader.onload = () => {
-      //   const _base64 = reader.result;
-      //   imageUrl.value = _base64; //将_base64赋值给图片的src，实现图片预览
-      // };
-      let formData = new FormData();
-      formData.append("avatar", file);
-      // 上传图片
-      uploadImg(formData)
-        .then((res) => {
-          if (res.code = 200) {
-            numberValidateForm.avatar = res.imgUrl;
-          } else {
-            ElMessage({
-              message: "err",
-              type: 'error',
-            })
-          }
-        })
-        .catch((err) => {
-          ElMessage({
-            message: err,
-            type: 'error',
-          })
-        });
-      return false; //阻止图片继续上传，使得form表单提交时统一上传
-    }
-  }
-  return false;
-}
+// // 头像上传
+// const handleUpload = (file) => {
+//   if (file) {
+//     if (file.size > 500 * 1024) {
+//       ElMessage({
+//         message: '图片尺寸太大',
+//         type: 'error',
+//       })
+//       addUpload.value.clearFiles();
+//     } else {
+//       // const reader = new FileReader();
+//       // reader.readAsDataURL(file);
+//       // reader.onload = () => {
+//       //   const _base64 = reader.result;
+//       //   imageUrl.value = _base64; //将_base64赋值给图片的src，实现图片预览
+//       // };
+//       let formData = new FormData();
+//       formData.append("avatar", file);
+//       // 上传图片
+//       uploadImg(formData)
+//         .then((res) => {
+//           if (res.code = 200) {
+//             numberValidateForm.avatar = res.imgUrl;
+//           } else {
+//             ElMessage({
+//               message: "err",
+//               type: 'error',
+//             })
+//           }
+//         })
+//         .catch((err) => {
+//           ElMessage({
+//             message: err,
+//             type: 'error',
+//           })
+//         });
+//       return false; //阻止图片继续上传，使得form表单提交时统一上传
+//     }
+//   }
+//   return false;
+// }
+
+
+// 自行实现上传文件的请求
 const httpRequest = (param) => {
-  numberValidateForm.file = param.file
+  file.value = param.file // 相当于input里取得的files
+  // 图片预览
+  const reader = new FileReader();
+  reader.readAsDataURL(param.file);
+  reader.onload = () => {
+    const _base64 = reader.result;
+    numberValidateForm.imgUrl = _base64; //将_base64赋值给图片的src，实现图片预览
+  };
+
 }
 
 // 提交表单
-const submitForm = async () => {
-  let result
-  if (prop.title == '新增') {
-    const { username, password, avatar } = numberValidateForm;
-    if (avatar) {
-      result = await add({ username, password, avatar });
-    } else {
-      result = await add({ username, password });
-    }
+const submitForm = (formEl) => {
+  if (!formEl) return
+  formEl.validate(async (valid) => {
+    if (valid) {
+      addUpload.value.submit();
+      // 上传文件对象
+      let formData = new FormData();
+      formData.append("avatar", file.value);
+      try {
+        let result
+        // 上传图片
+        const res = await uploadImg(formData);
+        numberValidateForm.avatar = res.imgUrl;
+        console.log(numberValidateForm.avatar);
+        // 新增或修改接口
+        if (prop.title == '新增') {
+          const { username, password, avatar } = numberValidateForm;
+          if (avatar) {
+            result = await add({ username, password, avatar });
+          } else {
+            result = await add({ username, password });
+          }
 
-  }
-  else {
-    result = await update(numberValidateForm);
-  }
-  if (result.code == 200) {
-    ElMessage({
-      message: `${prop.title}成功`,
-      type: 'success',
-    })
-    numberValidateForm.username = '';
-    numberValidateForm.password = '';
-    numberValidateForm.avatar = '';
-    centerDialogVisible.value = false;
-  } else {
-    ElMessage({
-      message: `${result.msg}`,
-      type: 'error',
-    })
-  }
-  emit('getInfo');
+        }
+        else {
+          result = await update(numberValidateForm);
+        }
+        if (result.code == 200) {
+          ElMessage({
+            message: `${prop.title}成功`,
+            type: 'success',
+          })
+
+          // formEl.resetFields();
+          numberValidateForm.avatar = '';
+          numberValidateForm.imgUrl = '';
+          numberValidateForm.username = '';
+          numberValidateForm.password = '';
+
+          centerDialogVisible.value = false;
+        } else {
+          ElMessage({
+            message: `${result.msg}`,
+            type: 'error',
+          })
+        }
+        emit('getInfo');
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  })
 }
 
-const resetForm = () => {
+// 关闭对话框前的回调
+const handleClone = (done) => {
+  numberValidateForm.avatar = '';
+  numberValidateForm.imgUrl = '';
   numberValidateForm.username = '';
   numberValidateForm.password = '';
+  done();
+}
+
+// 取消提交
+const resetForm = (formEl) => {
+  if (!formEl) return
+  // formEl.resetFields();
   numberValidateForm.avatar = '';
+  numberValidateForm.imgUrl = '';
+  numberValidateForm.username = '';
+  numberValidateForm.password = '';
+
   centerDialogVisible.value = false;
 }
 
