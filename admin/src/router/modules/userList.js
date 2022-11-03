@@ -8,7 +8,7 @@ const userListRouter = [
       {
         path: '/userList/user',
         name: 'user',
-        component: () => import('@/view/userList/user/index.vue'),
+        component: () => import('@/view/userList/user/user.vue'),
         meta: {
           role: [1, 2],
           keepAlive: true,
@@ -19,7 +19,7 @@ const userListRouter = [
       {
         path: '/userList/admin',
         name: 'admin',
-        component: () => import('@/view/userList/admin/index.vue'),
+        component: () => import('@/view/userList/admin/admin.vue'),
         meta: {
           role: [1],
           keepAlive: true,
@@ -30,7 +30,7 @@ const userListRouter = [
       {
         path: '/userList/promiseList',
         name: 'promiseList',
-        component: () => import('@/view/userList/promiseList/index.vue'),
+        component: () => import('@/view/userList/promiseList/promiseList.vue'),
         meta: {
           role: [1, 2],
           keepAlive: true,

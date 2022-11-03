@@ -8,7 +8,7 @@ const inforCardRouter = [
       {
         path: '/inforCard/webVocabulary',
         name: 'webVocabulary',
-        component: () => import('@/view/webVocabulary/index.vue'),
+        component: () => import('@/view/webVocabulary/webVocabulary.vue'),
         meta: {
           role: [1, 2],
           keepAlive: true,
@@ -18,7 +18,7 @@ const inforCardRouter = [
       },
       {
         path: '/inforCard/info',
-        name: 'info',
+        name: 'card',
         component: () => import('@/view/myInformation/card.vue'),
         meta: {
           role: [1, 2],

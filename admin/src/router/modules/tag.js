@@ -8,7 +8,7 @@ const tagRouter = [
       {
         path: '/tag/index',
         name: 'tag',
-        component: () => import('@/view/tag/index.vue'),
+        component: () => import('@/view/tag/tag.vue'),
         meta: {
           role: [1],
           keepAlive: true,

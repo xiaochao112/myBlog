@@ -186,8 +186,8 @@ router.post('/userList', (req, res) => {
  * @apiParam {String}  avatar 头像路径
  */
 router.post('/add', (req, res) => {
-  const { username, password, avatar } = req.body;
-  AdminUser.create({ username, password, avatar },
+  const { username, password, avatar, dosc } = req.body;
+  AdminUser.create({ username, password, avatar, dosc },
     (err, data) => {
       if (err) {
         res.send({

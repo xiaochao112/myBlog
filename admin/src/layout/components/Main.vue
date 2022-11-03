@@ -2,7 +2,7 @@
   <el-divider></el-divider>
   <router-view v-slot="{ Component, route }">
     <transition appear name="fade-transform" mode="out-in">
-      <keep-alive>
+      <keep-alive :include="cacheRouter">
         <component :is="Component" :key="route.path" />
       </keep-alive>
     </transition>
@@ -11,7 +11,11 @@
 
 <script setup>
 import cacheRouter from '@/router/cacheRouter';
+import { onMounted } from '@vue/runtime-core';
 
+onMounted(() => {
+  console.log(cacheRouter);
+})
 </script>
 
 <style lang="scss" scoped>

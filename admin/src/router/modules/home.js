@@ -8,7 +8,7 @@ const homeRouter = [
       {
         path: '/home/index',
         name: 'home',
-        component: () => import('@/view/home/index.vue'),
+        component: () => import('@/view/home/home.vue'),
         meta: {
           role: [1, 2],
           keepAlive: true,

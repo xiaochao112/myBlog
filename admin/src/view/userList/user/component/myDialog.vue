@@ -20,6 +20,9 @@
           </el-icon>
         </el-upload>
       </el-form-item>
+      <el-form-item label="备注" prop="password">
+        <el-input v-model="numberValidateForm.dosc" placeholder="请输入备注" type="textarea" autocomplete="off" />
+      </el-form-item>
     </el-form>
     <template #footer>
       <span class="dialog-footer">
@@ -48,6 +51,8 @@ const numberValidateForm = reactive({
   username: '',
   password: '',
   avatar: '',
+  status: '',
+  dosc: '',
   _id: ''
 })
 const rules = reactive({
@@ -142,21 +147,22 @@ const submitForm = (formEl) => {
       formData.append("avatar", file.value);
       try {
         let result
-        // 上传图片
-        const res = await uploadImg(formData);
-        numberValidateForm.avatar = res.imgUrl;
-        console.log(numberValidateForm.avatar);
+        if (numberValidateForm.imgUrl) {
+          // 上传图片
+          const res = await uploadImg(formData);
+          numberValidateForm.avatar = res.imgUrl;
+        }
         // 新增或修改接口
         if (prop.title == '新增') {
-          const { username, password, avatar } = numberValidateForm;
+          const { username, password, avatar, dosc } = numberValidateForm;
           if (avatar) {
-            result = await add({ username, password, avatar });
+            result = await add({ username, password, avatar, dosc });
           } else {
-            result = await add({ username, password });
+            result = await add({ username, password, dosc });
           }
 
         }
-        else {
+        if (prop.title == '修改') {
           result = await update(numberValidateForm);
         }
         if (result.code == 200) {
@@ -170,6 +176,8 @@ const submitForm = (formEl) => {
           numberValidateForm.imgUrl = '';
           numberValidateForm.username = '';
           numberValidateForm.password = '';
+          numberValidateForm.dosc = '';
+
 
           centerDialogVisible.value = false;
         } else {
@@ -203,6 +211,7 @@ const resetForm = (formEl) => {
   numberValidateForm.imgUrl = '';
   numberValidateForm.username = '';
   numberValidateForm.password = '';
+  numberValidateForm.dosc = '';
 
   centerDialogVisible.value = false;
 }

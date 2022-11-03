@@ -46,7 +46,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup name="bkIndex">
 import WangEditor from "@/components/WangEditor/index.vue";
 import BkDetail from './component/BkDetail/index.vue';
 import { onBeforeMount, reactive, ref, watch } from "vue";

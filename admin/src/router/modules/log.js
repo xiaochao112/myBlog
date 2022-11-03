@@ -8,7 +8,7 @@ const logRouter = [
       {
         path: '/log/index',
         name: 'log',
-        component: () => import('@/view/log/index.vue'),
+        component: () => import('@/view/log/log.vue'),
         meta: {
           role: [1, 2],
           keepAlive: true,

@@ -5,7 +5,7 @@
   </el-card>
 </template>
 
-<script lang="ts" setup>
+<script setup>
 const defaultProps = {
   children: 'children',
   label: 'label',

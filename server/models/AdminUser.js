@@ -25,6 +25,7 @@ const schema = new mongoose.Schema({
   }, // 最后登录时间
   roleId: { type: Number, default: 2 }, // 权限Id
   dosc: { type: String, default: '' }, // 备注
+  status: { type: Boolean, default: true }, // 状态
 });
 
 module.exports = mongoose.model("AdminUser", schema);
