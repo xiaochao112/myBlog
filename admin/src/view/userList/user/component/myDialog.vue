@@ -20,7 +20,7 @@
           </el-icon>
         </el-upload>
       </el-form-item>
-      <el-form-item label="备注" prop="password">
+      <el-form-item label="备注" prop="dosc">
         <el-input v-model="numberValidateForm.dosc" placeholder="请输入备注" type="textarea" autocomplete="off" />
       </el-form-item>
     </el-form>

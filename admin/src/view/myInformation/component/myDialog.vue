@@ -8,7 +8,8 @@
       <el-form-item label="上传图片：" prop="img">
         <el-upload class="avatar-uploader" ref="addUpload" action :show-file-list="false" :headers="getAuthHeaders()"
           :http-request="httpRequest">
-          <img v-if="numberValidateForm.img" :src="numberValidateForm.img" class="avatar" />
+          <img v-if="numberValidateForm.imgUrl || numberValidateForm.img"
+            :src="numberValidateForm.imgUrl ? numberValidateForm.imgUrl : img" class="avatar" />
           <el-icon v-else class="avatar-uploader-icon">
             <Plus />
           </el-icon>
@@ -59,6 +60,7 @@ const prop = defineProps({
   },
 })
 
+// 获取要上传的文件信息
 const httpRequest = (param) => {
   file.value = param.file // 相当于input里取得的files
   // 图片预览
@@ -76,12 +78,70 @@ const getAuthHeaders = () => {
     'token': localGet('token')
   }
 }
+// 修改图片路径
+const img = computed(() => {
+  return import.meta.env.VITE_API_URL + numberValidateForm.img
+})
 
+// 表单上传
 const submitForm = async (formEl) => {
   if (!formEl) return
+  formEl.validate(async (valid) => {
+    if (valid) {
+      addUpload.value.submit();
+      // 上传文件对象
+      let formData = new FormData();
+      formData.append("avatar", file.value);
+      try {
+        let result
+        if (numberValidateForm.imgUrl) {
+          // 上传图片
+          const res = await uploadImg(formData);
+          numberValidateForm.img = res.imgUrl;
+        }
+        // 新增或修改接口
+        if (prop.title == '新增') {
+          const { title, img, desc } = numberValidateForm;
+          if (img) {
+            result = await add({ title, img, desc });
+          } else {
+            result = await add({ title, desc });
+          }
+
+        }
+        if (prop.title == '修改') {
+          result = await update(numberValidateForm);
+        }
+        if (result.code == 200) {
+          ElMessage({
+            message: `${prop.title}成功`,
+            type: 'success',
+          })
+
+          // formEl.resetFields();
+          numberValidateForm.title = '';
+          numberValidateForm.imgUrl = '';
+          numberValidateForm.img = '';
+          numberValidateForm.desc = '';
+
+
+          centerDialogVisible.value = false;
+        } else {
+          ElMessage({
+            message: `${result.msg}`,
+            type: 'error',
+          })
+        }
+        emit('getInfo');
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  })
   // formEl.a
 }
 
+// 清除表单信息
 const resetForm = (formEl) => {
   numberValidateForm.title = '';
   numberValidateForm.desc = '';
@@ -89,6 +149,7 @@ const resetForm = (formEl) => {
   centerDialogVisible.value = false;
 }
 
+// 暴露给父组件使用
 defineExpose({
   centerDialogVisible,
   numberValidateForm

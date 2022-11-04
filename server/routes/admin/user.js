@@ -205,7 +205,7 @@ router.post('/add', (req, res) => {
 })
 
 /**
- * @api {post} /user/updatePassword 修改用户信息
+ * @api {post} /user/update 修改用户信息
  * @apiName 修改用户信息
  * @apiGroup user
  *
@@ -216,6 +216,25 @@ router.post('/update', (req, res) => {
   const { _id, password, dosc, avatar } = req.body;
 
   AdminUser.updateOne({ _id }, { password, dosc, avatar })
+    .then((data) => {
+      res.send({ code: 200, msg: '配置成功' })
+    })
+    .catch(() => {
+      res.send({ code: 500, msg: '配置失败' })
+    })
+})
+
+/**
+ * @api {post} /user/updateStatus 修改用户状态
+ * @apiName 修改用户状态
+ * @apiGroup user
+ *
+ * @apiParam {String} _id 用户id
+ * @apiParam {Boolean} status 新密码
+ */
+router.post('/updateStatus', (req, res) => {
+  const { _id, status } = req.body;
+  AdminUser.updateOne({ _id }, { status })
     .then((data) => {
       res.send({ code: 200, msg: '配置成功' })
     })

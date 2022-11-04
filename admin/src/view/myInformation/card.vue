@@ -22,7 +22,7 @@
       </el-table-column>
       <el-table-column prop="img" label="图片">
         <template #default="scope">
-          <img :src="scope.row['img']" alt="" style="width: 60px">
+          <img :src="`${img + scope.row['img']}`" alt="" style="width: 60px">
         </template>
       </el-table-column>
       <el-table-column prop="desc" label="备注" />
@@ -45,7 +45,7 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, computed } from 'vue';
 import { getList, del } from '@/api/myInformation.js';
 import { getData } from '@/utils';
 import { Search } from '@element-plus/icons-vue';
@@ -62,6 +62,12 @@ const myDescriptionsRef = ref()
 // 使用hook函数
 // 封装表格方法
 const { getInfo, tableData, total, loading, handleDelete, listData, getPage } = tableHooks({ getList, del })
+
+// 修改图片路径
+const img = computed(() => {
+  return import.meta.env.VITE_API_URL
+})
+
 
 // 新增一条数据
 const addForm = () => {

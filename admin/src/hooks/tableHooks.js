@@ -33,16 +33,7 @@ export default function tableHooks(api, initParam = {}) {
     const result = await api.getList({ ...listData, ...initParam, ...keword, });
     if (result.code == 200) {
       loading.value = false
-
-      // 如果有图片处理一下路径
-      if (result.data[0] && result.data[0].img) {
-        tableData.value = result.data.map(item => {
-          item.img = import.meta.env.VITE_API_URL + item.img
-          return item
-        });
-      } else {
-        tableData.value = result.data;
-      }
+      tableData.value = result.data;
       total.value = result.total;
     }
   }

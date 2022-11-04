@@ -95,7 +95,6 @@ router.post('/update', (req, res) => {
   })
 })
 
-
 /**
  * @api {post} /webVocabulary/del 删除一条数据
  * @apiName 删除一条数据
