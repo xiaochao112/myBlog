@@ -47,7 +47,7 @@
         </template>
       </el-table-column>
     </el-table>
-    <Pagination :total="total" :pageNo="listData.pageNo" :pageSize="listData.pageSize" @getPage="emit('getPage')">
+    <Pagination :total="total" :pageNo="listData.pageNo" :pageSize="listData.pageSize" @getPage="getPage">
     </Pagination>
 
     <!-- 一级标签添加、修改对话框 -->
@@ -78,7 +78,7 @@ const state = bkStore();
 const title = ref('');
 const firstDialogRef = ref(); // 一级标签对话框ref
 const SecondTagDialogRef = ref(); // 二级标签对话框ref
-
+// const fristNumberValidateForm = ref({})
 const emit = defineEmits(['getInfo', 'handleDelete', 'getPage']);
 
 const props = defineProps({
@@ -87,7 +87,9 @@ const props = defineProps({
   listData: { type: Object },
   total: { tyoe: Number },
 })
-
+const getPage = (pageNo, pageSize) => {
+  emit('getPage', pageNo, pageSize)
+}
 // * 一级标签
 // 新增一条数据
 const addForm = () => {
@@ -99,6 +101,7 @@ const handleEdit = (index, row) => {
   title.value = '修改';
   firstDialogRef.value.centerDialogVisible = true;
   // 表单数据渲染
+  // fristNumberValidateForm = { promise: row.promise, _id: row._id, title: row.title, desc: row.desc }
   firstDialogRef.value.numberValidateForm.promise = row.promise;
   firstDialogRef.value.numberValidateForm._id = row._id;
   firstDialogRef.value.numberValidateForm.title = row.title;

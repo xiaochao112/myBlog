@@ -17,7 +17,7 @@ import tableHooks from '@/hooks/tableHooks';
 import { tagStore } from '@/store/modules/tagStore';
 
 const state = tagStore()
-const { getInfo, tableData, total, loading, handleDelete, listData, getPage } = tableHooks({ getList, del }, {})
+const { getInfo, tableData, total, loading, handleDelete, listData, getPage } = tableHooks({ getList, del })
 
 const treeTagRef = ref();
 

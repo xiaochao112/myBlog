@@ -13,7 +13,7 @@ const router = express.Router({
  * @apiGroup user
  *
  * @apiParam {String} username 用户姓名
- * @apiParam {Number} password 用户密码
+ * @apiParam {String} password 用户密码
  */
 router.post('/login', async (req, res) => {
   const { username, password } = req.body;
@@ -183,7 +183,11 @@ router.post('/userList', (req, res) => {
  *
  * @apiParam {String} username 用户名
  * @apiParam {String} password 密码
- * @apiParam {String}  avatar 头像路径
+ * @apiParam {String}  avatar 头像url
+ * @apiParam {String}  dosc 备注
+ * @apiParam {Boolean} status 状态
+
+ * 
  */
 router.post('/add', (req, res) => {
   const { username, password, avatar, dosc } = req.body;
@@ -211,30 +215,16 @@ router.post('/add', (req, res) => {
  *
  * @apiParam {String} _id 用户id
  * @apiParam {String} password 新密码
+ * @apiParam {String} dosc 备注
+ * @apiParam {String} avatar 头像url
+ * @apiParam {Boolean} status 状态
+ * 
+ * 
  */
 router.post('/update', (req, res) => {
-  const { _id, password, dosc, avatar } = req.body;
+  const { _id, password, dosc, avatar, status } = req.body;
 
-  AdminUser.updateOne({ _id }, { password, dosc, avatar })
-    .then((data) => {
-      res.send({ code: 200, msg: '配置成功' })
-    })
-    .catch(() => {
-      res.send({ code: 500, msg: '配置失败' })
-    })
-})
-
-/**
- * @api {post} /user/updateStatus 修改用户状态
- * @apiName 修改用户状态
- * @apiGroup user
- *
- * @apiParam {String} _id 用户id
- * @apiParam {Boolean} status 新密码
- */
-router.post('/updateStatus', (req, res) => {
-  const { _id, status } = req.body;
-  AdminUser.updateOne({ _id }, { status })
+  AdminUser.updateOne({ _id }, { password, dosc, avatar, status })
     .then((data) => {
       res.send({ code: 200, msg: '配置成功' })
     })

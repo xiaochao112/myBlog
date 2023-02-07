@@ -1,15 +1,18 @@
 <template>
-  <el-divider></el-divider>
-  <router-view v-slot="{ Component, route }">
-    <transition appear name="fade-transform" mode="out-in">
-      <keep-alive :include="cacheRouter">
-        <component :is="Component" :key="route.path" />
-      </keep-alive>
-    </transition>
-  </router-view>
+  <div>
+    <el-divider></el-divider>
+    <router-view v-slot="{ Component, route }">
+      <transition appear name="fade-transform" mode="out-in">
+        <keep-alive :include="cacheRouter">
+          <component :is="Component" :key="route.path" />
+        </keep-alive>
+      </transition>
+    </router-view>
+  </div>
 </template>
 
 <script setup>
+
 import cacheRouter from '@/router/cacheRouter';
 import { onMounted } from '@vue/runtime-core';
 

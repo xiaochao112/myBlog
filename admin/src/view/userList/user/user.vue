@@ -62,8 +62,6 @@ const title = ref('');
 const keyWord = ref('');
 const myDialogRef = ref(); // 新增或修改Ref
 
-// const centerDialogVisible = ref(false)
-
 // 使用自定义hook函数
 // 封装表格方法
 const { getInfo, tableData, total, loading, handleDelete, listData, getPage } = tableHooks({ getList, del })
@@ -75,7 +73,7 @@ const addForm = () => {
 }
 // 修改某一条数据
 const handleEdit = (index, row) => {
-  console.log(row);
+  // console.log(row);
   title.value = '修改'
   myDialogRef.value.centerDialogVisible = true;
   // 携带表格数据
@@ -86,9 +84,9 @@ const handleEdit = (index, row) => {
   myDialogRef.value.numberValidateForm.dosc = row.dosc;
   myDialogRef.value.numberValidateForm._id = row._id;
 }
-onMounted(() => { getInfo() })
-</script>
+onMounted(() => { getInfo() });
 
+</script>
 
 <style lang="scss" scoped>
 .el-table {

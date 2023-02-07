@@ -7,14 +7,20 @@
         <el-input :disabled="title == '修改'" v-model="numberValidateForm.username" placeholder="请输入用户名" type="text"
           autocomplete="off" />
       </el-form-item>
+      <el-form-item label="是否禁用" prop="status">
+        <el-radio-group v-model="numberValidateForm.status">
+          <el-radio :label="true" />
+          <el-radio :label="false" />
+        </el-radio-group>
+      </el-form-item>
       <el-form-item label="密码" prop="password">
         <el-input v-model="numberValidateForm.password" placeholder="请输入密码" type="password" autocomplete="off" />
       </el-form-item>
       <el-form-item label="上传头像：" prop="imgUrl">
         <el-upload class="avatar-uploader" action ref="addUpload" :http-request="httpRequest" :show-file-list="false"
           :headers="getAuthHeaders()">
-          <img v-if="numberValidateForm.imgUrl || numberValidateForm.avatar"
-            :src="numberValidateForm.imgUrl ? numberValidateForm.imgUrl : avater" class="avatar" />
+          <img v-if="imgUrl || numberValidateForm.avatar" :src="imgUrl ? imgUrl : avater" class="avatar"
+            style="width: 120px" />
           <el-icon v-else class="avatar-uploader-icon">
             <Plus />
           </el-icon>
@@ -45,11 +51,12 @@ import { uploadImg } from '@/api/upload';
 const formRef = ref();
 const addUpload = ref();
 const centerDialogVisible = ref(false);
+const imgUrl = ref('')// 图片上传预览
 const file = ref(); // 上传文件
 const numberValidateForm = reactive({
-  imgUrl: '', // 图片上传预览
   username: '',
   password: '',
+  status: false,
   avatar: '',
   status: '',
   dosc: '',
@@ -131,7 +138,7 @@ const httpRequest = (param) => {
   reader.readAsDataURL(param.file);
   reader.onload = () => {
     const _base64 = reader.result;
-    numberValidateForm.imgUrl = _base64; //将_base64赋值给图片的src，实现图片预览
+    imgUrl.value = _base64; //将_base64赋值给图片的src，实现图片预览
   };
 
 }
@@ -147,7 +154,7 @@ const submitForm = (formEl) => {
       formData.append("avatar", file.value);
       try {
         let result
-        if (numberValidateForm.imgUrl) {
+        if (imgUrl.value) {
           // 上传图片
           const res = await uploadImg(formData);
           numberValidateForm.avatar = res.imgUrl;
@@ -172,13 +179,7 @@ const submitForm = (formEl) => {
           })
 
           // formEl.resetFields();
-          numberValidateForm.avatar = '';
-          numberValidateForm.imgUrl = '';
-          numberValidateForm.username = '';
-          numberValidateForm.password = '';
-          numberValidateForm.dosc = '';
-
-
+          resetFields()
           centerDialogVisible.value = false;
         } else {
           ElMessage({
@@ -196,10 +197,8 @@ const submitForm = (formEl) => {
 
 // 关闭对话框前的回调
 const handleClone = (done) => {
-  numberValidateForm.avatar = '';
-  numberValidateForm.imgUrl = '';
-  numberValidateForm.username = '';
-  numberValidateForm.password = '';
+  resetFields();
+
   done();
 }
 
@@ -207,21 +206,29 @@ const handleClone = (done) => {
 const resetForm = (formEl) => {
   if (!formEl) return
   // formEl.resetFields();
+  resetFields()
+  centerDialogVisible.value = false;
+}
+
+const resetFields = () => {
   numberValidateForm.avatar = '';
   numberValidateForm.imgUrl = '';
   numberValidateForm.username = '';
   numberValidateForm.password = '';
   numberValidateForm.dosc = '';
+  numberValidateForm.status = false;
+  imgUrl.value = "";
 
-  centerDialogVisible.value = false;
 }
 
 // 暴露给父组件使用
 defineExpose({
   centerDialogVisible,
   numberValidateForm
-})
+});
+
 </script>
+
 <style scoped>
 .dialog-footer button:first-child {
   margin-right: 10px;

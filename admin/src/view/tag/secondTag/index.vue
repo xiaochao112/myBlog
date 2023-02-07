@@ -36,7 +36,8 @@ const emit = defineEmits(['handleSecondEdit', 'handleSecondDelete', 'showContent
 
 const props = defineProps({
   secondTag: { type: Array }
-})
+});
+
 </script>
 
 

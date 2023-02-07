@@ -55,6 +55,7 @@ import { userInfoStore } from '@/store/modules/userStore';
 import router from '@/router/index';
 import { routerStore } from '@/store/modules/routerStore';
 import { munuStore } from '@/store/modules/munuStore';
+// import UserDrawer from '@/components/UserDrawer/index.vue'
 
 const state = userInfoStore(); // 个人信息仓库
 const routerArr = routerStore(); // 路由导航仓库

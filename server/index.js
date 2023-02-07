@@ -71,6 +71,6 @@ require('./plugins/db')(app)
 require('./routes/index.js')(app)
 // require('./routes/web/index.js')(app)
 
-app.listen(8000, '0.0.0.0', async (req, res) => {
+app.listen(3000, '0.0.0.0', async (req, res) => {
   console.log('http://localhost:8000')
 })

@@ -1,6 +1,6 @@
 <template>
   <el-dialog v-model="centerDialogVisible" :title="`${prop.title}单词`" width="30%" align-center>
-    <el-form ref="formRef" :model="numberValidateForm" label-width="100px" class="demo-ruleForm" :rules="rules"
+    <el-form ref="formRef" :model="numberValidateForm" label-width="100px" class="demo-dynamic" :rules="rules"
       label-position="top">
       <el-form-item label="单词：" prop="english">
         <el-input v-model="numberValidateForm.english" placeholder="请输入英文：" type="text" autocomplete="off" />
@@ -14,8 +14,8 @@
     </el-form>
     <template #footer>
       <span class="dialog-footer">
-        <el-button @click="resetForm">取消</el-button>
-        <el-button type="primary" @click="submitForm">确定</el-button>
+        <el-button @click="resetForm(formRef)">取消</el-button>
+        <el-button type="primary" @click="submitForm(formRef)">确定</el-button>
       </span>
     </template>
   </el-dialog>
@@ -37,6 +37,8 @@ const numberValidateForm = reactive({
 })
 const rules = reactive({
   english: [{ required: true, message: '不能为空', trigger: 'blur' }],
+  title: [{ required: true, message: '不能为空', trigger: 'blur' }],
+
 })
 // 子组件触发父组件方法
 const emit = defineEmits(['getInfo']);
@@ -47,40 +49,53 @@ const prop = defineProps({
   },
 })
 
-const submitForm = async () => {
-  let result
-  if (prop.title == '新增') {
-    const { english, title, desc } = numberValidateForm;
-    result = await add({ english, title, desc });
-  }
-  else {
-    result = await update(numberValidateForm);
-  }
-  if (result.code == 200) {
-    ElMessage({
-      message: `${prop.title}成功`,
-      type: 'success',
+const submitForm = async (formEl) => {
+  if (!formEl) return
+  await formEl.validate(
+    async (valid, fields) => {
+      if (valid) {
+        console.log('submit!')
+        let result
+        if (prop.title == '新增') {
+          const { english, title, desc } = numberValidateForm;
+          result = await add({ english, title, desc });
+        }
+        else {
+          result = await update(numberValidateForm);
+        }
+        if (result.code == 200) {
+          ElMessage({
+            message: `${prop.title}成功`,
+            type: 'success',
+          })
+          // formEl.resetFields()
+          resetFields()
+          centerDialogVisible.value = false;
+        } else {
+          ElMessage({
+            message: `${result.msg}`,
+            type: 'error',
+          })
+        }
+        emit('getInfo');
+      } else {
+        console.log('error submit!', fields)
+      }
     })
-    numberValidateForm.title = '';
-    numberValidateForm.english = '';
-    numberValidateForm.desc = '';
-    numberValidateForm._id = '';
-    centerDialogVisible.value = false;
-  } else {
-    ElMessage({
-      message: `${result.msg}`,
-      type: 'error',
-    })
-  }
-  emit('getInfo');
 }
 
-const resetForm = () => {
-  numberValidateForm.title = '';
+const resetForm = (formEl) => {
+  if (!formEl) return
+  // formEl.resetFields()
+  resetFields()
+  centerDialogVisible.value = false;
+}
+const resetFields = () => {
   numberValidateForm.english = '';
+  numberValidateForm.title = '';
   numberValidateForm.desc = '';
   numberValidateForm._id = '';
-  centerDialogVisible.value = false;
+
 }
 
 defineExpose({

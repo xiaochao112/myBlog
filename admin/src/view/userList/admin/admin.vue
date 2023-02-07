@@ -69,9 +69,11 @@ const handleEdit = (index, row) => {
   title.value = '修改'
   // myDialogRef.value.centerDialogVisible = true;
 }
+const showInfo = (index, row) => { }
 onMounted(() => {
   getInfo()
-})
+});
+
 </script>
 
 
