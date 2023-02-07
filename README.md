@@ -7,10 +7,10 @@
 
 进入[官网](https://www.mongodb.com/try/download/community)下载，版本是4.2.17，平台是Windows，安装包为msi格式
 
-### 项目开发
+### 项目开发 
 
 #### 1. 克隆项目至本地：
-
+ 
 ```sh
 $ git clone git@github.com:miqilin21/vue-blog.git
 $ cd vue-blog
