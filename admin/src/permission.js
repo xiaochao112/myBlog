@@ -3,7 +3,7 @@ import { ElMessage } from 'element-plus'
 import NProgress from 'nprogress';
 import 'nprogress/nprogress.css';
 import { localGet, handleRouter } from './utils';
-
+import { routerArray } from '@/router/promisRouter.js'
 import { userInfoStore } from './store/modules/userStore';
 import { routerStore } from './store/modules/routerStore/index.js';
 
@@ -29,7 +29,7 @@ router.beforeEach(async (to, from, next) => {
       try {
         // 派发pinia，获取用户信息
         let user = await store.setUser()
-        let routes = handleRouter(router.options.routes, user.roleId)
+        let routes = handleRouter(routerArray, user.roleId)
 
         // 存储路由导航
         state.setRoutes(routes);

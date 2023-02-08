@@ -15,8 +15,10 @@ export const routerStore = defineStore('routes', {
     },
     // 当前路由
     setCurrentRoute(path) {
+      console.log('path', path);
       // 处理导航
       const currentPront = this.routes.find(item => item.path == path.slice(0, path.indexOf('/', 1)));
+      console.log('currentPront', currentPront);
       if (!currentPront) return
       const current = currentPront.children.find(item => item.path == path);
       this.currentRoute = current;

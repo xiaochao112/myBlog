@@ -1,6 +1,5 @@
 
 import { createRouter, createWebHistory } from "vue-router";
-import layout from "../layout/index.vue";
 import { routerArray } from "./promisRouter";
 
 /**
@@ -26,9 +25,6 @@ const routes = [
         component: () => import('@/view/login/index.vue')
       }
     ],
-    meta: {
-      nav: false
-    }
   },
   {
     path: "/404",
@@ -38,7 +34,6 @@ const routes = [
         path: '/404',
         component: () => import("@/components/ErrorMessage/404.vue"),
         meta: {
-          nav: false,
           title: "404页面",
           key: "404"
         }
@@ -50,9 +45,6 @@ const routes = [
   {
     path: '/:pathMatch(.*)',
     redirect: '/404',
-    meta: {
-      nav: false
-    }
   }
 ];
 

@@ -4,3 +4,7 @@ import http from './index';
 export const getRoleList = () => {
   return http.post('/permit/menus');
 }
+// 获取路由权限
+export const getRoutes = () => {
+  return http.get('/permit/getRoutes');
+}

@@ -2,6 +2,7 @@ const express = require('express');
 const AdminUser = require('../../models/AdminUser');
 const Role = require('../../models/Role');
 const Permit = require('../../models/Permit');
+const AutoRoutes = require('../../models/AutoRoutes');
 // const assert = require('http-assert');
 const JwtUtil = require('../../utils/jwt');
 const { getCounter } = require('../../utils/counter');
@@ -88,4 +89,40 @@ router.post('/del', (req, res) => {
     }
   })
 })
+/**
+ * @api {post} /permit/del 获取路由权限列表
+ * @apiName 路由权限
+ * @apiGroup permit
+ */
+router.get('/getRoutes', (req, res) => {
+
+  AutoRoutes.find().select('-__v').then(data => {
+    console.log(data)
+    res.send({
+      code: 200,
+      data,
+      msg: '列表获取成功',
+    })
+  })
+    .catch(() => {
+      res.send({ code: 500, msg: '列表获取失败' })
+    });
+})
+
+router.post('/addRoutes', (req, res) => {
+  let { path, name, component, children, meta } = req.body
+  AutoRoutes.find({ name }).then(data => {
+    if (data.length == 0) {
+      return getCounter('permit')
+    } else {
+      res.send({ code: 203, msg: '该数据已存在，请勿重复添加' })
+    }
+  })
+    .then(id => {
+      return AutoRoutes.create({ path, name, component, children, meta })
+    })
+    .then(() => { res.send({ code: 200, msg: '创建成功' }) })
+    .catch(err => { res.send({ code: 203, msg: err }) })
+})
+
 module.exports = router

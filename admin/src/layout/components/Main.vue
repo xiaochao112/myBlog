@@ -12,12 +12,11 @@
 </template>
 
 <script setup>
-
-import cacheRouter from '@/router/cacheRouter';
-import { onMounted } from '@vue/runtime-core';
+import cacheRouter from '@/router/cacheRouter'
+import { onMounted } from '@vue/runtime-core'
 
 onMounted(() => {
-  console.log(cacheRouter);
+  console.log('cacheRouter', cacheRouter)
 })
 </script>
 
@@ -25,7 +24,7 @@ onMounted(() => {
 /* fade-transform */
 .fade-transform-leave-active,
 .fade-transform-enter-active {
-  transition: all .2s;
+  transition: all 0.2s;
   // position: relative;
 }
 

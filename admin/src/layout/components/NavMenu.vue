@@ -1,7 +1,16 @@
 <template>
-  <el-menu :default-active="currentRouter" active-text-color="#ffd04b" background-color="#545c64" text-color="#fff"
-    class="el-menu-vertical-demo" :collapse="munu.munuStates" @open="handleOpen" @close="handleClose"
-    @select="handleRouter" router>
+  <el-menu
+    :default-active="currentRouter"
+    active-text-color="#ffd04b"
+    background-color="#545c64"
+    text-color="#fff"
+    class="el-menu-vertical-demo"
+    :collapse="munu.munuStates"
+    @open="handleOpen"
+    @close="handleClose"
+    @select="handleRouter"
+    router
+  >
     <template v-for="item in state.routes" :key="item.path">
       <el-sub-menu v-if="item.children.length > 1" :index="item.path">
         <template #title>
@@ -10,7 +19,11 @@
           </svg>
           <span>{{ item.meta['title'] }}</span>
         </template>
-        <el-menu-item v-for="child in item.children" :key="child.path" :index="child.path">
+        <el-menu-item
+          v-for="child in item.children"
+          :key="child.path"
+          :index="child.path"
+        >
           <svg class="icon" aria-hidden="true">
             <use :xlink:href="`#${child.meta['icon']}`"></use>
           </svg>
@@ -25,31 +38,31 @@
       </el-menu-item>
     </template>
   </el-menu>
-
 </template>
 
 <script  setup>
-import { computed, onMounted, ref } from 'vue';
-import { routerStore } from '@/store/modules/routerStore';
-import { munuStore } from '@/store/modules/munuStore';
+import { computed, onMounted, ref } from 'vue'
+import { routerStore } from '@/store/modules/routerStore'
+import { munuStore } from '@/store/modules/munuStore'
 
 const munu = munuStore()
 
-const state = routerStore();
+const state = routerStore()
 // 当前路由导航
-const currentRouter = computed(() => state.currentRoute.path);
+const currentRouter = computed(() => state.currentRoute.path)
 const handleOpen = (key, keyPath) => {
-  // console.log(key, keyPath)
+  console.log(key, keyPath)
 }
 const handleClose = (key, keyPath) => {
   // console.log(key, keyPath)
 }
 
 // 获取当前选中的导航菜单
-const handleRouter = (index) => { }
+const handleRouter = (index) => {}
 onMounted(() => {
+  console.log(111111111)
+  console.log(state.router)
 })
-
 </script>
 
 <style>
@@ -62,7 +75,6 @@ onMounted(() => {
   height: 100vh;
   position: fixed;
   z-index: 999;
-
 }
 </style>
 <style lang="scss" scoped>
