@@ -1,19 +1,19 @@
 ### 环境准备
 
-- Node.js v14.15.5
-- MongoDB v4.2.17
+- Node.js v16.16.0
+- MongoDB v4.2.22
 
 ### 安装MongoDB数据库
 
-进入[官网](https://www.mongodb.com/try/download/community)下载，版本是4.2.17，平台是Windows，安装包为msi格式
+进入[官网](https://www.mongodb.com/try/download/community)下载，版本是4.2.22，平台是Windows，安装包为msi格式
 
 ### 项目开发 
 
 #### 1. 克隆项目至本地：
  
 ```sh
-$ git clone git@github.com:miqilin21/vue-blog.git
-$ cd vue-blog
+$ git clone https://github.com/myGre/HwcBoKe.git
+$ cd HwcBoKe
 $ pnpm i
 ```
 
@@ -31,7 +31,7 @@ $ pnpm serve-all
 
 #### 4. 打开浏览器预览：
 
-http://localhost:5000 打开前台本地页面；http://localhost:5500 打开后台本地页面。
+http://localhost:5001 打开前台本地页面；http://localhost:5500 打开后台本地页面。
 
 
 ### 后台管理系统
@@ -45,15 +45,18 @@ http://localhost:5000 打开前台本地页面；http://localhost:5500 打开后
 - Markdown 编辑器集成
 - 图片上传功能
 
-- 新增用户
+- 用户管理
 - 用户列表(增删改查)
+- 管理员列表
+- 权限列表
 
-- 通用增删改查接口实现(中间件 resourceMiddleware)
+- 通用增删改查接口实现
 
 - 登录注册功能
 - 登出功能
 - 添加 jwt 校验（1. 用户名查找 2. 密码校验 3. 返回 token）
 - 添加 http 拦截器（request、response)
+- 页面路由拦截、校验、按钮权限等等
 
 ### 博客系统
 

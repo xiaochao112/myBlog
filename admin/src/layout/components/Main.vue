@@ -13,7 +13,7 @@
 
 <script setup>
 import cacheRouter from '@/router/cacheRouter'
-import { onMounted } from '@vue/runtime-core'
+import { onMounted } from 'vue'
 </script>
 
 <style lang="scss" scoped>

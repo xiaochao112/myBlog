@@ -125,7 +125,7 @@
   "resolved" "https://registry.npmjs.org/@types/lodash/-/lodash-4.14.184.tgz"
   "version" "4.14.184"
 
-"@types/node@^18.7.6":
+"@types/node@^18.7.6", "@types/node@>= 14":
   "integrity" "sha512-EdxgKRXgYsNITy5mjjXjVE/CS8YENSdhiagGrLqjG0pvA2owgJ6i4l7wy/PFZGC0B1/H20lWKN7ONVDNYDZm7A=="
   "resolved" "https://registry.npmjs.org/@types/node/-/node-18.7.6.tgz"
   "version" "18.7.6"
@@ -619,37 +619,38 @@
   "resolved" "https://registry.npmmirror.com/entities/-/entities-2.2.0.tgz"
   "version" "2.2.0"
 
-"esbuild-windows-64@0.14.54":
-  "integrity" "sha512-AoHTRBUuYwXtZhjXZbA1pGfTo8cJo3vZIcWGLiUcTNgHpJJMC1rVA44ZereBHMJtotyN71S8Qw0npiCIkW96cQ=="
-  "resolved" "https://registry.npmjs.org/esbuild-windows-64/-/esbuild-windows-64-0.14.54.tgz"
-  "version" "0.14.54"
+"esbuild-windows-64@0.15.18":
+  "integrity" "sha512-qinug1iTTaIIrCorAUjR0fcBk24fjzEedFYhhispP8Oc7SFvs+XeW3YpAKiKp8dRpizl4YYAhxMjlftAMJiaUw=="
+  "resolved" "https://registry.npmmirror.com/esbuild-windows-64/-/esbuild-windows-64-0.15.18.tgz"
+  "version" "0.15.18"
 
-"esbuild@^0.14.47", "esbuild@>=0.13":
-  "integrity" "sha512-Cy9llcy8DvET5uznocPyqL3BFRrFXSVqbgpMJ9Wz8oVjZlh/zUSNbPRbov0VX7VxN2JH1Oa0uNxZ7eLRb62pJA=="
-  "resolved" "https://registry.npmjs.org/esbuild/-/esbuild-0.14.54.tgz"
-  "version" "0.14.54"
+"esbuild@^0.15.9", "esbuild@>=0.13":
+  "integrity" "sha512-x/R72SmW3sSFRm5zrrIjAhCeQSAWoni3CmHEqfQrZIQTM3lVCdehdwuIqaOtfC2slvpdlLa62GYoN8SxT23m6Q=="
+  "resolved" "https://registry.npmmirror.com/esbuild/-/esbuild-0.15.18.tgz"
+  "version" "0.15.18"
   optionalDependencies:
-    "@esbuild/linux-loong64" "0.14.54"
-    "esbuild-android-64" "0.14.54"
-    "esbuild-android-arm64" "0.14.54"
-    "esbuild-darwin-64" "0.14.54"
-    "esbuild-darwin-arm64" "0.14.54"
-    "esbuild-freebsd-64" "0.14.54"
-    "esbuild-freebsd-arm64" "0.14.54"
-    "esbuild-linux-32" "0.14.54"
-    "esbuild-linux-64" "0.14.54"
-    "esbuild-linux-arm" "0.14.54"
-    "esbuild-linux-arm64" "0.14.54"
-    "esbuild-linux-mips64le" "0.14.54"
-    "esbuild-linux-ppc64le" "0.14.54"
-    "esbuild-linux-riscv64" "0.14.54"
-    "esbuild-linux-s390x" "0.14.54"
-    "esbuild-netbsd-64" "0.14.54"
-    "esbuild-openbsd-64" "0.14.54"
-    "esbuild-sunos-64" "0.14.54"
-    "esbuild-windows-32" "0.14.54"
-    "esbuild-windows-64" "0.14.54"
-    "esbuild-windows-arm64" "0.14.54"
+    "@esbuild/android-arm" "0.15.18"
+    "@esbuild/linux-loong64" "0.15.18"
+    "esbuild-android-64" "0.15.18"
+    "esbuild-android-arm64" "0.15.18"
+    "esbuild-darwin-64" "0.15.18"
+    "esbuild-darwin-arm64" "0.15.18"
+    "esbuild-freebsd-64" "0.15.18"
+    "esbuild-freebsd-arm64" "0.15.18"
+    "esbuild-linux-32" "0.15.18"
+    "esbuild-linux-64" "0.15.18"
+    "esbuild-linux-arm" "0.15.18"
+    "esbuild-linux-arm64" "0.15.18"
+    "esbuild-linux-mips64le" "0.15.18"
+    "esbuild-linux-ppc64le" "0.15.18"
+    "esbuild-linux-riscv64" "0.15.18"
+    "esbuild-linux-s390x" "0.15.18"
+    "esbuild-netbsd-64" "0.15.18"
+    "esbuild-openbsd-64" "0.15.18"
+    "esbuild-sunos-64" "0.15.18"
+    "esbuild-windows-32" "0.15.18"
+    "esbuild-windows-64" "0.15.18"
+    "esbuild-windows-arm64" "0.15.18"
 
 "escape-html@^1.0.3":
   "integrity" "sha512-NiSupZ4OeuGwr68lGIeym/ksIZMJodUGOSCZ/FSnTxcrekbvqrgdUxlJOMpijaKZVjAJrWrGs/6Jy8OMuyj9ow=="
@@ -1046,10 +1047,10 @@
     "mlly" "^0.5.3"
     "pathe" "^0.3.0"
 
-"postcss@^8.1.10", "postcss@^8.4.16":
-  "integrity" "sha512-ipHE1XBvKzm5xI7hiHCZJCSugxvsdq2mPnsq5+UF+VHCjiBvtDrlxJfMBToWaP9D5XlgNmcFGqoHmUn0EYEaRQ=="
-  "resolved" "https://registry.npmjs.org/postcss/-/postcss-8.4.16.tgz"
-  "version" "8.4.16"
+"postcss@^8.1.10", "postcss@^8.4.18":
+  "integrity" "sha512-tP7u/Sn/dVxK2NnruI4H9BG+x+Wxz6oeZ1cJ8P6G/PZY0IKk4k/63TDsQf2kQq3+qoJeLm2kIBUNlZe3zgb4Zg=="
+  "resolved" "https://registry.npmmirror.com/postcss/-/postcss-8.4.21.tgz"
+  "version" "8.4.21"
   dependencies:
     "nanoid" "^3.3.4"
     "picocolors" "^1.0.0"
@@ -1086,10 +1087,10 @@
   "resolved" "https://registry.npmjs.org/reusify/-/reusify-1.0.4.tgz"
   "version" "1.0.4"
 
-"rollup@^2.50.0", "rollup@>=2.75.6 <2.77.0 || ~2.77.0":
-  "integrity" "sha512-/qxNTG7FbmefJWoeeYJFbHehJ2HNWnjkAFRKzWN/45eNBBF/r8lo992CwcJXEzyVxs5FmfId+vTSTQDb+bxA+g=="
-  "resolved" "https://registry.npmjs.org/rollup/-/rollup-2.77.3.tgz"
-  "version" "2.77.3"
+"rollup@^2.50.0", "rollup@^2.79.1":
+  "integrity" "sha512-uKxbd0IhMZOhjAiD5oAFp7BqvkA4Dv47qpOCtaNvng4HBwdbWtdOh8f5nZNuk2rp51PMGk3bzfWu5oayNEuYnw=="
+  "resolved" "https://registry.npmmirror.com/rollup/-/rollup-2.79.1.tgz"
+  "version" "2.79.1"
   optionalDependencies:
     "fsevents" "~2.3.2"
 
@@ -1272,15 +1273,15 @@
     "node-html-parser" "^5.3.3"
     "pathe" "^0.2.0"
 
-"vite@^2.3.0 || ^3.0.0-0", "vite@^3.0.0", "vite@^3.0.7", "vite@>=2.0.0":
-  "integrity" "sha512-AOZ4eN7mrkJiOLuw8IA7piS4IdOQyQCA81GxGsAQvAZzMRi9ZwGB3TOaYsj4uLAWK46T5L4AfQ6InNGlxX30IQ=="
-  "resolved" "https://registry.npmjs.org/vite/-/vite-3.0.8.tgz"
-  "version" "3.0.8"
+"vite@^2.3.0 || ^3.0.0-0", "vite@^3.0.0", "vite@^3.1.0", "vite@>=2.0.0":
+  "integrity" "sha512-4mVEpXpSOgrssFZAOmGIr85wPHKvaDAcXqxVxVRZhljkJOMZi1ibLibzjLHzJvcok8BMguLc7g1W6W/GqZbLdQ=="
+  "resolved" "https://registry.npmmirror.com/vite/-/vite-3.2.5.tgz"
+  "version" "3.2.5"
   dependencies:
-    "esbuild" "^0.14.47"
-    "postcss" "^8.4.16"
+    "esbuild" "^0.15.9"
+    "postcss" "^8.4.18"
     "resolve" "^1.22.1"
-    "rollup" ">=2.75.6 <2.77.0 || ~2.77.0"
+    "rollup" "^2.79.1"
   optionalDependencies:
     "fsevents" "~2.3.2"
 
