@@ -1,0 +1,67 @@
+.header {
+  position: fixed;
+  width: 100vw;
+  height: 60px;
+  top: -10%;
+  z-index: 999;
+  // transition: all 1s;
+  background-color: $bgColorNav;
+
+
+  &.maxHeader {
+    top: 0%;
+  }
+
+  .favicon {
+    margin-left: 3rem;
+    padding-top: 5px;
+  }
+
+  nav {
+    z-index: 99;
+    display: flex;
+    justify-content: space-evenly;
+    position: absolute;
+    top: 0;
+    right: 0;
+    box-sizing: border-box;
+    color: white;
+    font-size: 2rem;
+    transition: all .5s ease;
+
+    li {
+      list-style: none;
+      margin: 5px 0;
+      text-align: center;
+      line-height: 50%;
+      cursor: pointer;
+      margin-right: 3rem;
+
+      p:hover {
+        color: $navColor;
+      }
+
+      p.activeClass {
+        color: $navColor;
+      }
+
+      p {
+        font-size: 2rem;
+        width: 100%;
+        height: 100%;
+      }
+    }
+
+    .border_nav {
+      width: 0.5rem;
+      height: 2rem;
+      box-sizing: border-box;
+      top: 1.9rem;
+      left: 1.4rem;
+      position: absolute;
+      background-color: $navColor;
+      border-radius: 15%;
+      transition: transform .3s;
+    }
+  }
+}

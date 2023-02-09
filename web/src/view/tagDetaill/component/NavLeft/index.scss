@@ -1,0 +1,55 @@
+.nav_tag {
+  width: 15%;
+  height: 100vh;
+  background-color: azure;
+  box-sizing: border-box;
+  padding: 10px;
+
+  // display: flex;
+  // flex-direction: column;
+  // justify-content: space-around;
+  h3 {
+    font-size: 3rem;
+  }
+
+  .tag_Nav {
+    display: flex;
+    flex-direction: column;
+    padding-left: 0px;
+
+    li {
+      // padding-left: 10px;
+      width: 100%;
+      list-style: none;
+      cursor: pointer;
+      font-size: 1.5rem;
+      line-height: 4rem;
+      border-bottom: 1px dashed #ccc;
+
+      &:hover {
+        color: rgb(70, 195, 253);
+        // background-color: rgb(250, 250, 250, .5);
+      }
+    }
+  }
+
+  .tag_Item {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+
+    li {
+      padding-left: 10px;
+      width: 100%;
+      cursor: pointer;
+      font-size: 2rem;
+      box-sizing: border-box;
+      // line-height: 2rem;
+
+      &:hover {
+        color: rgb(70, 195, 253);
+        background-color: rgb(250, 250, 250, .5);
+      }
+    }
+  }
+}

@@ -1,0 +1,65 @@
+// 文章font设置
+
+h1 {
+  font-size: 2.5rem;
+}
+
+h2 {
+  font-weight: 500;
+  font-size: 2rem;
+}
+
+h3 {
+  font-weight: 500;
+  font-size: 1.6rem;
+}
+
+h4 {
+  font-weight: 500;
+  font-size: 1.4rem;
+}
+
+h5 {
+  font-weight: 500;
+  font-size: 1.2rem;
+}
+
+li {
+  font-size: 1rem;
+  font-weight: 350;
+  line-height: 2rem;
+
+}
+
+p {
+  text-indent: 2rem;
+  font-size: 1rem;
+}
+
+pre {
+  box-sizing: border-box;
+  margin: 0;
+  outline: none;
+  padding: 0;
+  border: 1px solid #e8e8e8;
+
+  code {
+    display: block;
+    word-wrap: normal;
+    line-height: 1.5;
+    background-color: #f5f2f0;
+    border-radius: 3px;
+    font-family: monospace;
+    padding: 10px;
+  }
+}
+
+blockquote {
+  background-color: #f5f2f0;
+  border-left: 8px solid #b4d5ff;
+  display: block;
+  font-size: 100%;
+  line-height: 1.5;
+  margin: 10px 0;
+  padding: 10px;
+}

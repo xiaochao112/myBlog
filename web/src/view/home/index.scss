@@ -1,0 +1,46 @@
+.setction {
+  justify-content: space-between;
+  color: white;
+  width: 100%;
+  height: 100%;
+
+
+  h1 {
+    margin: 0 0 2.5rem;
+    font-size: 6rem;
+    line-height: 1em;
+  }
+
+  p {
+    margin-bottom: 2rem;
+  }
+
+  .main_setction {
+    position: absolute;
+    width: 100%;
+    height: 1000px;
+
+
+    &__right {
+      position: absolute;
+      // right: -10%;
+      // bottom: 10%;
+      width: 50%;
+    }
+
+    &__left {
+      position: absolute;
+      left: 5%;
+      // top: 40%;
+      width: 30%;
+      height: 50%;
+      // background-color: #dcdcdc;
+      top: 50%;
+      transform: translateY(80%);
+
+      // transition: all .7s;
+    }
+
+  }
+
+}

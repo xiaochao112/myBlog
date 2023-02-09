@@ -1,0 +1,23 @@
+.myDetaill-content {
+  width: 100%;
+
+  .tagContent {
+    width: 90%;
+    margin: 120px auto 0;
+    // background-color: azure;
+    display: flex;
+    justify-content: space-between;
+
+    .navLeft {
+      min-width: 180px;
+    }
+
+    .tagItem_content {
+      // margin-left: 200px;
+      min-width: 500px;
+      width: 85%;
+      // padding: 20px;
+      // background-color: azure;
+    }
+  }
+}

@@ -1,0 +1,47 @@
+.MyCard-content {
+
+  width: 80%;
+  min-height: 500px;
+  min-width: 700px;
+  padding: 10px;
+  // background-color: rgba(0, 60, 255, 0.3);
+  display: flex;
+  flex-direction: column;
+  box-shadow: 2px 2px 15px #ccc;
+
+  // align-items: center;
+  // justify-content: center;
+  // flex-wrap: wrap;
+  .nav_card {
+    width: 40%;
+    min-width: 400px;
+    display: flex;
+    justify-content: space-around;
+    // background-color: rgba(0, 60, 255, 0.3);
+
+    li {
+      font-size: 2rem;
+      list-style: none;
+      cursor: pointer;
+
+      &.item_curtion {
+        color: skyblue;
+      }
+    }
+  }
+
+  .content_card {
+    // width: 250px;
+    width: 90%;
+    height: 350px;
+    min-width: 700px;
+    margin-left: 5%;
+    // background-color: rgba(0, 60, 255, 0.3);
+
+    .cardItem {
+      display: inline-block;
+      margin: 20px 20px;
+      font-size: 1.5rem;
+    }
+  }
+}
