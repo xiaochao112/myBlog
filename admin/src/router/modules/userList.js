@@ -32,7 +32,7 @@ const userListRouter = [
         name: 'promiseList',
         component: () => import('@/view/userList/promiseList/promiseList.vue'),
         meta: {
-          role: [1, 2],
+          role: [1],
           keepAlive: true,
           title: '权限管理',
           icon: 'icon-guanliyuan'

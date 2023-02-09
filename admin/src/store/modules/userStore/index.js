@@ -1,7 +1,8 @@
 import { defineStore } from 'pinia';
 import { piniaLocalStorage } from '@/store/config/index';
 import { getInfoApi, getLoginApi } from '@/api/user';
-import { localSet } from '@/utils';
+import { localSet, localRemove } from '@/utils';
+import router from '@/router/index'
 import { getRoleList } from '@/api/permit';
 
 export const userInfoStore = defineStore('userInfo', {
@@ -14,6 +15,7 @@ export const userInfoStore = defineStore('userInfo', {
   actions: {
     // 根据token获取用户信息
     async setUser() {
+      console.log(this);
       const { user } = await getInfoApi();
       this.user = user;
       return user
@@ -38,6 +40,14 @@ export const userInfoStore = defineStore('userInfo', {
       const { data } = await getRoleList();
       this.roleList = data;
 
+    },
+    // 退出登录
+    setLogOut() {
+      this.user = {};
+      this.roleList = [];
+
+      localRemove('token');
+      router.push('/login');
     }
   },
   getters: {},

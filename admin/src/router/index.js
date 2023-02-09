@@ -8,11 +8,8 @@ import { routerArray } from "./promisRouter";
  * @param redirect ==> 路由重定向
  * @param component ==> 路由组件
  * @param meta ==> 路由元信息
- * @param meta.nav ==> 是否需要权限验证
  * @param meta.keepAlive ==> 是否需要缓存该路由
  * @param meta.title ==> 路由标题
- * @param meta.key	==> 路由key,用来匹配按钮权限
- * @param meta.role	==> 角色,用来匹配路由权限
  * 
  * */
 const routes = [

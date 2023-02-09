@@ -14,10 +14,6 @@
 <script setup>
 import cacheRouter from '@/router/cacheRouter'
 import { onMounted } from '@vue/runtime-core'
-
-onMounted(() => {
-  console.log('cacheRouter', cacheRouter)
-})
 </script>
 
 <style lang="scss" scoped>

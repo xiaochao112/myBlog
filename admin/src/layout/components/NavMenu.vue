@@ -2,7 +2,7 @@
   <el-menu
     :default-active="currentRouter"
     active-text-color="#ffd04b"
-    background-color="#545c64"
+    background-color="#304156"
     text-color="#fff"
     class="el-menu-vertical-demo"
     :collapse="munu.munuStates"
@@ -42,12 +42,12 @@
 
 <script  setup>
 import { computed, onMounted, ref } from 'vue'
-import { routerStore } from '@/store/modules/routerStore'
+import { authStore } from '@/store/modules/authStore'
 import { munuStore } from '@/store/modules/munuStore'
 
 const munu = munuStore()
 
-const state = routerStore()
+const state = authStore()
 // 当前路由导航
 const currentRouter = computed(() => state.currentRoute.path)
 const handleOpen = (key, keyPath) => {
@@ -59,10 +59,6 @@ const handleClose = (key, keyPath) => {
 
 // 获取当前选中的导航菜单
 const handleRouter = (index) => {}
-onMounted(() => {
-  console.log(111111111)
-  console.log(state.router)
-})
 </script>
 
 <style>

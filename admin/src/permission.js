@@ -5,14 +5,15 @@ import 'nprogress/nprogress.css';
 import { localGet, handleRouter } from './utils';
 import { routerArray } from '@/router/promisRouter.js'
 import { userInfoStore } from './store/modules/userStore';
-import { routerStore } from './store/modules/routerStore/index.js';
+import { authStore } from './store/modules/authStore'
 
 const whiteList = ['/login'] // 白名单
 
 router.beforeEach(async (to, from, next) => {
 
   const store = userInfoStore();
-  const state = routerStore();
+  // const state = routerStore();
+  const state = authStore()
 
   console.log(to.path);
   NProgress.start()
@@ -29,10 +30,13 @@ router.beforeEach(async (to, from, next) => {
       try {
         // 派发pinia，获取用户信息
         let user = await store.setUser()
-        let routes = handleRouter(routerArray, user.roleId)
-
-        // 存储路由导航
-        state.setRoutes(routes);
+        if (!state.routes.length) {
+          let routes = handleRouter(routerArray, user.roleId)
+          // 存储路由导航
+          state.setRoutes(routes);
+          // 获取按钮权限
+          state.setAuthButton()
+        }
         // 当前要去的路由导航
         state.setCurrentRoute(to.path);
         next()

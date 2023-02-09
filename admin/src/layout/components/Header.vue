@@ -13,15 +13,19 @@
               首页
             </el-breadcrumb-item>
             <template v-if="currentRoute.path != '/home/index'">
-              <el-breadcrumb-item v-if="prontRouter.children.length > 1">{{ prontRouter.meta['title'] }}
+              <el-breadcrumb-item v-if="prontRouter.children.length > 1">
+                {{ currentRoute.meta && prontRouter.meta['title'] }}
               </el-breadcrumb-item>
-              <el-breadcrumb-item :to="{ path: `${currentRoute.path}` }">{{ currentRoute.meta['title'] }}
+              <el-breadcrumb-item :to="{ path: `${currentRoute.path}` }">
+                {{ currentRoute.meta && currentRoute.meta['title'] }}
               </el-breadcrumb-item>
             </template>
           </el-breadcrumb>
         </template>
         <template #content>
-          <span class="text-large font-600 mr-3">{{ currentRoute.meta['title'] }}</span>
+          <span class="text-large font-600 mr-3">
+            {{ currentRoute.meta && currentRoute.meta['title'] }}
+          </span>
         </template>
       </el-page-header>
     </div>
@@ -29,7 +33,8 @@
     <el-dropdown class="fr dropdownContent">
       <span class="el-dropdown-link">
         <el-avatar :size="40" class="mr-3" :src="avaterUrl" />
-        <h3 class="title">{{ state.user.username }}
+        <h3 class="title">
+          {{ state.user.username }}
           <el-icon class="el-icon--right">
             <arrow-down />
           </el-icon>
@@ -49,20 +54,20 @@
 </template>
 
 <script setup>
-import { localRemove } from '../../utils';
-import { ref, computed } from 'vue';
-import { userInfoStore } from '@/store/modules/userStore';
-import router from '@/router/index';
-import { routerStore } from '@/store/modules/routerStore';
-import { munuStore } from '@/store/modules/munuStore';
+import { localRemove } from '../../utils'
+import { ref, computed } from 'vue'
+import { userInfoStore } from '@/store/modules/userStore'
+import router from '@/router/index'
+import { authStore } from '@/store/modules/authStore'
+import { munuStore } from '@/store/modules/munuStore'
 // import UserDrawer from '@/components/UserDrawer/index.vue'
 
-const state = userInfoStore(); // 个人信息仓库
-const routerArr = routerStore(); // 路由导航仓库
-const munu = munuStore(); // 导航状态
+const state = userInfoStore() // 个人信息仓库
+const routerArr = authStore() // 路由导航仓库
+const munu = munuStore() // 导航状态
 
-const userDrawerRef = ref();
-const isCollapse = ref(false);
+const userDrawerRef = ref()
+const isCollapse = ref(false)
 
 // 当前路由导航
 const currentRoute = computed(() => {
@@ -70,10 +75,11 @@ const currentRoute = computed(() => {
 })
 // 父路由
 const prontRouter = computed(() => {
-  let current = currentRoute.value.path;
-  let index = current.indexOf('/', 1);
+  if (!currentRoute.value) return
+  let current = currentRoute.value.path
+  let index = current.indexOf('/', 1)
   if (index > 0) {
-    return routerArr.routes.find(item => item.path == current.slice(0, index));
+    return routerArr.routes.find((item) => item.path == current.slice(0, index))
   }
 })
 const avaterUrl = computed(() => {
@@ -81,41 +87,39 @@ const avaterUrl = computed(() => {
 })
 // 放大或缩小导航栏
 const icon = computed(() => {
-  return isCollapse.value ? 'icon-fangda' : 'icon-suoxiao';
+  return isCollapse.value ? 'icon-fangda' : 'icon-suoxiao'
 })
 
 // 返回首页
 function goHome() {
-  router.push('/home/index');
-  routerArr.setCurrentRoute('/home/index');
+  router.push('/home/index')
+  routerArr.setCurrentRoute('/home/index')
 }
 
 // 返回上一页
 function onBack() {
-  router.go(-1);
+  router.go(-1)
 }
 // 切换导航栏状态
 const setCollapse = () => {
-  isCollapse.value = !isCollapse.value;
+  isCollapse.value = !isCollapse.value
   munu.setMunuStates()
 }
 
 // 退出登录
 const outLogin = async () => {
-  localRemove('token');
-  // await getInfoApi()
-  router.push('/login');
+  state.setLogOut()
+  routerArr.setLogOut()
 }
 
 // 打开用户信息管理
 const userInfo = () => {
-  userDrawerRef.value.drawer = true;
+  userDrawerRef.value.drawer = true
 }
 // 对外暴露
 defineExpose({
-  isCollapse
+  isCollapse,
 })
-
 </script>
 
 <style lang="scss" scoped>

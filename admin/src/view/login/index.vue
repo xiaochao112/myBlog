@@ -71,11 +71,6 @@ const rules = reactive({
   ],
 })
 
-// 过滤掉meta没有nav属性
-// const routeNav = computed(() => {
-//   return router.options.routes.filter((item) => item.meta['nav'] !== false)
-// })
-// console.log(router)
 const submitForm = (formEl) => {
   if (!formEl) return
   formEl.validate((valid) => {
