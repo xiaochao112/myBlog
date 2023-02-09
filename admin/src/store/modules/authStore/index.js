@@ -14,7 +14,8 @@ export const authStore = defineStore('authStore', {
 		// 设置按钮权限列表
 		setAuthButton() {
 			this.authButtonList = {
-				authButton: ["add", "edit", "delete", "export"]
+				user: ["add", "edit", "delete", "export"],
+				admin: ["add", "edit", "delete", "export"]
 			};
 		},
 		// 权限路由集合
@@ -27,6 +28,7 @@ export const authStore = defineStore('authStore', {
 			const currentPront = this.routes.find(item => item.path == path.slice(0, path.indexOf('/', 1)));
 			if (!currentPront) return
 			const current = currentPront.children.find(item => item.path == path);
+			this.setRouteName(current.name)
 			this.currentRoute = current;
 		},
 		setRouteName(routeName) {

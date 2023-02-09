@@ -4,10 +4,11 @@ const tagRouter = [
   {
     path: '/tag',
     component: Layout,
+    name: 'tag',
     children: [
       {
         path: '/tag/index',
-        name: 'tag',
+        name: 'tagIndex',
         component: () => import('@/view/tag/tag.vue'),
         meta: {
           role: [1],

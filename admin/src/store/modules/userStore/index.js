@@ -15,7 +15,7 @@ export const userInfoStore = defineStore('userInfo', {
   actions: {
     // 根据token获取用户信息
     async setUser() {
-      console.log(this);
+      // console.log(this);
       const { user } = await getInfoApi();
       this.user = user;
       return user

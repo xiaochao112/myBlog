@@ -3,6 +3,7 @@ import { Layout } from '@/router/constant';
 const userListRouter = [
   {
     path: '/userList',
+    name: 'userList',
     component: Layout,
     children: [
       {

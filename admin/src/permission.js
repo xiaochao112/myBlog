@@ -51,7 +51,7 @@ router.beforeEach(async (to, from, next) => {
       next()
     } else {
       ElMessage({
-        message: "token失效",
+        message: "登录已过期，请重新登录！",
         type: 'error',
       })
       next(`/login?redirect=${to.path}`)

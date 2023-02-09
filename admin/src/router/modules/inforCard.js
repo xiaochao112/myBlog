@@ -2,6 +2,7 @@ import { Layout } from '@/router/constant';
 
 const inforCardRouter = [
   {
+    name: 'inforCard',
     path: '/inforCard',
     component: Layout,
     children: [

@@ -3,11 +3,12 @@ import { Layout } from '@/router/constant';
 const logRouter = [
   {
     path: '/log',
+    name: 'log',
     component: Layout,
     children: [
       {
         path: '/log/index',
-        name: 'log',
+        name: 'logIndex',
         component: () => import('@/view/log/log.vue'),
         meta: {
           role: [1, 2],

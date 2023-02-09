@@ -51,7 +51,7 @@ const state = authStore()
 // 当前路由导航
 const currentRouter = computed(() => state.currentRoute.path)
 const handleOpen = (key, keyPath) => {
-  console.log(key, keyPath)
+  // console.log(key, keyPath)
 }
 const handleClose = (key, keyPath) => {
   // console.log(key, keyPath)
