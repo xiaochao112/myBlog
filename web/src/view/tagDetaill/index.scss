@@ -1,0 +1,45 @@
+.myDetaill-content {
+  height: 1000px;
+  // position: absolute;
+
+  .tagContent {
+    width: 90%;
+    margin: 120px auto 0;
+    // background-color: azure;
+    display: flex;
+    justify-content: space-between;
+
+    h3 {
+      font-size: 3rem;
+    }
+
+    .tagItem_content {
+      width: 80%;
+      padding: 20px;
+      // background-color: azure;
+
+      .item_secondtags {
+        list-style: none;
+        line-height: 3rem;
+        border-bottom: 1px dashed #ccc;
+
+        .itemContent {
+          cursor: pointer;
+
+          &:hover {
+            color: rgb(70, 195, 253);
+            // background-color: rgb(250, 250, 250, .5);
+          }
+
+          span {
+            font-size: 2rem;
+          }
+        }
+
+        .desc {
+          font-size: 1rem;
+        }
+      }
+    }
+  }
+}

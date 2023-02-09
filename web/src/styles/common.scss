@@ -1,0 +1,313 @@
+// 公共样式
+body {
+  padding: 0;
+  margin: 0;
+  font-family: "acta-display";
+  font-weight: 300;
+  background: rgba(188, 188, 188, 1);
+  overflow: hidden;
+}
+
+html,
+body {
+  font-size: 62.5%;
+}
+
+h1,
+h2,
+h3,
+h4,
+h4,
+h5,
+h6 {
+  font-family: "acta-display";
+  font-weight: 300;
+}
+
+.flex {
+  display: flex;
+
+  -webkit-flex-flow: row wrap;
+  flex-flow: row wrap;
+
+  align-items: center;
+  justify-content: center;
+}
+
+li {
+  // list-style: none;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+
+  &:hover {
+    color: inherit;
+  }
+}
+
+::-webkit-file-upload-button {
+  cursor: pointer;
+}
+
+input::-webkit-input-placeholder {
+  /* WebKit browsers 适配谷歌 */
+  color: #999999;
+}
+
+input:-moz-placeholder {
+  /* Mozilla Firefox 4 to 18 适配火狐 */
+  color: #999999;
+}
+
+input::-moz-placeholder {
+  /* Mozilla Firefox 19+ 适配火狐 */
+  color: #999999;
+}
+
+input:-ms-input-placeholder {
+  /* Internet Explorer 10+  适配ie*/
+  color: #999999;
+}
+
+.icon {
+  vertical-align: middle;
+}
+
+// html,
+// body {
+//   height: 100%;
+// }
+
+
+
+
+.pointer {
+  cursor: pointer;
+}
+
+
+/* 禁止选中文本 */
+.usn {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}
+
+/* 浮动 */
+.fl {
+  float: left;
+}
+
+.fr {
+  float: right;
+}
+
+.cf {
+  zoom: 1;
+}
+
+.cf:after {
+  content: ".";
+  display: block;
+  clear: both;
+  visibility: hidden;
+  height: 0;
+  overflow: hidden;
+}
+
+/* 元素类型 */
+.db {
+  display: block;
+}
+
+.dn {
+  display: none;
+}
+
+.di {
+  display: inline
+}
+
+.dib {
+  display: inline-block;
+}
+
+.transparent {
+  opacity: 0
+}
+
+/*文字排版、颜色*/
+.f12 {
+  font-size: 12px
+}
+
+.f14 {
+  font-size: 14px
+}
+
+.f16 {
+  font-size: 16px
+}
+
+.f18 {
+  font-size: 18px
+}
+
+.f20 {
+  font-size: 20px
+}
+
+.fb {
+  font-weight: bold
+}
+
+.fn {
+  font-weight: normal
+}
+
+.t2 {
+  text-indent: 2em
+}
+
+.red,
+a.red {
+  color: #cc0031
+}
+
+.darkblue,
+a.darkblue {
+  color: #039
+}
+
+.gray,
+a.gray {
+  color: #878787
+}
+
+.lh150 {
+  line-height: 150%
+}
+
+.lh180 {
+  line-height: 180%
+}
+
+.lh200 {
+  line-height: 200%
+}
+
+.unl {
+  text-decoration: underline;
+}
+
+.no_unl {
+  text-decoration: none;
+}
+
+.tl {
+  text-align: left;
+}
+
+.tc {
+  text-align: center;
+}
+
+.tr {
+  text-align: right;
+}
+
+.tj {
+  text-align: justify;
+  text-justify: inter-ideograph;
+}
+
+.wn {
+  /* 强制不换行 */
+  word-wrap: normal;
+  white-space: nowrap;
+}
+
+.wb {
+  /* 强制换行 */
+  white-space: normal;
+  word-wrap: break-word;
+  word-break: break-all;
+}
+
+.wp {
+  /* 保持空白序列*/
+  overflow: hidden;
+  text-align: left;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  word-break: break-all;
+}
+
+.wes {
+  /* 多出部分用省略号表示 , 用于一行 */
+  overflow: hidden;
+  word-wrap: normal;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.wes-2 {
+  /* 适用于webkit内核和移动端 */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+
+.wes-3 {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+}
+
+.wes-4 {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+  overflow: hidden;
+}
+
+/* 溢出样式 */
+.ofh {
+  overflow: hidden;
+}
+
+.ofs {
+  overflow: scroll;
+}
+
+.ofa {
+  overflow: auto;
+}
+
+.ofv {
+  overflow: visible;
+}
+
+/* 定位方式 */
+.ps {
+  position: static;
+}
+
+.pr {
+  position: relative;
+  zoom: 1;
+}
+
+.pa {
+  position: absolute;
+}
+
+.pf {
+  position: fixed;
+}

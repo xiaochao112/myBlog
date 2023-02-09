@@ -1,0 +1,82 @@
+html.dark {
+
+  $bgColor: linear-gradient(165deg, black 30%, darkblue 200%);
+  $bgColorNav: rgb(26, 26, 26);
+  $titleColor: white;
+  $navColor: red;
+  $tagColorHover: rgb(80, 157, 192);
+  $tagColor: rgb(158, 158, 158);
+
+
+  body {
+    background: $bgColor;
+  }
+
+  .header {
+    background-color: $bgColorNav;
+  }
+
+  .star {
+    background: $bgColor;
+  }
+
+  h1 {
+    color: $titleColor;
+  }
+
+  h2 {
+    color: $titleColor;
+  }
+
+  h3 {
+    color: $titleColor;
+  }
+
+  h4 {
+    color: $titleColor;
+  }
+
+  h5 {
+    color: $titleColor;
+  }
+
+  li {
+    color: $titleColor;
+  }
+
+  p {
+    color: $titleColor;
+
+  }
+
+  .tag {
+
+    &.tcTog {
+      font-size: 4rem;
+      color: $tagColor;
+    }
+
+    &:hover {
+      color: $tagColorHover;
+      border-bottom: 1px solid $tagColorHover;
+    }
+  }
+
+  .nav_tag {
+    background-color: $bgColorNav;
+  }
+}
+
+// pre {
+//   border: 1px solid #205d85;
+
+//   code {
+//     background-color: #205d85;
+
+//   }
+// }
+
+// blockquote {
+//   background-color: #131227;
+//   border-left: 8px solid #b4d5ff;
+// }

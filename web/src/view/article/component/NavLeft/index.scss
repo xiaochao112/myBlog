@@ -1,0 +1,27 @@
+.nav_tag {
+  width: 180px;
+  background-color: azure;
+  box-sizing: border-box;
+  padding: 10px;
+
+  .nav {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    li {
+      list-style: none;
+      // padding-left: 10px;
+      width: 100%;
+      cursor: pointer;
+      font-size: 1.5rem;
+      line-height: 3rem;
+      border-bottom: 1px dashed #ccc;
+
+      &:hover {
+        // color: rgb(70, 195, 253);
+        // background-color: rgb(250, 250, 250, .5);
+      }
+    }
+  }
+}
