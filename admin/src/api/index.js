@@ -44,7 +44,6 @@ http.interceptors.response.use(
     console.log(err);
     if (err.response.data.msg) {
       if (err.response.status === 401) {
-        localRemove('token');
         router.push('/login');
       }
       ElMessage.error(err.response.data.msg);

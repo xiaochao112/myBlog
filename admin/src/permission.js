@@ -54,6 +54,8 @@ router.beforeEach(async (to, from, next) => {
         message: "登录已过期，请重新登录！",
         type: 'error',
       })
+      state.setLogOut()
+      state.setLogOut()
       next(`/login?redirect=${to.path}`)
       NProgress.done()
     }
