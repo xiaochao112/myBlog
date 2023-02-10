@@ -43,10 +43,10 @@ http.interceptors.response.use(
   (err) => {
     console.log(err);
     if (err.response.data.msg) {
-      if (err.response.status === 401) {
-        router.push('/login');
-      }
-      ElMessage.error(err.response.data.msg);
+      // if (err.response.status === 401) {
+      //   // router.push('/login');
+      // }
+      // ElMessage.error(err.response.data.msg);
     }
     NProgress.done()
     return Promise.reject(err);

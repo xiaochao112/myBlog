@@ -18,7 +18,7 @@ const bkRouter = [
       },
     ],
     meta: {
-      role: [1, 2],
+      role: [1],
       title: '博客发表',
       icon: 'icon-shouye'
     }

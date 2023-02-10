@@ -1,6 +1,11 @@
 <template>
-  <el-table :data="secondTag" border :default-sort="{ prop: 'date', order: 'descending' }" style="width: 100%">
-    <el-table-column type=index label="序号" align="center" width="60" />
+  <el-table
+    :data="secondTag"
+    border
+    :default-sort="{ prop: 'date', order: 'descending' }"
+    style="width: 100%"
+  >
+    <el-table-column type="index" label="序号" align="center" width="60" />
     <el-table-column prop="title" label="二级标签" width="120" />
     <el-table-column prop="createdAt" label="创建时间" width="150">
       <template #default="scope">
@@ -17,9 +22,28 @@
 
     <el-table-column align="center" label="菜单" width="240">
       <template #default="scope">
-        <el-button size="small" @click="emit('handleSecondEdit', scope.$index, scope.row)">修改</el-button>
-        <el-button size="small" type="primary" @click="emit('showContent', scope.$index, scope.row)">编辑内容</el-button>
-        <el-button size="small" type="danger" @click="emit('handleSecondDelete', scope.$index, scope.row)">删除
+        <el-button
+          size="small"
+          v-auth="'edit'"
+          @click="emit('handleSecondEdit', scope.$index, scope.row)"
+        >
+          修改
+        </el-button>
+        <el-button
+          size="small"
+          v-auth="'edit'"
+          type="primary"
+          @click="emit('showContent', scope.$index, scope.row)"
+        >
+          编辑内容
+        </el-button>
+        <el-button
+          size="small"
+          v-auth="'delete'"
+          type="danger"
+          @click="emit('handleSecondDelete', scope.$index, scope.row)"
+        >
+          删除
         </el-button>
       </template>
     </el-table-column>
@@ -27,17 +51,20 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
-import { getData } from '@/utils';
-import tableHooks from '@/hooks/tableHooks';
-import MyDialog from './component/myDialog.vue';
+import { ref } from 'vue'
+import { getData } from '@/utils'
+import tableHooks from '@/hooks/tableHooks'
+import MyDialog from './component/myDialog.vue'
 
-const emit = defineEmits(['handleSecondEdit', 'handleSecondDelete', 'showContent']);
+const emit = defineEmits([
+  'handleSecondEdit',
+  'handleSecondDelete',
+  'showContent',
+])
 
 const props = defineProps({
-  secondTag: { type: Array }
-});
-
+  secondTag: { type: Array },
+})
 </script>
 
 

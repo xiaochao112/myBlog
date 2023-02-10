@@ -9,7 +9,8 @@ const auth = {
 	mounted(el, binding) {
 		const { value } = binding
 		const state = authStore();
-		const currentPageRoles = state.authButtonList[state.routeName] || []
+		// const currentPageRoles = state.authButtonList[state.routeName] || []
+		const currentPageRoles = state.authButtonList['roleId'] || []
 		if (value) {
 			if (!currentPageRoles.includes(value)) el.remove()
 		}

@@ -57,13 +57,13 @@ router.post('/menus', (req, res) => {
       })
       .then(data => {
         authIds = data[0].authIds.split(',')
-        return Permit.find().select('name id -_id');
+        return Permit.find().select('id name -_id');
       })
       .then(list => {
         let permitArr = []
         list.map(item => {
           if (authIds.includes(item.id.toString())) {
-            permitArr.push(item);
+            permitArr.push(item.name);
           }
         })
         res.send({ code: 200, data: permitArr, msg: '权限列表获取成功' });

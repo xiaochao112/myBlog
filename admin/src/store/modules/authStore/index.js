@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia';
 import { piniaLocalStorage } from '@/store/config';
+import { getRoleList } from '@/api/permit';
 
 export const authStore = defineStore('authStore', {
 	state: () => {
@@ -12,11 +13,19 @@ export const authStore = defineStore('authStore', {
 	},
 	actions: {
 		// 设置按钮权限列表
-		setAuthButton() {
+		async setAuthButton() {
+			// this.authButtonList = {
+
+			// 	user: ["add", "edit", "delete", "export"],
+			// 	admin: ["add", "edit", "delete", "export"]
+			// };
+			const { data } = await getRoleList();
+			// this.roleList = data;
 			this.authButtonList = {
-				user: ["add", "edit", "delete", "export"],
-				admin: ["add", "edit", "delete", "export"]
-			};
+				roleId: data
+			}
+			// console.log(data)
+
 		},
 		// 权限路由集合
 		setRoutes(routes) {
@@ -33,6 +42,7 @@ export const authStore = defineStore('authStore', {
 		},
 		setRouteName(routeName) {
 			this.routeName = routeName
+
 		},
 		// 退出登录
 		setLogOut() {

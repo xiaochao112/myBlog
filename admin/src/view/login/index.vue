@@ -12,7 +12,7 @@
         <el-input
           :prefix-icon="User"
           v-model="ruleForm.username"
-          placeholder="姓名"
+          placeholder="管理员：admin"
           type="text"
           clearable
         />
@@ -21,7 +21,7 @@
         <el-input
           :prefix-icon="Lock"
           v-model="ruleForm.password"
-          placeholder="密码"
+          placeholder="12345678"
           type="password"
           show-password
         />
@@ -40,7 +40,7 @@
         </el-button>
       </el-form-item>
     </el-form>
-    <p class="p_title">如果没有账号则自动注册</p>
+    <p class="p_title">如果没有账号则自动注册为普通用户</p>
   </el-card>
 </template>
 
@@ -59,8 +59,8 @@ const title = reactive({
 })
 const ruleFormRef = ref()
 const ruleForm = reactive({
-  username: 'admin',
-  password: '12345678',
+  // username: 'admin',
+  // password: '12345678',
 })
 
 const rules = reactive({
@@ -79,7 +79,6 @@ const submitForm = (formEl) => {
         .setLongin(ruleForm)
         .then((data) => {
           router.push('/home/index')
-          store.setRoleList()
         })
         .catch((err) => {})
     } else {

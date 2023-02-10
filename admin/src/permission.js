@@ -48,6 +48,8 @@ router.beforeEach(async (to, from, next) => {
 
   } else {
     if (whiteList.indexOf(to.path) !== -1) {
+      state.setLogOut()
+      state.setLogOut()
       next()
     } else {
       ElMessage({

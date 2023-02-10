@@ -28,17 +28,17 @@ const userListRouter = [
           icon: 'icon-guanliyuan'
         }
       },
-      {
-        path: '/userList/promiseList',
-        name: 'promiseList',
-        component: () => import('@/view/userList/promiseList/promiseList.vue'),
-        meta: {
-          role: [1],
-          keepAlive: true,
-          title: '权限管理',
-          icon: 'icon-guanliyuan'
-        }
-      },
+      // {
+      //   path: '/userList/promiseList',
+      //   name: 'promiseList',
+      //   component: () => import('@/view/userList/promiseList/promiseList.vue'),
+      //   meta: {
+      //     role: [1],
+      //     keepAlive: true,
+      //     title: '权限管理',
+      //     icon: 'icon-guanliyuan'
+      //   }
+      // },
     ],
     meta: {
       role: [1, 2],

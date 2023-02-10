@@ -3,13 +3,11 @@ import { piniaLocalStorage } from '@/store/config/index';
 import { getInfoApi, getLoginApi } from '@/api/user';
 import { localSet, localRemove } from '@/utils';
 import router from '@/router/index'
-import { getRoleList } from '@/api/permit';
 
 export const userInfoStore = defineStore('userInfo', {
   state: () => {
     return {
-      user: {},
-      roleList: [] // 当前用户权限
+      user: {}
     }
   },
   actions: {
@@ -35,16 +33,9 @@ export const userInfoStore = defineStore('userInfo', {
           })
       })
     },
-    // 获取用户权限
-    async setRoleList() {
-      const { data } = await getRoleList();
-      this.roleList = data;
-
-    },
     // 退出登录
     setLogOut() {
       this.user = {};
-      this.roleList = [];
 
       localRemove('token');
       router.push('/login');

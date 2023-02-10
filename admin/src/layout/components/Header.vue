@@ -8,7 +8,7 @@
       <!-- 面包屑 -->
       <el-page-header @back="onBack">
         <template #breadcrumb>
-          <el-breadcrumb separator="/">
+          <el-breadcrumb style="font-size: 16px" separator="/">
             <el-breadcrumb-item @click="goHome" class="item-title">
               首页
             </el-breadcrumb-item>
