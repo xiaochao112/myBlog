@@ -1,11 +1,13 @@
 .myDetaill-content {
   height: 1000px;
   // position: absolute;
+  // box-sizing: border-box;
 
   .tagContent {
     width: 90%;
-    margin: 120px auto 0;
-    // background-color: azure;
+    box-sizing: border-box;
+    margin: 0 auto;
+    padding-top: 120px;
     display: flex;
     justify-content: space-between;
 

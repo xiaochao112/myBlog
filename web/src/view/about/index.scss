@@ -1,12 +1,12 @@
 .about-content {
-  position: absolute;
-  width: 90vw;
+  height: 1000px;
 
   .content {
     position: absolute;
+    top: 80px;
     // top: 50%;
     left: 50%;
-    // transform: translate(-45%, 50%);
+    transform: translateX(-50%);
 
   }
 }

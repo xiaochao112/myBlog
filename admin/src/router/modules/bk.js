@@ -11,7 +11,7 @@ const bkRouter = [
         path: '/bk/index',
         component: () => import('@/view/bk/bkIndex.vue'),
         meta: {
-          role: [1, 2],
+          role: [1],
           title: '博客发表',
           icon: 'icon-shouye'
         }

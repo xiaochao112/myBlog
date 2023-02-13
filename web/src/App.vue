@@ -24,7 +24,10 @@
       </div>
       <div class="footer_text">
         <!-- <p>Hwc Dreagreatger</p> -->
-        <p>桂ICP备302032号-1 <span>xxx@qq.com</span></p>
+        <p>
+          桂ICP备302032号-1
+          <span>xxx@qq.com</span>
+        </p>
       </div>
     </footer>
   </div>
@@ -39,18 +42,19 @@
 
 .fade-transform-leave-active,
 .fade-transform-enter-active {
-  transition: all .5s;
+  transition: all 0.5s;
 }
 
 .fade-transform-enter-from,
 .fade-transform-leave-to {
   opacity: 0;
-  transform: translateY(400px);
+  /* transform: translateY(400px); */
 }
 
 .fade-transform-leave-from,
 .fade-transform-enter-to {
-  transform: translateY(0px);
+  opacity: 1;
+  /* transform: translateY(0px); */
 }
 
 /* .app {
