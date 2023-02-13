@@ -36,7 +36,6 @@ export const userInfoStore = defineStore('userInfo', {
     // 退出登录
     setLogOut() {
       this.user = {};
-
       localRemove('token');
       router.push('/login');
     }

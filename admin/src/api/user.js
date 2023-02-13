@@ -4,6 +4,10 @@ import http from './index'
 export const getLoginApi = (data) => {
   return http.post('/user/login', data);
 }
+// 获取验证码
+export const getCaptcha = () => {
+  return http.get('/excel/captcha');
+}
 
 // 获取用户信息
 export const getInfoApi = () => {

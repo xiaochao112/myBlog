@@ -12,7 +12,6 @@ const whiteList = ['/login'] // 白名单
 router.beforeEach(async (to, from, next) => {
 
   const store = userInfoStore();
-  // const state = routerStore();
   const state = authStore()
 
   console.log(to.path);
@@ -22,6 +21,7 @@ router.beforeEach(async (to, from, next) => {
 
   // 如果有token
   if (token) {
+
     if (to.path === '/login') {
       next({ path: '/home' });
       NProgress.done()
@@ -29,6 +29,7 @@ router.beforeEach(async (to, from, next) => {
     } else {
       try {
         // 派发pinia，获取用户信息
+        // debugger
         let user = await store.setUser()
         if (!state.routes.length) {
           let routes = handleRouter(routerArray, user.roleId)
@@ -39,25 +40,25 @@ router.beforeEach(async (to, from, next) => {
         }
         // 当前要去的路由导航
         state.setCurrentRoute(to.path);
+
         next()
         NProgress.done()
       } catch (error) {
+        state.setLogOut()
+        store.setLogOut()
         console.log(error);
       }
     }
 
-  } else {
+  }
+  else {
     if (whiteList.indexOf(to.path) !== -1) {
-      state.setLogOut()
-      state.setLogOut()
       next()
     } else {
       ElMessage({
         message: "登录已过期，请重新登录！",
         type: 'error',
       })
-      state.setLogOut()
-      state.setLogOut()
       next(`/login?redirect=${to.path}`)
       NProgress.done()
     }

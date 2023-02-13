@@ -19,6 +19,8 @@ module.exports = (app) => {
   app.use('/admin/api/role', require('./admin/role')); // 角色管理路由
   app.use('/admin/api/log', require('./admin/log')); // 日志路由
 
+  // app.use('/admin/api/captcha', require('./admin/captcha')); // 验证码
+
   /* //用于阿里云oss图片上传
 const multer = require('multer')
 const MAO = require('multer-aliyun-oss')

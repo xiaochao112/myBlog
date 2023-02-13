@@ -28,6 +28,7 @@
     "nodemailer-smtp-transport": "2.7.4",
     "nodemon": "2.0.15",
     "require-all": "3.0.0",
-    "shelljs": "^0.8.4"
+    "shelljs": "^0.8.4",
+    "svg-captcha": "^1.4.0"
   }
 }
