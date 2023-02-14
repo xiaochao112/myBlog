@@ -6,7 +6,7 @@ const schema = new mongoose.Schema({
   username: { type: String, unique: true },// 用户名
   password: {
     type: String,
-    select: false,
+    // select: false, // 不返回
     set(val) {
       return bcrypt.hashSync(val, 10);
     }

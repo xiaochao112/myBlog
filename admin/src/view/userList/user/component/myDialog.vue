@@ -1,7 +1,7 @@
 <template>
   <el-dialog
     v-model="centerDialogVisible"
-    :title="`${prop.title}用户`"
+    :title="`${title}用户`"
     width="30%"
     align-center
     :before-close="handleClone"
@@ -45,6 +45,7 @@
           :http-request="httpRequest"
           :show-file-list="false"
           :headers="getAuthHeaders()"
+          :limit="3"
         >
           <img
             v-if="imgUrl || numberValidateForm.avatar"
@@ -86,6 +87,7 @@ import { uploadImg } from '@/api/upload'
 
 const formRef = ref()
 const addUpload = ref()
+const isView = ref(false)
 const centerDialogVisible = ref(false)
 const imgUrl = ref('') // 图片上传预览
 const file = ref() // 上传文件
@@ -99,16 +101,11 @@ const numberValidateForm = reactive({
 })
 const rules = reactive({
   username: [{ required: true, message: '不能为空', trigger: 'blur' }],
-  password: [{ required: true, message: '不能为空', trigger: 'blur' }],
+  // password: [{ required: true, message: '不能为空', trigger: 'blur' }],
 })
 // 子组件触发父组件方法
 const emit = defineEmits(['getInfo'])
-const prop = defineProps({
-  title: {
-    type: String,
-    default: '新增',
-  },
-})
+const title = ref('')
 
 // 头像路径
 const avater = computed(() => {
@@ -121,48 +118,6 @@ const getAuthHeaders = () => {
     token: localGet('token'),
   }
 }
-
-// // 头像上传
-// const handleUpload = (file) => {
-//   if (file) {
-//     if (file.size > 500 * 1024) {
-//       ElMessage({
-//         message: '图片尺寸太大',
-//         type: 'error',
-//       })
-//       addUpload.value.clearFiles();
-//     } else {
-//       // const reader = new FileReader();
-//       // reader.readAsDataURL(file);
-//       // reader.onload = () => {
-//       //   const _base64 = reader.result;
-//       //   imageUrl.value = _base64; //将_base64赋值给图片的src，实现图片预览
-//       // };
-//       let formData = new FormData();
-//       formData.append("avatar", file);
-//       // 上传图片
-//       uploadImg(formData)
-//         .then((res) => {
-//           if (res.code = 200) {
-//             numberValidateForm.avatar = res.imgUrl;
-//           } else {
-//             ElMessage({
-//               message: "err",
-//               type: 'error',
-//             })
-//           }
-//         })
-//         .catch((err) => {
-//           ElMessage({
-//             message: err,
-//             type: 'error',
-//           })
-//         });
-//       return false; //阻止图片继续上传，使得form表单提交时统一上传
-//     }
-//   }
-//   return false;
-// }
 
 // 自行实现上传文件的请求
 const httpRequest = (param) => {
@@ -193,7 +148,7 @@ const submitForm = (formEl) => {
           numberValidateForm.avatar = res.imgUrl
         }
         // 新增或修改接口
-        if (prop.title == '新增') {
+        if (title.value == '新增') {
           const { username, password, avatar, dosc } = numberValidateForm
           if (avatar) {
             result = await add({ username, password, avatar, dosc })
@@ -201,17 +156,17 @@ const submitForm = (formEl) => {
             result = await add({ username, password, dosc })
           }
         }
-        if (prop.title == '修改') {
+        if (title.value == '修改') {
           result = await update(numberValidateForm)
         }
         if (result.code == 200) {
           ElMessage({
-            message: `${prop.title}成功`,
+            message: `${title.value}成功`,
             type: 'success',
           })
 
-          // formEl.resetFields();
-          resetFields()
+          formEl.resetFields()
+          // resetFields()
           centerDialogVisible.value = false
         } else {
           ElMessage({
@@ -229,32 +184,37 @@ const submitForm = (formEl) => {
 
 // 关闭对话框前的回调
 const handleClone = (done) => {
-  resetFields()
-
   done()
 }
 
 // 取消提交
 const resetForm = (formEl) => {
   if (!formEl) return
-  // formEl.resetFields();
-  resetFields()
+  formEl.resetFields()
   centerDialogVisible.value = false
 }
 
-const resetFields = () => {
-  numberValidateForm.avatar = ''
-  numberValidateForm.username = ''
-  numberValidateForm.password = ''
-  numberValidateForm.dosc = ''
-  numberValidateForm.status = true
-  imgUrl.value = ''
+// 获取父组件传过来的数据
+const getPresonData = (data) => {
+  // console.log(data.row)
+  let { row, text } = data
+  isView.value = text === '查看'
+  numberValidateForm.avatar = row.avatar
+  numberValidateForm.username = row.username
+  numberValidateForm.password = row.password
+  numberValidateForm.dosc = row.dosc
+  numberValidateForm._id = row._id
+  numberValidateForm.status = row.status || true
+
+  title.value = text
+  centerDialogVisible.value = true
 }
 
 // 暴露给父组件使用
 defineExpose({
+  getPresonData,
   centerDialogVisible,
-  numberValidateForm,
+  // numberValidateForm,
 })
 </script>
 

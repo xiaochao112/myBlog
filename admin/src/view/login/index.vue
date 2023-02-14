@@ -21,7 +21,7 @@
         <el-input
           :prefix-icon="Lock"
           v-model="ruleForm.password"
-          placeholder="12345678"
+          placeholder="请输入密码"
           type="password"
           show-password
         />

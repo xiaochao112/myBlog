@@ -1,7 +1,7 @@
 <template>
   <el-card class="box-card">
     <div class="header_box">
-      <el-button type="primary" v-auth="'add'" @click="addForm">
+      <el-button type="primary" v-auth="'add'" @click="openDrawer('新增')">
         新增 +
       </el-button>
       <el-button type="primary" v-auth="'import'">上传</el-button>
@@ -70,11 +70,16 @@
           <el-button
             size="small"
             v-auth="'edit'"
-            @click="handleEdit(scope.$index, scope.row)"
+            @click="openDrawer('修改', scope.row)"
           >
             修改
           </el-button>
-          <el-button size="small" type="primary" v-auth="'show'">
+          <el-button
+            size="small"
+            type="primary"
+            v-auth="'show'"
+            @click="openDrawer('查看', scope.row)"
+          >
             查看
           </el-button>
           <el-button
@@ -96,7 +101,7 @@
     ></Pagination>
 
     <!-- 新增或修改对话框 -->
-    <myDialog ref="myDialogRef" :title="title" @getInfo="getInfo"></myDialog>
+    <myDialog ref="myDialogRef" @getInfo="getInfo"></myDialog>
   </el-card>
 </template>
 
@@ -109,7 +114,6 @@ import { getData } from '@/utils'
 import { Search } from '@element-plus/icons-vue'
 import tableHooks from '@/hooks/tableHooks'
 
-const title = ref('')
 const keyWord = ref('')
 const myDialogRef = ref() // 新增或修改Ref
 
@@ -118,23 +122,14 @@ const myDialogRef = ref() // 新增或修改Ref
 const { getInfo, tableData, total, loading, handleDelete, listData, getPage } =
   tableHooks({ getList, del })
 
-// 新增一条数据
-const addForm = () => {
-  title.value = '新增'
-  myDialogRef.value.centerDialogVisible = true
-}
-// 修改某一条数据
-const handleEdit = (index, row) => {
-  // console.log(row);
-  title.value = '修改'
-  myDialogRef.value.centerDialogVisible = true
+// 打开查看、编辑、新增Drawer
+const openDrawer = (text, row = {}) => {
+  let pramas = {
+    text,
+    row,
+  }
   // 携带表格数据
-  myDialogRef.value.numberValidateForm.username = row.username
-  myDialogRef.value.numberValidateForm.password = row._id
-  myDialogRef.value.numberValidateForm.avatar = row.avatar
-  myDialogRef.value.numberValidateForm.status = row.status
-  myDialogRef.value.numberValidateForm.dosc = row.dosc
-  myDialogRef.value.numberValidateForm._id = row._id
+  myDialogRef.value.getPresonData(pramas)
 }
 onMounted(() => {
   getInfo()

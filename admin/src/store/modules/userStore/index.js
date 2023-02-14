@@ -20,8 +20,9 @@ export const userInfoStore = defineStore('userInfo', {
     },
     // 登录
     setLongin(ruleForm) {
+      let { username, password } = ruleForm
       return new Promise((resovle, reject) => {
-        getLoginApi(ruleForm).then(res => {
+        getLoginApi({ username, password }).then(res => {
           if (res.code == 200) {
             localSet("token", res.data.token);
             // 获取用户信息

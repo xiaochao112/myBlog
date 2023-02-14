@@ -162,6 +162,7 @@ router.post('/userList', (req, res) => {
       return
     }
     AdminUser.find(userData).skip(pageSize * (pageNo - 1)).limit(pageSize).sort('-createdAt').then(data => {
+      // console.log('data', data)
       res.send({
         code: 200,
         data,
