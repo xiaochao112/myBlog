@@ -45,22 +45,4 @@ router.get('/download', (req, res) => {
     })
 })
 
-/**
- * @api {get} /excel/captcha 获取验证码
- * @apiName 获取验证码
- * @apiGroup download
- *
- */
-router.get('/captcha', function (req, res) {
-  var captcha = svgCaptcha.create({
-    color: true,
-    // height: 30
-  });
-  // req.session.captcha = captcha.text;
-  const data = Buffer.from(captcha.data, 'utf-8').toString('base64');
-  let base64 = 'data:image/svg+xml;base64,' + data;
-  res.type('base64');
-  res.status(200).send({ code: 200, data: base64, text: captcha.text });
-});
-
 module.exports = router

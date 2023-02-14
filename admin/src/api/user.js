@@ -6,7 +6,7 @@ export const getLoginApi = (data) => {
 }
 // 获取验证码
 export const getCaptcha = () => {
-  return http.get('/excel/captcha');
+  return http.get('/captcha/index');
 }
 
 // 获取用户信息

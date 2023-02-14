@@ -65,7 +65,7 @@ import router from '@/router'
 
 const store = userInfoStore()
 const base64Img = ref('')
-const text = ref('')
+const currentText = ref('')
 const title = reactive({
   login: '登录',
   register: '注册',
@@ -81,7 +81,8 @@ const captchaText = (rule, value, callback) => {
   if (value === '') {
     callback(new Error('验证码不能为空'))
   } else {
-    if (ruleForm.text !== text.value) {
+    if (ruleForm.text.toLowerCase() !== currentText.value) {
+      captcha()
       callback(new Error('验证码错误！'))
     } else {
       if (!ruleFormRef.value) return
@@ -106,10 +107,12 @@ const rules = reactive({
 const captcha = async () => {
   let { data, text } = await getCaptcha()
   base64Img.value = data
-  text.value = text
+  currentText.value = text.toLowerCase()
 }
 // 刷新验证码
-const renovateCaptcha = () => {}
+const renovateCaptcha = () => {
+  captcha()
+}
 
 const submitForm = (formEl) => {
   if (!formEl) return
@@ -136,16 +139,19 @@ const resetForm = (formEl) => {
 
 <style lang="scss" scoped>
 .title {
+  width: 100%;
+  text-align: center;
   font-weight: 600;
   color: rgb(81, 81, 81);
 }
 
 .demo-ruleForm {
   width: 360px;
-  height: 280px;
+  height: 260px;
 
   .btn {
     width: 40%;
+    height: 50px;
 
     &:nth-child(1) {
       margin-right: 15%;
