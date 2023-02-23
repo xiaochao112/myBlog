@@ -3,7 +3,7 @@ import { ElMessage } from 'element-plus'
 import NProgress from 'nprogress';
 import 'nprogress/nprogress.css';
 import { localGet, handleRouter } from './utils';
-import { routerArray } from '@/router/promisRouter.js'
+import { routerArray } from '@/router/modules/promisRouter.js'
 import { userInfoStore } from './store/modules/userStore';
 import { authStore } from './store/modules/authStore'
 

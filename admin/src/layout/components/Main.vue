@@ -12,7 +12,7 @@
 </template>
 
 <script setup>
-import cacheRouter from '@/router/cacheRouter'
+import cacheRouter from '@/router/modules/cacheRouter'
 import { onMounted } from 'vue'
 </script>
 

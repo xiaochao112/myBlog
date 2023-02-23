@@ -93,16 +93,16 @@
 
 <script setup name="webVocabulary">
 import { onMounted, reactive, ref } from 'vue'
-import { getList, del } from '../../api/werVocabulary'
 import { ElMessage } from 'element-plus'
-import { localGet } from '../../utils/index'
-import { download } from '../../api/expors'
+import { localGet } from '@/utils/index'
 import { Search } from '@element-plus/icons-vue'
+import { getData } from '@/utils'
+import Pagination from '@/components/Pagination/index.vue'
+import tableHooks from '@/hooks/tableHooks'
+import { getList, del } from '@/api/werVocabulary'
+import { download } from '@/api/expors'
+import { excelUpload } from '@/api/upload'
 import MyDialog from './component/myDialog.vue'
-import { getData } from '../../utils'
-import Pagination from '../../components/Pagination/index.vue'
-import { excelUpload } from '../../api/upload'
-import tableHooks from '../../hooks/tableHooks'
 
 const myDialogRef = ref()
 const title = ref('')

@@ -1,6 +1,6 @@
 
 import { createRouter, createWebHistory } from "vue-router";
-import { routerArray } from "./promisRouter";
+import { routers, routerArray } from "./modules/promisRouter";
 
 /**
  * @description 路由配置简介
@@ -38,6 +38,7 @@ const routes = [
     ],
 
   },
+  // ...routers,
   ...routerArray,
   {
     path: '/:pathMatch(.*)',

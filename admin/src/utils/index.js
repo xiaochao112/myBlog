@@ -1,4 +1,3 @@
-
 export function localGet(key) {
   const value = window.localStorage.getItem(key)
   try {
@@ -26,13 +25,25 @@ export function getData(n) {
   let m = date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes();
   return Y + M + D + h + m;
 }
+/**
+ * @description 使用递归处理路由菜单,生成一维数组
+ * @param {Array} routerList 路由集合
+ * 
+ * @return {Array} newRouterList 菜单的一维数组 
+ */
+export function getFlatArr(routerList) {
+  return routerList.reduce((pre, cur) => {
+    let newRouterList = [...pre, cur]
+    if (cur.children && cur.children[0]) newRouterList = [...newRouterList, ...getFlatArr(cur.children)]
+    return newRouterList
+  }, [])
+}
 
 /**
- * @description 使用递归处理路由菜单
+ * @description 使用递归处理权限路由菜单
  * @param {Array} routerList 路由集合
  * @param {Number} roleId 权限id
  */
-
 export function handleRouter(routerList, roleId = 1,) {
   const newArr = []
   let tem = {}
@@ -49,10 +60,3 @@ export function handleRouter(routerList, roleId = 1,) {
 
   return newArr;
 }
-/**
- * @description 使用递归处理路由菜单,生成一维数组
- * @param {Array} newArr 菜单的一维数组
- * @param {Array} routerList 路由集合
- * 
- * @return {Array} newArr 菜单的一维数组 
- */
