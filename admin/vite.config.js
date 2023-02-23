@@ -11,6 +11,8 @@ import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd());
   const viteEnv = wrapperEnv(env)
+  console.log(viteEnv);
+
   return {
     plugins: [
       vue({

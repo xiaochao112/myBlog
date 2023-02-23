@@ -42,6 +42,7 @@ http.interceptors.response.use(
   },
   (err) => {
     console.log(err);
+    ElMessage.error(err.message)
     NProgress.done()
     return Promise.reject(err);
   }

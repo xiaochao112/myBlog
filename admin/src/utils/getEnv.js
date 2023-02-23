@@ -3,7 +3,6 @@ export function wrapperEnv(envConf) {
   const ret = {};
 
   for (const envName of Object.keys(envConf)) {
-    console.log(envConf);
     let realName = envConf[envName].replace(/\\n/g, "\n");
     realName = realName === "true" ? true : realName === "false" ? false : realName;
 
