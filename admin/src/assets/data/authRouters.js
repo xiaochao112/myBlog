@@ -135,13 +135,13 @@ export default [
     }
   },
   {
-    "path": "/bk",
+    "path": "/deliver",
     "component": "Layout",
     "children": [
       {
-        "name": "bk",
-        "path": "/bk/index",
-        "component": "/bk",
+        "name": "deliver",
+        "path": "/deliver/index",
+        "component": "/deliver",
         "meta": {
           "role": [1],
           "title": "博客发表",

@@ -15,5 +15,5 @@ const filterKeepAlive = (_route, _cache) => {
   });
 }
 filterKeepAlive(routerArray, cacheRouter);
-
+console.log('cacheRouter', cacheRouter);
 export default cacheRouter
