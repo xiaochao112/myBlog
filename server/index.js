@@ -3,6 +3,8 @@ const cors = require('cors')
 const app = express()
 const JwtUtil = require('./utils/jwt');
 const log = require('./config/log')
+const session = require('express-session');
+
 // 跨域设置
 // app.all('*', function (req, res, next) {
 //   res.header('Access-Control-Allow-Origin', '*');
@@ -18,6 +20,17 @@ const log = require('./config/log')
 // cors解决跨域
 app.use(cors())
 app.use(express.json())
+// 验证码设置
+app.use(session({
+  secret: 'text',     		//服务器生成 session 签名，可以随意写
+  resave: false,              //强制保存 session 即使它没有变化，不配置会有提示
+  saveUninitialized: true,    //强制将未初始化的 session 存储
+  cookie: {
+    maxAge: 1000 * 60,
+    secure: false,			//设置为true，表示只有https协议才能访问
+  },
+  rolling: true,				//常用属性，刷新过期时间，或者说重新设置过期时间
+}))
 
 // logger
 app.all("*", async (req, res, next) => {
@@ -73,5 +86,5 @@ require('./routes/index.js')(app)
 // require('./routes/web/index.js')(app)
 
 app.listen(3000, '0.0.0.0', async (req, res) => {
-  console.log('http://localhost:8000')
+  console.log('http://localhost:3000')
 })

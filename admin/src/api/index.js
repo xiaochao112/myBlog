@@ -8,12 +8,13 @@ import 'nprogress/nprogress.css';
 
 console.log('服务器地址------' + import.meta.env.VITE_API_URL);
 const http = axios.create({
-  // baseURL: process.env.VUE_APP_API_URL || '/admin/api',
-  // baseURL: 'http://localhost:3000/api/admin',
-  baseURL: import.meta.env.VITE_API_URL + '/admin/api',
+  baseURL: import.meta.env.VITE_API_URL + '/api',
+  // baseURL: '/api',
   headers: {
     'Content-type': 'application/json; charset=utf-8',
-  }
+  },
+  // 跨域时候允许携带凭证
+  // withCredentials: true
 })
 http.interceptors.request.use(
   function (config) {
@@ -21,7 +22,6 @@ http.interceptors.request.use(
     NProgress.start()
     if (localGet('token')) {
       config.headers['token'] = localGet('token');
-
     }
     return config
   },

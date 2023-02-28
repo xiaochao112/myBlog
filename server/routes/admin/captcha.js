@@ -14,8 +14,9 @@ router.get('/index', function (req, res) {
 	var captcha = svgCaptcha.create({
 		color: true
 	});
-	console.log('req.session', req.session);
-	// req.session.captcha = captcha.text;
+	req.session.captcha = captcha.text;
+	// console.log('captcha', req.session.captcha);
+
 	const data = Buffer.from(captcha.data, 'utf-8').toString('base64');
 	let base64 = 'data:image/svg+xml;base64,' + data;
 	res.type('base64');

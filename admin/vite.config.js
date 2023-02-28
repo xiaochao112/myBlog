@@ -50,6 +50,14 @@ export default defineConfig(({ mode }) => {
       host: "0.0.0.0",
       port: viteEnv.VITE_PORT,
       open: viteEnv.VITE_OPEN,
+      cors: true,
+      proxy: {
+        '/api': {
+          target: viteEnv.VITE_API_URL + '/api',
+          changeOrigin: true,
+          rewrite: path => path.replace(/^\/api/, '')
+        }
+      }
     },
     css: {
       preprocessorOptions: {

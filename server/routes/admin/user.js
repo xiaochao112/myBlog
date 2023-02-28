@@ -7,7 +7,6 @@ const JwtUtil = require('../../utils/jwt');
 const router = express.Router({
   mergeParams: true,
 })
-
 /**
  * @api {post} /user/login 登录/注册
  * @apiName 登录/注册
@@ -18,6 +17,7 @@ const router = express.Router({
  */
 router.post('/login', async (req, res) => {
   const { username, password } = req.body;
+  // console.log('captcha', req.session.captcha);
   let userArr = {}
   userArr = await AdminUser.findOne({
     username,
@@ -61,6 +61,7 @@ router.post('/login', async (req, res) => {
  */
 router.get('/info', async (req, res) => {
   const token = req.headers['token'];
+
   // token解码
   let jwt = new JwtUtil(token);
   let _id = jwt.verifyToken();
