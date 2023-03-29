@@ -79,7 +79,6 @@ router.get('/info', async (req, res) => {
  */
 router.post('/updatePassword', (req, res) => {
   const { _id, password } = req.body;
-
   if (_id === '6340cb97cf058739b01512b7') return res.status(500).send({ msg: '配置失败，超级管理员禁止修改' })
   AdminUser.updateOne({ _id }, { password })
     .then((data) => {

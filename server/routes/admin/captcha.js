@@ -20,6 +20,9 @@ router.get('/index', function (req, res) {
 	const data = Buffer.from(captcha.data, 'utf-8').toString('base64');
 	let base64 = 'data:image/svg+xml;base64,' + data;
 	res.type('base64');
+	// throw new Error('验证码错误')
+	// res.status(500).send({ code: 500, data: new Error('验证码错误') });
+
 	res.status(200).send({ code: 200, data: base64, text: captcha.text });
 });
 

@@ -60,7 +60,7 @@ import { reactive, ref, computed, onBeforeMount } from 'vue'
 // el图标
 import { User, Lock } from '@element-plus/icons-vue'
 import { userInfoStore } from '@/store/modules/userStore'
-import { getCaptcha } from '@/api/user'
+import { getCaptcha, request } from '@/api/user'
 import router from '@/router'
 
 const store = userInfoStore()
@@ -108,6 +108,7 @@ const captcha = async () => {
   let { data, text } = await getCaptcha()
   base64Img.value = data
   currentText.value = text.toLowerCase()
+  // request('/captcha/index', 5)
 }
 // 刷新验证码
 const renovateCaptcha = () => {

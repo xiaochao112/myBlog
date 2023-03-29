@@ -3,5 +3,5 @@
   "version": "1.0.0",
   "description": "博客后台管理接口",
   "title": "后台管理",
-  "url" : "http://localhost:8000/admin/api"
+  "url" : "http://localhost:8000/api"
 }

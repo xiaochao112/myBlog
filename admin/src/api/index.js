@@ -9,7 +9,7 @@ import 'nprogress/nprogress.css';
 console.log('服务器地址------' + import.meta.env.VITE_API_URL);
 const http = axios.create({
   baseURL: import.meta.env.VITE_API_URL + '/api',
-  // baseURL: '/api',
+  // baseURL: '/api', // 前端代理解决跨域
   headers: {
     'Content-type': 'application/json; charset=utf-8',
   },

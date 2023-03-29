@@ -6,7 +6,13 @@ export const getLoginApi = (data) => {
 }
 // 获取验证码
 export const getCaptcha = () => {
-  return http.get('/captcha/index');
+  return http.get('/captcha/index')
+}
+// 允许最大请求次数
+export function request(url, maxCount = 5) {
+  return http.get(url).catch((err) =>
+    maxCount <= 0 ? Promise.reject(err) : request(url, maxCount - 1)
+  );
 }
 
 // 获取用户信息

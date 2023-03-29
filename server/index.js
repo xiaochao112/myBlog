@@ -19,7 +19,9 @@ const session = require('express-session');
 // })
 // cors解决跨域
 app.use(cors())
+
 app.use(express.json())
+
 // 验证码设置
 app.use(session({
   secret: 'text',     		//服务器生成 session 签名，可以随意写
@@ -40,7 +42,9 @@ app.all("*", async (req, res, next) => {
   var ms;
   try {
     //开始进入到下一个中间件
-    await next();
+    // await next();
+    // debugger
+    // throw new Error('验证码错误')
     //记录响应日志
     ms = new Date() - start;
     log.i(req, ms);
@@ -48,7 +52,7 @@ app.all("*", async (req, res, next) => {
     console.log("错误日志：--------------------" + error)
     //记录异常日志
     ms = new Date() - start;
-    // log.e(req, error, ms);
+    log.e(req, error, ms);
   }
   console.log(`${req.method} ${req.url} - ${ms}ms-${res.statusCode}`);
 });

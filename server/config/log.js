@@ -20,12 +20,12 @@ log.e = function (ctx, error, resTime) {
 
 //格式化请求日志
 var formatReqLog = function (req, resTime) {
-
+  // debugger
   let getClientIp = function (req) {
     return req.headers['x-forwarded-for'] ||
       req.connection.remoteAddress ||
       req.socket.remoteAddress ||
-      // req.connection.socket &&
+      req.connection.socket &&
       req.connection.socket.remoteAddress || '';
   };
   let ip = getClientIp(req).match(/\d+.\d+.\d+.\d+/);

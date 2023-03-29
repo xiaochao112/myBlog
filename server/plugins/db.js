@@ -5,7 +5,14 @@ module.exports = (app) => {
   const db_name = 'mydb'; // 数据库名字
   const db_host = '175.178.191.198'; // 数据库地址
 
-  mongoose.connect(`mongodb://${db_user}:${db_pwd}@${db_host}:27017/${db_name}?authSource=admin`, {
+  // mongoose.connect(`mongodb://${db_user}:${db_pwd}@${db_host}:27017/${db_name}?authSource=admin`, {
+  //   useNewUrlParser: true,
+  //   useFindAndModify: true,
+  //   useUnifiedTopology: true,
+  //   useCreateIndex: true,
+  //   useFindAndModify: true
+  // });
+  mongoose.connect(`mongodb://localhost:27017/${db_name}`, {
     useNewUrlParser: true,
     useFindAndModify: true,
     useUnifiedTopology: true,
