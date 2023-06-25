@@ -42,7 +42,7 @@ app.all("*", async (req, res, next) => {
   var ms;
   try {
     //开始进入到下一个中间件
-    // await next();
+    await next();
     // debugger
     // throw new Error('验证码错误')
     //记录响应日志
