@@ -1,0 +1,20 @@
+{
+  "RECORDS": [
+    {
+      "_id": "649806d94b363c42284176cd",
+      "__v": "0",
+      "authIds": "1,2,3,4,5,6",
+      "roleDesc": "超级管理员",
+      "roleId": "1",
+      "roleName": "admin"
+    },
+    {
+      "_id": "6498dabbadc84e6934673f67",
+      "__v": "0",
+      "authIds": "1,2,3,4,5,6",
+      "roleDesc": "普通用户",
+      "roleId": "2",
+      "roleName": "user"
+    }
+  ]
+}

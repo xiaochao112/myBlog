@@ -1,0 +1,28 @@
+{
+  "RECORDS": [
+    {
+      "_id": "649802a94b363c42284176b5",
+      "__v": "0",
+      "avatar": "",
+      "creationTime": "1687683753",
+      "dosc": "",
+      "endLoginTime": "1687740709",
+      "password": "$2a$10$P2Pz9GcYHh2b2S2RIYfBuetBs2o95VTjsjcskyeExdtPq2chA3qqC",
+      "roleId": "1",
+      "status": "true",
+      "username": "admin"
+    },
+    {
+      "_id": "6498e40ce0ceb150e4d8946d",
+      "__v": "0",
+      "avatar": "",
+      "creationTime": "1687741452",
+      "dosc": "",
+      "endLoginTime": "1687741452",
+      "password": "$2a$10$XmuJOiC783OA/Ay5bBv8KOCraHC3xRjGAplbzN3ieG6wpkBrixi.S",
+      "roleId": "2",
+      "status": "true",
+      "username": "user"
+    }
+  ]
+}
