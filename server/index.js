@@ -59,6 +59,8 @@ app.all("*", async (req, res, next) => {
 
 // 图片上传地址开启静态资源访问
 app.use('/static', express.static(__dirname + '/static'))
+// 接口文档
+app.use('/apidoc', express.static(__dirname + '/apidoc'))
 
 // app.use('/', express.static(__dirname + '/web'))
 // app.use('/admin', express.static(__dirname + '/admin'))
